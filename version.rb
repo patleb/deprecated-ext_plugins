@@ -7,7 +7,7 @@ module ExtPlugins
     RAILS_MAJOR = 5
     RAILS_MINOR = 1
     MAJOR = 0
-    MINOR = 0
+    MINOR = 1
 
     STRING = [RAILS_MAJOR, RAILS_MINOR, MAJOR, MINOR].compact.join(".")
   end
