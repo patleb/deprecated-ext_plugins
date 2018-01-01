@@ -1,0 +1,14 @@
+@mixin js_underline($color, $force: null) {
+  &:after {
+    content:"";
+    display: block;
+    position: relative;
+    @if $force == null {
+      border-bottom: 1px dashed $color;
+      top: 2px;
+    } @else {
+      border-bottom: 2px dashed $color !important;
+      top: 1px !important;
+    }
+  }
+}

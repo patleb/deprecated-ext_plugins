@@ -1,0 +1,30 @@
+@import "nprogress/nprogress";
+
+.js_base_template {
+  display: none;
+}
+
+.js_disabled {
+  @extend .disabled;
+}
+
+.js_action_error {
+  color: $brand-danger !important;
+  border: 1px solid $brand-danger !important;
+}
+
+.js_content_error {
+  box-shadow: 0 -2px 0 -0 $brand-danger inset !important;
+}
+
+.js_content_success {
+  box-shadow: 0 -2px 0 -0 $brand-success inset !important;
+}
+
+.js_input_error {
+  @include js_underline($brand-danger, true);
+}
+
+.js_input_success {
+  @include js_underline($brand-success, true);
+}

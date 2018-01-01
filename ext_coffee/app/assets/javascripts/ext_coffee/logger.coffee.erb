@@ -1,0 +1,36 @@
+@console ?= {}
+for method in ['log', 'trace', 'groupCollapsed', 'groupEnd']
+  console[method] ?= ->
+
+if @Logger?
+  console.log "ExtCoffee Overriding #{this.name}.Logger"
+
+class @Logger
+  @DEBUG_STATE_MACHINE: <%= ExtCoffee.config.debug_state_machine.to_b %>
+  @DEBUG_TRACE: <%= ExtCoffee.config.debug_trace.to_b %>
+  @DEBUG: <%= ExtCoffee.config.debug.to_b %>
+  @WARN: <%= ExtCoffee.config.warn.to_b %>
+
+  @warn_define_method: (klass, name) =>
+    if klass::[name]
+      unless klass == String && name == 'sub'
+        @warn "ExtCoffee Overriding #{klass.class_name || klass.name}.prototype.#{name}"
+
+  @warn_define_singleton_method: (klass, name) =>
+    if klass[name]
+      @warn "ExtCoffee Overriding #{klass.class_name || klass.name || klass.constructor.name}.#{name}"
+
+  @warn: (args...) =>
+    @debug(args...) if @WARN
+
+  @debug_state_machine: (msg) =>
+    @debug(msg) if @DEBUG_STATE_MACHINE
+
+  @debug: (args...) =>
+    if @DEBUG
+      if @DEBUG_TRACE
+        console.groupCollapsed(args[0])
+        console.trace()
+        console.groupEnd()
+      else
+        console.log(args...)
