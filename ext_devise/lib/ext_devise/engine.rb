@@ -2,7 +2,6 @@ require "ext_devise/configuration"
 
 module ExtDevise
   class Engine < ::Rails::Engine
-    # TODO slow require
     require "devise"
     require "devise-bootstrap-views"
     require 'devise-i18n'

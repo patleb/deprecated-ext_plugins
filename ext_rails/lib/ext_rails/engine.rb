@@ -6,6 +6,7 @@ end
 
 module ExtRails
   class Engine < Rails::Engine
+    # TODO slow require
     if Rails::VERSION::STRING < '5.2'
       require 'active_record_query_trace' if Rails.env.development?
       require 'ext_rails/active_support/current_attributes_rails_5_1'
