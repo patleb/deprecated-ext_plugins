@@ -19,6 +19,7 @@ module ExtRails
       input
       legend
       li
+      pre
       span
       table
       tbody
