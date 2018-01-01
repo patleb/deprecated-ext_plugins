@@ -1,0 +1,30 @@
+!!! 5
+%html.no-js{lang: I18n.locale}
+  %head
+    = javascript_include_tag current_layout, defer: true
+    = stylesheet_link_tag current_layout, media: :all
+    = area :head
+    %meta{"http-equiv": "X-PJAX-VERSION", content: application_version}
+    %meta{"http-equiv": "x-ua-compatible", content: "ie=edge"}
+    %meta{charset: "utf-8"}
+    %meta{name: "viewport", content: "width=device-width, initial-scale=1"}
+    %meta{name: "description", content: @description || application_name}
+    %link{rel: "apple-touch-icon", href: "/apple-touch-icon.png"}
+    = csrf_meta_tag
+    %title= @title || application_name
+    :css
+      .browerupgrade {
+        position: fixed;
+        width: 100%;
+        z-index: 9999;
+        margin: 0.2em auto;
+        padding: 0.2em 0;
+        text-align: center;
+        background: #ccc;
+        color: #000;
+        opacity: 0.8;
+      }
+  %body{id: body_id}
+    /[if lt IE 11]
+      %p.browerupgrade= t('browerupgrade_html')
+    = yield
