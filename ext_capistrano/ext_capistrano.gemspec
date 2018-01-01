@@ -17,6 +17,8 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{config,lib}/**/*", "MIT-LICENSE", "README.md"]
 
+  s.required_ruby_version = ">= #{File.read(File.expand_path("../.ruby-version", __dir__)).strip}"
+
   s.add_dependency "capistrano", "~> 3.6"
   s.add_dependency 'capistrano-rbenv', '~> 2.0'
   s.add_dependency 'capistrano-bundler', '~> 1.1'
