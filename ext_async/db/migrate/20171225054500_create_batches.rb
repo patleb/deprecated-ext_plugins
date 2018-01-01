@@ -2,7 +2,7 @@ class CreateBatches < ActiveRecord::Migration[5.1]
   def change
     create_table :batches do |t|
       t.text     :url,      null: false
-      t.boolean  :priority, null: false, default: false
+      t.integer  :priority, null: false, default: 0
       t.datetime :run_at,   null: false
 
       t.timestamps null: false
