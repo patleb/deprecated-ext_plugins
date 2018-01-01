@@ -39,5 +39,4 @@ Gem::Specification.new do |s|
   s.add_dependency "ext_whenever",    version
   s.add_dependency "settings_yml"
   s.add_dependency "sun_cap"
-  s.add_dependency "sunzistrano"
 end
