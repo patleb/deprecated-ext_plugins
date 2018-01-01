@@ -21,5 +21,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'actionview', "~> #{ExtPlugins::VERSION::RAILS_MAJOR}.#{ExtPlugins::VERSION::RAILS_MINOR}"
   s.add_dependency 'mail', '~> 2.7'
-  s.add_dependency 'settings_yml', '~> 2.5'
+  s.add_dependency 'settings_yml'
 end

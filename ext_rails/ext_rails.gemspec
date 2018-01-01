@@ -44,6 +44,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'rack_lineprof', '~> 0.1'
   s.add_dependency 'rails', "~> #{ExtPlugins::VERSION::RAILS_MAJOR}.#{ExtPlugins::VERSION::RAILS_MINOR}"
   s.add_dependency 'rails-i18n', '~> 5.0'
-  s.add_dependency 'settings_yml', '>= 2.5.8'
+  s.add_dependency 'settings_yml'
   s.add_dependency 'time_difference', '~> 0.7'
 end
