@@ -1,0 +1,16 @@
+!!! 5
+%html{lang: I18n.locale}
+  %head
+    %title= @title
+    %meta{content: "text/html; charset=utf-8", "http-equiv": "Content-Type"}
+    = wicked_pdf_javascript_include_tag "rails_admin/application"
+    = wicked_pdf_stylesheet_link_tag "rails_admin/application"
+  %body#rails_admin
+    #js_i18n_translations{'data-js': I18n.t("admin.js").to_json}
+    #js_routes_paths{'data-js': {}.to_json}
+    #js_user_profile{'data-js': {}.to_json}
+    #js_abstract_model{'data-js': @abstract_model.to_param}
+    #js_pjax_title{'data-js': @title}
+    #js_flash_messages{'data-js': [].to_json}
+    .container-fluid{class: "#{@abstract_model.param_key}_report"}
+      = yield

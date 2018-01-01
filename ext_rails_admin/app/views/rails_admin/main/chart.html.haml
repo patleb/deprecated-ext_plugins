@@ -1,0 +1,43 @@
+#js_chart_init{ data: { js: @h.ordered_chart_string } }
+
+= render 'rails_admin/main/filter_box', filter_box: @h.filter_box
+
+= form_tag @h.form_path, method: :post, class: 'form-horizontal js_chart_form', remote: true do
+
+  %input{name: "chart_data", type: "hidden", value: "true"}
+
+  = @h.render_chart
+
+  %fieldset
+    .form-group.control-group
+      %label.col-sm-2.control-label{for: "chart_form_field"}= t('admin.chart.field')
+      .col-sm-4.controls
+        = select_tag 'chart_form[field]', @h.field_options, class: 'form-control js_chart_inputs', required: true
+
+    .form-group.control-group
+      %label.col-sm-2.control-label{for: "chart_form_calculation"}= t('admin.chart.calculation')
+      .col-sm-4.controls
+        = select_tag 'chart_form[calculation]', @h.calculation_options, class: 'form-control js_chart_inputs', required: true
+
+    - if @h.refresh_rate
+      .form-group.control-group
+        %label.col-sm-2.control-label{for: "chart_form_auto_refresh"}= t('admin.chart.auto_refresh', rate: @h.refresh_rate)
+        .col-sm-10.controls
+          .checkbox
+            %label.chart_form_auto_refresh_label
+              = check_box_tag 'chart_form[auto_refresh]', 'true', @h.auto_refresh_default
+
+  .well.js_chart_added_list
+
+  .form-group.form-actions
+    .col-sm-offset-2.col-sm-10
+      %input{type: :hidden, name: 'return_to', value: return_to}
+      %button.btn.btn-primary.js_chart_submit_button{class: bs_form_row, type: "submit", name: 'chart'}
+        %i.icon-white.icon-refresh
+        = t('admin.misc.refresh')
+      %button.btn.btn-info.js_chart_add_link{class: bs_form_row, type: 'button'}
+        %i.icon-white.icon-plus
+        = t("admin.chart.add")
+      %button.btn{class: bs_form_row, type: "submit", name: "_continue", formnovalidate: true}
+        %i.icon-remove
+        = t("admin.form.cancel")

@@ -1,0 +1,494 @@
+/*
+  RailsAdmin main CSS
+  Keep it clean, people
+
+  For RailsAdmin developers:
+  We should use sass variables & mixins as much as possible so that themers/users can override them cleanly
+*/
+
+iframe.wysihtml5-sandbox{
+  height: 250px !important;
+  width: 99.7% !important;
+}
+
+iframe.wysihtml5-sandbox, .wysihtml5-editor{
+  border: 1px solid #ccc !important;
+}
+
+.controls img.preview{
+  max-height: 200px;
+  max-width: 300px;
+}
+
+#rails_admin {
+  min-width: 320px;
+
+  .no_bulk_menu {
+    @include hidden_bulk_actions;
+  }
+
+  .soft_hidden {
+    display: none;
+  }
+
+  .position_right {
+    left: auto;
+    right: 0;
+  }
+
+  .form_label_boolean,
+  .export_skip_header_label {
+    display: block;
+  }
+
+  .delete_notice {
+    display: block;
+    margin-top: 10px;
+  }
+
+  .thumbnail {
+    display: inline-block;
+  }
+
+  .btn.bs_form_row {
+    margin-top: 10px;
+  }
+
+  .btn {
+    margin-top: 5px;
+  }
+
+  .locale_select {
+    padding-left: 15px;
+    select {
+      @extend .form-control;
+      width: 40px;
+      margin-top: 5px;
+    }
+  }
+
+  .navbar {
+    margin-bottom: 0;
+    z-index: $zindex-navbar-fixed;
+  }
+
+  .navbar-brand {
+    padding-top: 12px;
+    padding-left: 0;
+    white-space: nowrap;
+    font-size: 20px;
+  }
+
+  .navbar-toggle {
+    padding-right: 0;
+    margin-right: 0;
+  }
+
+  .contextual_menu {
+    padding-top: 5px;
+  }
+
+  .sidebar-nav {
+    padding: 0;
+    background-color: $navbar-default-bg;
+
+    .dropdown-header {
+      padding: ($grid-gutter-width / 2) ($grid-gutter-width / 2) 3px;
+      font-weight: bold;
+      color: $gray;
+      text-transform: uppercase;
+    }
+
+    > .nav-stacked > li > a {
+      padding: $padding-base-vertical ($grid-gutter-width / 2);
+      border-radius: 0;
+
+      &.nav-level-1 {
+        padding-left: $grid-gutter-width;
+      }
+
+      &.nav-level-2 {
+        padding-left: ($grid-gutter-width * 1.5);
+      }
+
+      &.nav-level-3 {
+        padding-left: ($grid-gutter-width * 2);
+      }
+    }
+  }
+
+  label.input-group-addon {
+    cursor: pointer;
+  }
+
+  /* fat labels in forms */
+  .label.form-label {
+    padding: 7px 7px 8px 7px;
+    // fix for ordered filters in index view
+    .delete {
+      color: $label-color;
+    }
+  }
+
+  /* new/edit/export forms */
+  .form-horizontal {
+    /* hide hidden fields controls by default */
+    .control-group .hidden_type {
+      display:none;
+    }
+
+    .control-group {
+      .img-thumbnail {
+        margin-bottom: 10px;
+      }
+
+      .btn-remove-image {
+        &.btn-info {
+          margin-top: 10px;
+        }
+      }
+    }
+
+    legend {
+      cursor:pointer;
+      i {
+        vertical-align: inherit !important;
+      }
+    }
+
+    &.denser {
+      margin-top: 30px;
+      .controls .nav {
+        margin: 30px 0 0;
+      }
+      p {
+        font-size: 12px;
+        line-height: 16px;
+      }
+      .help-block {
+        // margin-top: 0px;
+      }
+      .input-prepend, .input-append {
+        margin-bottom: 0px;
+        label {
+          margin-bottom: 0px;
+        }
+      }
+      legend {
+        margin-bottom: 30px;
+      }
+    }
+
+    /* We want input size to be used, unfixate input width */
+    input, textarea {
+      width:auto;
+    }
+    .help-block {
+      clear:left;
+    }
+    input[type=file] {
+      display:block;
+    }
+
+    /* nested forms */
+    .tab-content {
+      clear: both;
+
+      .tab-pane {
+        @include clearfix;
+        border-left: 5px solid #049cdb;
+        position: relative;
+
+        fieldset {
+          padding-top: 30px;
+        }
+
+        .form-group {
+          margin-right: 0;
+          margin-left: -5px; /* Balance border-left */
+        }
+      }
+    }
+
+    /* double nesting, guys. Easy. */
+    .tab-content .tab-content .tab-pane {
+      border-color: lighten(#049cdb, 20%);
+      margin-left: 10px;
+
+      .form-group {
+        margin-left: -15px; /* Balance border-left */
+      }
+    }
+
+    /* triple nesting!*/
+    .tab-content .tab-content .tab-content .tab-pane {
+      border-color:lighten(#049cdb, 30%);
+      margin-left: 20px;
+
+      .form-group {
+        margin-left: -25px; /* Balance border-left */
+      }
+    }
+
+    /* totally awesome! nesting on 4 levels! */
+    .tab-content .tab-content .tab-content  .tab-content .tab-pane {
+      border-color:lighten(#049cdb, 40%);
+      margin-left: 30px;
+
+      .form-group {
+        margin-left: -35px; /* Balance border-left */
+      }
+    }
+  }
+
+  .modal-content {
+    .form-horizontal {
+      input, textarea {
+        width: 100%;
+      }
+    }
+  }
+
+  /* nested nav */
+  .nav {
+    .nav-level-1 {
+      padding-left:30px;
+    }
+    .nav-level-2 {
+      padding-left:60px;
+    }
+    .nav-level-3 {
+      padding-left:90px;
+    }
+  }
+
+  /* tab links should match icon color */
+  .nav.nav-tabs {
+    margin-bottom: 20px;
+
+    li.has-error {
+      a {
+        color: $brand-danger;
+      }
+    }
+
+    li.icon a {
+      color: $btn-default-color;
+    }
+  }
+
+  /* Table cells behaviour */
+  .table {
+    // Cells
+    > thead,
+    > tbody,
+    > tfoot {
+      > tr {
+        > th {
+          border-bottom: 0;
+        }
+      }
+    }
+    .thumbnail {
+      float:left;
+      & + * {
+        clear:left;
+      }
+    }
+    /* backport of Bootstrap 1.4 table headers */
+    .header {
+      cursor: pointer;
+      margin-left: 1em;
+      text-indent: -0.85rem;
+      &:before {
+        content: "";
+        margin-top: 7px;
+        border-width: 0 4px 4px;
+        border-style: solid;
+        border-color: $text-color transparent;
+        visibility: hidden;
+      }
+    }
+    .header:hover {
+      &:before {
+        visibility:visible;
+      }
+    }
+    .headerSortDown,
+    .headerSortDown:hover {
+      &:before {
+        visibility:visible;
+        @include opacity(60);
+      }
+    }
+    .headerSortUp {
+      &:before {
+        border-bottom: none;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid $text-color;
+        visibility:visible;
+        @include box-shadow(none);
+        @include opacity(60);
+      }
+    }
+
+    .bulk_ids {
+      position: relative;
+      left: 4px;
+    }
+
+    td {
+      white-space: nowrap;
+    }
+
+    /* icons */
+    td.links {
+      max-width: none;
+      .list-inline {
+        margin:0;
+        li {
+          display: inline-block;
+        }
+        li:not(:last-child) {
+          margin-right: 5px;
+        }
+        a {
+          vertical-align: baseline;
+          margin-top: 0;
+        }
+      }
+    }
+
+    /* Shrink to content width */
+    .shrink {
+      width:1px;
+      white-space:nowrap;
+    }
+
+    /* History */
+    th.created_at {
+      width:160px;
+    }
+    th.username {
+      width:140px;
+    }
+    th.item {
+      width:60px;
+    }
+
+    // Force baseline alignment when th are multilines
+    > thead > tr > th {
+      vertical-align: baseline;
+    }
+  }
+
+  // Some font-size are a little bit too big
+  #block-tables h2,
+  .page-header h1,
+  .modal-header-title {
+    font-size: 2rem;
+  }
+
+  .content h4 {
+    font-size: 1.6rem;
+  }
+
+  // Error and dropdown were too close
+  .text-danger {
+    padding-left: 5px;
+  }
+
+  // Title removed, so spaced a little the alert divs
+  .alert {
+    margin-top: 12px;
+    margin-bottom: 6px;
+  }
+
+  .show-all {
+    margin-left: 10px;
+    margin-bottom: 16px;
+  }
+
+  .total-count {
+    position: relative;
+
+    span {
+      margin: 6px 5px 5px 10px;
+      color: $text-color;
+      &:hover {
+        background: inherit;
+        color: $text-color;
+      }
+    }
+  }
+
+  // Keep Datetime Picker over Navbar
+  .bootstrap-datetimepicker-widget {
+    z-index: $zindex-navbar-fixed + 1;
+  }
+
+  .filter.form-search {
+    select,
+    input {
+      padding-left: 5px;
+    }
+  }
+
+  .edit_user_root_link > a {
+    color: $gray;
+  }
+
+  .user_links {
+    box-shadow: inherit;
+    border-color: $gray-light;
+    margin: 12px 0;
+  }
+
+  #nprogress .bar,
+  #nprogress .spinner {
+    z-index: 999999;
+  }
+}
+
+@media screen and (min-width: $grid-float-breakpoint) {
+  #rails_admin {
+    .navbar {
+      .edit_user_root_link {
+        img {
+          top: (($navbar-height - $avatar-size) / 2);
+        }
+      }
+    }
+
+    .sidebar-nav {
+      position: fixed;
+      top: $navbar-height;
+      bottom: 0;
+      overflow-y: auto;
+    }
+
+    .navbar-collapse {
+      padding-left: 0;
+    }
+
+    #nprogress .spinner {
+      top: 15px;
+      right: 13px;
+    }
+  }
+}
+
+@media screen and (max-width: $grid-float-breakpoint-max) {
+  #rails_admin {
+    .navbar-collapse {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    #nprogress .spinner {
+      top: 15px;
+      right: 50px;
+    }
+  }
+}

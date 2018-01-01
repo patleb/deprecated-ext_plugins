@@ -1,0 +1,16 @@
+.form-group.form-actions{class: ('hidden' if params[:modal].to_b)}
+  .col-sm-offset-2.col-sm-10
+    %input{type: :hidden, name: 'return_to', value: return_to}
+    %button.btn.btn-primary{class: bs_form_row, type: "submit", name: "_save", 'data-disable-with': true}
+      %i.icon-white.icon-ok
+      = t("admin.form.save")
+    %span.extra_buttons
+      - if authorized? :new, @abstract_model
+        %button.btn.btn-info{class: bs_form_row, type: "submit", name: "_add_another", 'data-disable-with': true}
+          = t("admin.form.save_and_add_another")
+      - if authorized? :edit, @abstract_model
+        %button.btn.btn-info{class: bs_form_row, type: "submit", name: "_add_edit", 'data-disable-with': true}
+          = t("admin.form.save_and_edit")
+      %button.btn.btn-default{class: bs_form_row, type: "submit", name: "_continue", 'data-disable-with': true, formnovalidate: true}
+        %i.icon-remove
+        = t("admin.form.cancel")

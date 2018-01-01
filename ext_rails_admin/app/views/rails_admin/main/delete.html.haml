@@ -1,0 +1,19 @@
+%h4.col-sm-12
+  = t("admin.form.are_you_sure_you_want_to_delete_the_object", model_name: @abstract_model.pretty_name.downcase)
+  &ldquo;
+  %strong>= @model_config.with(controller: controller, object: @object).object_label
+  \&rdquo;
+  %span>
+  = t("admin.form.all_of_the_following_related_items_will_be_deleted")
+
+%ul.col-sm-12
+  = render partial: "delete_notice", object: @object
+= form_for(@object, url: delete_path(model_name: @abstract_model.to_param, id: @object.id), remote: true, html: {method: "delete"}) do
+  %input{type: :hidden, name: 'return_to', value: return_to}
+  .form-group.form-actions.col-sm-12
+    %button.btn.btn-danger{class: bs_form_row, type: "submit", 'data-disable-with': true}
+      %i.icon-white.icon-ok
+      = t("admin.form.confirmation")
+    %button.btn{class: bs_form_row, type: "submit", name: "_continue", 'data-disable-with': true}
+      %i.icon-remove
+      = t("admin.form.cancel")

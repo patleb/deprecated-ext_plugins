@@ -1,0 +1,13 @@
+%h4.col-sm-12
+  = I18n.t('admin.form.bulk_delete')
+%ul.col-sm-12
+  = render partial: "delete_notice", collection: @objects
+= form_tag bulk_delete_path(model_name: @abstract_model.to_param, bulk_ids: @objects.map(&:id)), method: :delete, remote: true do
+  .form-group.form-actions.col-sm-12
+    %input{type: :hidden, name: 'return_to', value: return_to}
+    %button.btn.btn-danger{class: bs_form_row, type: "submit", 'data-disable-with': true}
+      %i.icon-white.icon-ok
+      = t("admin.form.confirmation")
+    %button.btn{class: bs_form_row, type: "submit", name: "_continue", 'data-disable-with': true}
+      %i.icon-remove
+      = t("admin.form.cancel")

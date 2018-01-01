@@ -1,0 +1,68 @@
+= render 'rails_admin/main/filter_box', filter_box: @h.filter_box
+
+- unless @scopes.empty?
+  %ul.nav.nav-tabs#scope_selector
+    - @scopes.each_with_index do |scope, index|
+      - scope = '_all' if scope.nil?
+      %li{class: "#{'active' if scope.to_s == params[:scope] || (params[:scope].blank? && index == 0)}"}
+        %a{href: index_path(@h.params.merge(scope: scope, page: nil)), class: 'pjax'}
+          = I18n.t("admin.scopes.#{@abstract_model.to_param}.#{scope}", default: I18n.t("admin.scopes.#{scope}", default: scope.to_s.titleize))
+
+= form_tag bulk_action_path(model_name: @abstract_model.to_param), method: :post, id: "js_bulk_form", remote: true, class: "form", novalidate: true do
+  = hidden_field_tag :bulk_action
+  - if @h.description.present?
+    %p
+      %strong= @h.description
+  .js_table_sticky_head
+    %table.table.table-condensed.table-striped{class: "#{@abstract_model.param_key}_list #{'no_bulk_menu' unless bulk_menu?}"}
+      %thead
+        %tr
+          %th.shrink
+          - @h.properties.each do |property|
+            %th{class: [property.css_class, property.type_css_class]}= capitalize_first_letter(property.label)
+          %th.last.shrink
+  /.js_double_scroll_wrapper
+  /  .scroll_bar
+  .js_table_wrapper
+    %table.table.table-condensed.table-striped{class: "#{@abstract_model.param_key}_list #{'no_bulk_menu' unless bulk_menu?}"}
+      %thead
+        %tr
+          %th.shrink.bulk_ids
+            %input.js_application_bulk_toggle{type: "checkbox"}
+          - @h.properties.each do |property|
+            - th_options = @h.sortable_options(property).deep_merge!(class: [property.css_class, property.type_css_class]){ |_, old, new| old + new }
+            = th capitalize_first_letter(property.label), th_options
+          %th.last.shrink
+      %tbody
+        - if @h.inline_create_action
+          = inline_create_concept(@h.properties)
+        - @objects.each do |object|
+          %tr
+            %td.bulk_ids
+              = check_box_tag "bulk_ids[]", object.id, false
+            - @h.properties.map{ |property| property.bind(:object, object) }.each do |property|
+              - if property.inline_update?
+                = inline_update_concept(object, property)
+              - else
+                %td{class: [property.css_class, property.type_css_class]}= property.pretty_value.to_s
+            %td.last.links
+              %ul.list-inline= menu_for :member, @abstract_model, object, true
+
+  - if @objects.respond_to?(:total_count)
+    - page_count, current_count, total_count, pluralized_name, total_pages, first_item = @h.paginate_options
+    .row
+      .col-md-6
+        = paginate @objects,
+          theme: 'rails_admin',
+          current_count: current_count,
+          total_count: total_count,
+          pluralized_name: pluralized_name,
+          total_pages: total_pages,
+          first_item: first_item
+    .row
+      - unless total_count > 100 || total_count <= page_count
+        .col-md-6= link_to(t("admin.misc.show_all"), index_path(@h.params.except(:page).merge(all: true)), class: "show-all btn btn-default clearfix pjax")
+  - else
+    - total_count = @objects.size
+    - pluralized_name = @model_config.pluralize(total_count).downcase
+    .clearfix.total-count= "#{total_count} #{pluralized_name}"

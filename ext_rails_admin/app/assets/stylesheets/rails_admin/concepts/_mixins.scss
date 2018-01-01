@@ -1,0 +1,32 @@
+@mixin js_overlay($opacity: 0.5, $z_index: 10000) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: $opacity;
+  z-index: $z_index;
+}
+
+@mixin js_select_show($important: null) {
+  @if $important != null {
+    z-index: $zindex-navbar-fixed - 2 !important;
+    opacity: 1 !important;
+  }
+  @else {
+    z-index: $zindex-navbar-fixed - 2;
+    opacity: 1;
+  }
+}
+
+@mixin js_select_hide($important: null) {
+  @if $important != null {
+    z-index: $zindex-navbar-fixed - 3 !important;
+    opacity: 0 !important;
+  }
+  @else {
+    z-index: $zindex-navbar-fixed - 3;
+    opacity: 0;
+  }
+}

@@ -1,0 +1,38 @@
+= extends 'layouts/ext_rails/application' do
+  - append :head do
+    %meta{name: "robots", content: "NONE,NOARCHIVE"}
+  #js_i18n_translations{'data-js': I18n.t("admin.js").to_json}
+  #js_routes_paths{'data-js': { edit: edit_path(model_name: '__MODEL_NAME__', id: '__ID__'),
+                                new: new_path(model_name: '__MODEL_NAME__'),
+                                index: index_path(model_name: '__MODEL_NAME__') }.to_json}
+  #js_user_profile{'data-js': { id: current_user.try(:id),
+                                model_name: current_user ? RailsAdmin.config(current_user.class).abstract_model.to_param : nil }.to_json}
+  = bootswatch_fonts_prefetch
+  .container-fluid
+    .row
+      %nav.col-sm-3.col-md-2.navbar.navbar-default
+        .container-fluid
+          .navbar-header
+            %button.navbar-toggle.collapsed{ type: 'button', data: { toggle: 'collapse', target: '#navigation' } }
+              %span.sr-only= t('admin.toggle_navigation')
+              %span.icon-bar
+              %span.icon-bar
+              %span.icon-bar
+            %a.navbar-brand.pjax{href: dashboard_path}
+              = _get_app_name
+            #js_application_title= @title
+      #navigation.collapse.navbar-collapse{role: 'navigation'}
+        .sidebar-nav.col-sm-3.col-md-2
+          %ul.nav.nav-pills.nav-stacked= main_navigation
+          %ul.nav.nav-pills.nav-stacked= static_navigation
+          %hr.user_links
+          %ul.nav.nav-pills.nav-stacked
+            - if current_user
+              - if user_link = edit_user_link
+                %li.edit_user_root_link= user_link
+              - if logout_path.present?
+                %li= link_to content_tag('span', t('admin.misc.log_out'), class: 'label label-danger'), logout_path, method: logout_method
+              %li= locale_select
+      #js_application_window.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2
+        .js_menu_overlay
+        #js_pjax_container.content= render template: 'layouts/rails_admin/pjax'

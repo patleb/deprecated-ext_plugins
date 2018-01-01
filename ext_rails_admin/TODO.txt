@@ -1,0 +1,67 @@
+- https://github.com/prograils/wisepdf
+- https://gist.github.com/javan/5538692cb37a683db15792be8d05761e
+- refactor to use pundit permitted_attributes
+- nested form slow on mobile
+- sort bug, cannot desc sort first column
+- https://github.com/exaspark/batch-loader
+- inline create/edit isn't restricted with pundit???
+- cancel doesn't scroll top
+- issue a browser incompatibility if pjax isn't supported
+- use jquery ui safe active element
+- https://github.com/date-fns/date-fns
+- modal form fields width not ok (too narrow)
+- responsive token widths (select width) when window is resizing
+- https://gist.github.com/hagino3000/2290705
+- staging interceptor -> add space between email for admin view
+- back navigation after bulk action form submit isn't ok
+- add col-sm-4 to all input-group fields
+- pjax history navigation doesn't work for new, edit, etc.
+- back to top button on index view
+- on mobile total_count isn't aligned
+- on mobile anchor scroll not as expected
+- on mobile charts events are slow --> might want to set some specific configs for mobile case (check which device before render)
+- bug pjax, if anchor isn't present, scroll_to isn't ok
+
+- make a bundle like Capee for Rspec
+- update Appizer
+- update Flammarion integration (and use Rack as well instead)
+
+- double scroll should be at the bottom of the container while the bottom scroll isn't visible
+- double scroll --> infinite loop between binding scrolls (should bind only one way clone to original and hide clone when original visible)
+- infinite scroll, add a reverse order button beside 'load more'
+
+- bug 'Filter' query box when enter pressed --> query=stuff?query=stuff appears twice, https://github.com/sferik/rails_admin/pull/2817/files
+- add monit alert on file disk space
+- datetime picker should not show mobile keyboard
+- datetime picker add delete for filters
+- inline update undo functionality with browser history (ctrl + z)
+- files + images + pdf + docx, etc
+- wysiwyg
+- add overlay on mobile actions (instead of just nprogress)
+- require 'bootstrap_datetimepicker_sass' --> replace _ by -
+- query_scope --> postgres fulltext search option
+- add custom section for inline_create instead of specifying it on every list field (or maybe not...)
+- chart query for associations (include)
+- change bootswatch to not import by url (fonts)
+- make submit buttons full width on mobile
+- save filters for index and export
+- list --> add multiselect to hide/show columns RWD-pattern
+- keep bootstrap colors variables in ruby for charts and output in variables.scss.erb
+- make an ActiveJob connector for Passenger to run jobs as a local request
+- add goaccess auto-generated reports
+- add blacklist of ips to add in the firewall
+- add fail2ban
+- allow numeric filters to take the inverse transform of pretty value
+- configurable export filename --> config + filters (params[:f][:record_id].first.last.converted_arrays.first.first)
+- ra.filters - refactor as a concept
+- add aggregations functionality beside the filters
+- move mydrive/capistrano-deploytags in capi_recipes (and make sure that 2 deploys cannot happen within 1-2 minutes)
+- better db timeout rescue
+- documentation with Middleman
+- secrets.yml on S3
+- authorized_keys with github keys (add/remove)
+- staging instance controlled by admin
+- temporary EC2 IP added by admin
+- replace (include|exclude)_columns by accessed_fields
+- rake task to add logs in DB
+- cap task to export log dir to S3

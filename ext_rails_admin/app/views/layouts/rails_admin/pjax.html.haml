@@ -1,0 +1,10 @@
+#js_abstract_model{'data-js': @abstract_model.to_param}
+#js_pjax_title{'data-js': @title}
+#js_flash_messages{'data-js': flash.to_json}
+
+= query_diet
+%div{id: "#{action_name}_action", class: "#{@abstract_model.to_param}_model"}
+  %ul.contextual_menu.nav.nav-tabs
+    = menu_for((@abstract_model ? (@object.try(:persisted?) ? :member : :collection) : :root), @abstract_model, @object)
+    = area :contextual_tabs
+  = yield

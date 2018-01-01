@@ -1,0 +1,37 @@
+/* RailsAdmin SASS mixins */
+
+@mixin soft_break {
+  white-space: pre-line !important;
+}
+
+@mixin hard_break {
+  white-space: pre-line !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+@mixin hard_ellipsis($max-width: 300px) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: $max-width;
+}
+
+@mixin hidden_bulk_actions {
+  tr:not(.js_inline_create_row) {
+    th:first-child {
+      opacity: 0.5; // TODO or display: none; text-indent: 2px;
+      pointer-events: none;
+    }
+    td:first-child {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+}
+
+@mixin all_next_align_right {
+  ~ th,
+  ~ td {
+    text-align: right;
+  }
+}

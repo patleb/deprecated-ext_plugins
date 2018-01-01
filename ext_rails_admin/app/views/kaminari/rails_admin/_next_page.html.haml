@@ -1,0 +1,8 @@
+:ruby
+  next_url = url
+  unless first_item.nil? || next_url =~ /[&\?]first=/
+    next_url = "#{next_url}&#{ {first: first_item}.to_query }"
+  end
+
+%li.next.js_infinite_scroll_link{data: { url: next_url }, class: ('disabled' if current_page.last?)}
+  %a.btn.btn-default{href: '#'}= t('admin.concepts.infinite_scroll.more')
