@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = ">= #{File.read(File.expand_path("../.ruby-version", __dir__)).strip}"
 
-  s.add_dependency "railties", "~> 5.0"
+  s.add_dependency "railties", "~> #{ExtPlugins::VERSION::RAILS_MAJOR}.#{ExtPlugins::VERSION::RAILS_MINOR}"
   s.add_dependency 'sassc-rails', '~> 1.3'
   s.add_dependency 'sass-rails'
   s.add_dependency 'autoprefixer-rails', '~> 7.1'

@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = ">= #{File.read(File.expand_path("../.ruby-version", __dir__)).strip}"
 
-  s.add_dependency "railties", "~> 5.0"
+  s.add_dependency "railties", "~> #{ExtPlugins::VERSION::RAILS_MAJOR}.#{ExtPlugins::VERSION::RAILS_MINOR}"
   s.add_dependency 'coffee-rails', '~> 4.2'
   s.add_dependency 'uglifier', '>= 1.3.0'
   s.add_dependency 'alaska', '>= 1.2.2'
