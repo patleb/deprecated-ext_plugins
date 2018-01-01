@@ -1,7 +1,7 @@
 <% fetch(:whenever_batch_scripts).each do |script| -%>
   source bin/every_minute/<%= script %>.sh
 <% end -%>
-HTTP_CODE=$(<%= Sh.http_get(url_for('_batch/exists'), code: true, username: 'deployer', password: SettingsYml[:deployer_password]) %>)
+HTTP_CODE=$(<%= Sh.http_code_get(url_for('_batch/exists'), username: 'deployer', password: SettingsYml[:deployer_password]) %>)
 
 if [[ "$HTTP_CODE" == "200" ]]; then
   bundle exec rake ext_async:batches

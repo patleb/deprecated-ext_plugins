@@ -304,7 +304,7 @@ GEM
     ext_ruby (0.7.11)
       require_all (~> 1.4)
       unicode (~> 0.4)
-    ext_shell (1.6.8)
+    ext_shell (1.6.9)
       ext_ruby (>= 0.7.11)
     ffi (1.9.18)
     font-awesome-sass (4.7.0)
