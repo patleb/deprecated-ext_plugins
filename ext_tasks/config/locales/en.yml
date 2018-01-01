@@ -1,0 +1,15 @@
+en:
+  activerecord:
+    attributes:
+      task:
+        id: Name
+    errors:
+      models:
+        task:
+          attributes:
+            base:
+              already_running: Already running
+  admin:
+    help:
+      task:
+        arguments: separated by a comma ,
