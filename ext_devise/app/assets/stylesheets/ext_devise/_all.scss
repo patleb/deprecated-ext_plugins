@@ -1,0 +1,60 @@
+$devise-bs-form-max-width: 540px !default;
+$devise-bs-form-margin: 20px auto !default;
+
+.devise-bs {
+  // Force max-width on forms
+  max-width: $devise-bs-form-max-width;
+  margin: $devise-bs-form-margin;
+
+  .panel-heading {
+    padding: $panel-body-padding;
+    h4 {
+      margin: 0;
+      text-align: left;
+    }
+  }
+
+  // Force max-width on alerts
+  .alert {
+    max-width: $devise-bs-form-max-width;
+    margin: $devise-bs-form-margin;
+    padding-left: $alert-padding;
+    padding-right: $alert-padding;
+  }
+
+  .alert-title {
+    color: inherit;
+    padding-left: $alert-padding;
+    padding-right: $alert-padding;
+  }
+
+  .btn {
+    max-width: $devise-bs-form-max-width - 2*$panel-body-padding;
+    white-space: normal;
+  }
+}
+
+// Better positioning on links
+a.devise-bs {
+  padding: $nav-link-padding;
+  display: table;
+  width: auto;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+a.locale_select {
+  margin-top: 15px;
+}
+
+.locale_select {
+  float: right;
+  padding-right: 15px;
+
+  select {
+    @extend .form-control;
+    width: 40px;
+    margin-top: 5px;
+  }
+}
