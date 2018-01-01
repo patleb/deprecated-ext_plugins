@@ -19,5 +19,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency "ext_rails", version
   s.add_dependency "ext_rake", version
-  s.add_dependency "ext_shell", version
+  s.add_dependency "ext_shell"
 end

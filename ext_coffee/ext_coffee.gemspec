@@ -23,6 +23,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'coffee-rails', '~> 4.2'
   s.add_dependency 'uglifier', '>= 1.3.0'
   s.add_dependency 'alaska', '>= 1.2.2'
-  s.add_dependency 'ext_ruby', version
+  s.add_dependency 'ext_ruby'
   # TODO https://github.com/sfcgeorge/capybara-jsdom
 end
