@@ -4,5 +4,5 @@
 HTTP_CODE=$(<%= Sh.http_code_get(url_for('_batch/exists'), username: 'deployer', password: SettingsYml[:deployer_password]) %>)
 
 if [[ "$HTTP_CODE" == "200" ]]; then
-  bundle exec rake ext_async:batches
+  nice -n 19 bundle exec rake ext_async:batches
 fi
