@@ -4,14 +4,14 @@ class Batch < ExtAsync.config.parent_model.constantize
 
   def self.dequeue
     pk = "#{quoted_table_name}.#{quoted_primary_key}"
-    async = "#{quoted_table_name}.async"
+    priority = "#{quoted_table_name}.priority"
     run_at = "#{quoted_table_name}.run_at"
     query = <<-SQL
       DELETE FROM #{quoted_table_name}
       WHERE #{pk} = (
         SELECT #{pk} FROM #{quoted_table_name}
         WHERE #{run_at} <= now()
-        ORDER BY #{async} DESC, #{run_at}
+        ORDER BY #{priority} DESC, #{run_at}
         FOR UPDATE SKIP LOCKED
         LIMIT 1
       )

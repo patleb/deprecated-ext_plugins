@@ -10,7 +10,7 @@ class BatchController < ExtAsync.config.parent_controller.constantize
   end
 
   def enqueue
-    Batch.create! params.permit(:url, :async, :run_at)
+    Batch.create! params.permit(:url, :priority, :run_at)
 
     head :created
   end

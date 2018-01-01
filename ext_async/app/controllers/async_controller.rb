@@ -26,7 +26,7 @@ class AsyncController < ExtAsync.config.parent_controller.constantize
       end
 
     if processes >= ExtAsync.config.min_pool_size
-      Batch.create! url: request.original_url, async: true, run_at: Time.current.utc
+      Batch.create! url: request.original_url, priority: true, run_at: Time.current.utc
       head :accepted
     end
   end
