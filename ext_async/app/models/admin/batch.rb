@@ -17,7 +17,8 @@ module Admin::Batch
 
       list do
         configure :url do
-          pretty_value{ value.sub(/^https?:\/\/.+\//, '/').gsub(/_(request|job|batch|currency|locale|time_zone)(_(id|timestamp))?=[\%\w-]+&/, '') }
+          skipped = /(request|session|job|batch|currency|locale|time_zone|user)/
+          pretty_value{ value.sub(/^https?:\/\/.+\//, '/').gsub(/_#{skipped}(_(id|timestamp))?=[\%\w-]+&/, '') }
         end
 
         exclude_fields :updated_at

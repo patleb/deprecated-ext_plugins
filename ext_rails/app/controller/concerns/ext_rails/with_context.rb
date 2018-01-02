@@ -22,7 +22,8 @@ module ExtRails
     protected
 
     def set_current
-      Current.request_id = request.uuid
+      Current.request_id ||= request.uuid
+      Current.session_id ||= session.id
       set_current_value(:locale)
       set_current_value(:time_zone)
       set_current_value(:currency)
@@ -41,7 +42,7 @@ module ExtRails
     end
 
     def set_current_value(name)
-      Current[name] =
+      Current[name] ||=
         if (value = params["_#{name}"]).present?
           if with_session?
             session[name] = value

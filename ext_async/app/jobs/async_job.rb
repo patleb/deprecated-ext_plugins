@@ -17,6 +17,7 @@ class AsyncJob < ActiveJob::Base
     context.merge!(
       _now: _now,
       _request_id: Current.request_id,
+      _session_id: Current.session_id,
       _locale: Current.locale,
       _time_zone: Current.time_zone,
       _currency: Current.currency,
