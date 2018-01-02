@@ -23,7 +23,7 @@ module ExtRails
 
     def set_current
       Current.request_id ||= request.uuid
-      Current.session_id ||= session.id
+      Current.session_id ||= session.try(:id)
       set_current_value(:locale)
       set_current_value(:time_zone)
       set_current_value(:currency)
@@ -33,7 +33,7 @@ module ExtRails
       currency = Money.default_currency
       I18n.with_locale(Current.locale) do
         Time.use_zone(Current.time_zone) do
-          MoneyRails.default_currency = Current.currency
+          MoneyRails.default_currency = Current.currency if Current.currency
           yield
         end
       end

@@ -5,7 +5,7 @@ ActionController::Base.class_eval do
   protected
 
   def with_flashes!
-    return if respond_to?(:local_request!) || session[:later].blank?
+    return unless with_session? && session[:later].present?
 
     ids = Flash.where(session_id: session.id, request_id: session[:later]).pluck(:id, :messages).map do |id, messages|
       messages.each do |type, message|
