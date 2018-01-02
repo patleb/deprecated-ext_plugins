@@ -5,6 +5,10 @@ class AsyncJob < ActiveJob::Base
     @_log_file ||= File.expand_path(File.join(Dir.pwd, "log/#{Rails.env}_async.log"))
   end
 
+  def self.perform_flash(url, **context)
+    perform_later(url, _flash: true, **context)
+  end
+
   def self.perform_batch(url, **context)
     perform_now(url, _type: 'batch', **context)
   end
@@ -13,7 +17,7 @@ class AsyncJob < ActiveJob::Base
     super(url, wait: nil, _now: true, **context)
   end
 
-  def perform(url, wait: nil, _now: nil, _type: 'job', **context)
+  def perform(url, wait: nil, _now: nil, _flash: nil, _type: 'job', **context)
     context.merge!(
       _now: _now,
       _request_id: Current.request_id,
@@ -30,6 +34,7 @@ class AsyncJob < ActiveJob::Base
     if _now || ExtAsync.config.inline?
       run_inline url
     else
+      Current.later = _flash
       run_async url, wait
     end
   end

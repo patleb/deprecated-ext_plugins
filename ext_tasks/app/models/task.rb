@@ -79,7 +79,7 @@ class Task < ExtTasks.config.parent_model.constantize
       save_now
     elsif acquire_lock
       if _later?
-        AsyncJob.perform_later 'async_task_url', id: id, arguments: arguments, _skip_lock: true
+        AsyncJob.perform_flash 'async_task_url', id: id, arguments: arguments, _skip_lock: true
       else
         save_now
       end
