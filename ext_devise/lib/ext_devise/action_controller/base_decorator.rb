@@ -1,5 +1,5 @@
 ActionController::Base.class_eval do
-  module WithUser
+  module WithUserNull
     def set_current
       super
       Current.user ||= User::Null.new
@@ -18,5 +18,5 @@ ActionController::Base.class_eval do
       end
     end
   end
-  prepend WithUser
+  prepend WithUserNull
 end

@@ -13,10 +13,14 @@ class AsyncController < ExtAsync.config.parent_controller.constantize
     Current.batch_timestamp = params[:_batch_timestamp]
   end
 
+  def inline?
+    params[:_now].to_b
+  end
+
   private
 
   def to_batch!
-    return if params[:_now].to_b
+    return if inline?
 
     processes =
       if (workers = Rails.application.web_workers).any?
