@@ -23,6 +23,7 @@ module ExtAsync
     attr_writer :inline
     attr_writer :allowed_ips
     attr_writer :min_pool_size
+    attr_writer :flash_expires_in
 
     def parent_model
       @parent_model ||= '::ActiveRecord::Base'
@@ -48,6 +49,10 @@ module ExtAsync
 
     def min_pool_size
       @min_pool_size ||= (SettingsYml[:max_pool_size]&.to_i || 6) - 2
+    end
+
+    def flash_expires_in
+      @expires_in ||= 1.day
     end
   end
 end
