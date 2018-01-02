@@ -1,3 +1,9 @@
 AsyncJob.class_eval do
-  # TODO user_id must be sent
+  module WithUser
+    def perform(url, wait: nil, _now: nil, _type: 'job', **context)
+      context.merge! _user_id: Current.user&.id
+      super
+    end
+  end
+  prepend WithUser
 end
