@@ -1,6 +1,6 @@
 AsyncJob.class_eval do
   module WithUser
-    def perform(url, wait: nil, _now: nil, _type: 'job', **context)
+    def perform(url, **context)
       context.merge! _user_id: Current.user&.id
       super
     end

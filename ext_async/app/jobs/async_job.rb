@@ -9,8 +9,8 @@ class AsyncJob < ActiveJob::Base
     perform_now(url, _type: 'batch', **context)
   end
 
-  def self.perform_now(url, _type: 'job', **context)
-    super(url, wait: nil, _now: true, _type: _type, **context)
+  def self.perform_now(url,**context)
+    super(url, wait: nil, _now: true, **context)
   end
 
   def perform(url, wait: nil, _now: nil, _type: 'job', **context)
