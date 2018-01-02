@@ -7,7 +7,7 @@ ActionController::Base.class_eval do
     return unless Current.later
 
     later = (session[:later] ||= [])
-    later.shift if later.size >= 10
+    later.shift if later.size >= ExtAsync.config.max_flashes
     later << Current.request_id
   end
 end

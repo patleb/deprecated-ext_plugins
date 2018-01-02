@@ -24,6 +24,7 @@ module ExtAsync
     attr_writer :allowed_ips
     attr_writer :min_pool_size
     attr_writer :flash_expires_in
+    attr_writer :max_flashes
 
     def parent_model
       @parent_model ||= '::ActiveRecord::Base'
@@ -53,6 +54,10 @@ module ExtAsync
 
     def flash_expires_in
       @expires_in ||= 1.day
+    end
+
+    def max_flashes
+      @max_flashes ||= 10
     end
   end
 end
