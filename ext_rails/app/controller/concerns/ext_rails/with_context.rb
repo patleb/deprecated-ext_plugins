@@ -59,11 +59,11 @@ module ExtRails
     end
 
     def default_locale
-      (http_accept_language.compatible_language_from(I18n.available_locales) || I18n.default_locale).to_s
+      http_accept_language.compatible_language_from(I18n.available_locales)&.to_s
     end
 
     def default_time_zone
-      (Time.find_zone(cookies["js.time_zone"].presence) || Time.zone_default).name
+      Time.find_zone(cookies["js.time_zone"])&.name
     end
 
     def default_currency
