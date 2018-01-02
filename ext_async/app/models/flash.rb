@@ -16,9 +16,9 @@ class Flash < ExtAsync.config.parent_model.constantize
     where.has{ updated_at < expires_at }.delete_all
   end
 
-  private
+  private_class_method
 
-  def flash
+  def self.flash
     Current.flash ||= new(session_id: Current.session_id, request_id: Current.request_id)
   end
 end
