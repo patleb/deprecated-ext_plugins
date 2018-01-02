@@ -6,7 +6,7 @@ class AsyncJob < ActiveJob::Base
   end
 
   def self.perform_flash(url, **context)
-    perform_later(url, _flash: true, **context)
+    perform_later(url, _later: true, **context)
   end
 
   def self.perform_batch(url, **context)
@@ -17,7 +17,7 @@ class AsyncJob < ActiveJob::Base
     super(url, wait: nil, _now: true, **context)
   end
 
-  def perform(url, wait: nil, _now: nil, _flash: nil, _type: 'job', **context)
+  def perform(url, wait: nil, _now: nil, _later: nil, _type: 'job', **context)
     context.merge!(
       _now: _now,
       _request_id: Current.request_id,
@@ -34,7 +34,7 @@ class AsyncJob < ActiveJob::Base
     if _now || ExtAsync.config.inline?
       run_inline url
     else
-      Current.later = _flash
+      Current.later = _later
       run_async url, wait
     end
   end
