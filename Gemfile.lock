@@ -1,53 +1,6 @@
 PATH
   remote: .
   specs:
-    ext_async (5.1.0.1)
-      ext_rails (= 5.1.0.1)
-      ext_rake (= 5.1.0.1)
-      ext_shell
-    ext_aws_sdk (5.1.0.1)
-      aws-sdk-cloudwatch
-      aws-sdk-ec2
-      aws-sdk-iam
-      aws-sdk-rds
-      aws-sdk-route53
-      aws-sdk-s3
-      aws-sdk-ses
-      aws-sdk-sns
-    ext_bootstrap (5.1.0.1)
-      autoprefixer-rails (~> 7.1)
-      bootstrap-sass (~> 3.3.7)
-      font-awesome-sass (~> 4.7.0)
-      railties (~> 5.1)
-      sass-rails
-      sassc-rails (~> 1.3)
-    ext_capistrano (5.1.0.1)
-      capistrano (~> 3.6)
-      capistrano-bundler (~> 1.1)
-      capistrano-passenger
-      capistrano-rails (~> 1.1)
-      capistrano-rails-console
-      capistrano-rbenv (~> 2.0)
-      sun_cap
-    ext_chartkick (5.1.0.1)
-      railties (~> 5.1)
-    ext_coffee (5.1.0.1)
-      alaska (>= 1.2.2)
-      coffee-rails (~> 4.2)
-      ext_ruby
-      railties (~> 5.1)
-      uglifier (>= 1.3.0)
-    ext_devise (5.1.0.1)
-      devise (~> 4.3)
-      devise-bootstrap-views (~> 0.0.11)
-      devise-i18n (~> 1.4)
-      ext_rails (= 5.1.0.1)
-    ext_globals (5.1.0.1)
-      ext_rails (= 5.1.0.1)
-    ext_mail (5.1.0.1)
-      actionview (~> 5.1)
-      mail (~> 2.7)
-      settings_yml
     ext_plugins (5.1.0.1)
       ext_async (= 5.1.0.1)
       ext_aws_sdk (= 5.1.0.1)
@@ -71,8 +24,114 @@ PATH
       rails (~> 5.1)
       settings_yml
       sun_cap
+
+PATH
+  remote: ext_async
+  specs:
+    ext_async (5.1.0.1)
+      ext_rails (= 5.1.0.1)
+      ext_rake (= 5.1.0.1)
+      ext_shell
+
+PATH
+  remote: ext_aws_sdk
+  specs:
+    ext_aws_sdk (5.1.0.1)
+      aws-sdk-cloudwatch
+      aws-sdk-ec2
+      aws-sdk-iam
+      aws-sdk-rds
+      aws-sdk-route53
+      aws-sdk-s3
+      aws-sdk-ses
+      aws-sdk-sns
+
+PATH
+  remote: ext_bootstrap
+  specs:
+    ext_bootstrap (5.1.0.1)
+      autoprefixer-rails (~> 7.1)
+      bootstrap-sass (~> 3.3.7)
+      font-awesome-sass (~> 4.7.0)
+      railties (~> 5.1)
+      sass-rails
+      sassc-rails (~> 1.3)
+
+PATH
+  remote: ext_capistrano
+  specs:
+    ext_capistrano (5.1.0.1)
+      capistrano (~> 3.6)
+      capistrano-bundler (~> 1.1)
+      capistrano-passenger
+      capistrano-rails (~> 1.1)
+      capistrano-rails-console
+      capistrano-rbenv (~> 2.0)
+      sun_cap
+
+PATH
+  remote: ext_chartkick
+  specs:
+    ext_chartkick (5.1.0.1)
+      railties (~> 5.1)
+
+PATH
+  remote: ext_coffee
+  specs:
+    ext_coffee (5.1.0.1)
+      alaska (>= 1.2.2)
+      coffee-rails (~> 4.2)
+      ext_ruby
+      railties (~> 5.1)
+      uglifier (>= 1.3.0)
+
+PATH
+  remote: ext_devise
+  specs:
+    ext_devise (5.1.0.1)
+      devise (~> 4.3)
+      devise-bootstrap-views (~> 0.0.11)
+      devise-i18n (~> 1.4)
+      ext_rails (= 5.1.0.1)
+
+PATH
+  remote: ext_globals
+  specs:
+    ext_globals (5.1.0.1)
+      ext_rails (= 5.1.0.1)
+
+PATH
+  remote: ext_mail
+  specs:
+    ext_mail (5.1.0.1)
+      actionview (~> 5.1)
+      mail (~> 2.7)
+      settings_yml
+
+PATH
+  remote: ext_pundit
+  specs:
     ext_pundit (5.1.0.1)
       activesupport (~> 5.1)
+
+PATH
+  remote: ext_rails_admin
+  specs:
+    ext_rails_admin (5.1.0.1)
+      amoeba (~> 3.0)
+      ext_bootstrap (= 5.1.0.1)
+      ext_chartkick (= 5.1.0.1)
+      ext_coffee (= 5.1.0.1)
+      ext_rails (= 5.1.0.1)
+      kaminari (>= 0.14, < 2.0)
+      rails_admin-i18n (~> 1.11)
+      remotipart (~> 1.3)
+      wicked_pdf (~> 1.1)
+      wkhtmltopdf-binary (~> 0.12.3.1)
+
+PATH
+  remote: ext_rails
+  specs:
     ext_rails (5.1.0.1)
       active_record_query_trace
       active_type (~> 0.7)
@@ -103,17 +162,10 @@ PATH
       rails-i18n (~> 5.0)
       settings_yml
       time_difference (~> 0.7)
-    ext_rails_admin (5.1.0.1)
-      amoeba (~> 3.0)
-      ext_bootstrap (= 5.1.0.1)
-      ext_chartkick (= 5.1.0.1)
-      ext_coffee (= 5.1.0.1)
-      ext_rails (= 5.1.0.1)
-      kaminari (>= 0.14, < 2.0)
-      rails_admin-i18n (~> 1.11)
-      remotipart (~> 1.3)
-      wicked_pdf (~> 1.1)
-      wkhtmltopdf-binary (~> 0.12.3.1)
+
+PATH
+  remote: ext_rake
+  specs:
     ext_rake (5.1.0.1)
       colorize (~> 0.8)
       dotiw (~> 3.1)
@@ -121,17 +173,33 @@ PATH
       ext_mail (= 5.1.0.1)
       require_all (~> 1.4)
       settings_yml
+
+PATH
+  remote: ext_settings
+  specs:
     ext_settings (5.1.0.1)
       ext_rails (= 5.1.0.1)
+
+PATH
+  remote: ext_tasks
+  specs:
     ext_tasks (5.1.0.1)
       ext_async (= 5.1.0.1)
       ext_globals (= 5.1.0.1)
       ext_mail (= 5.1.0.1)
       ext_rails (= 5.1.0.1)
       ext_rake (= 5.1.0.1)
+
+PATH
+  remote: ext_throttler
+  specs:
     ext_throttler (5.1.0.1)
       ext_globals (= 5.1.0.1)
       ext_rails (= 5.1.0.1)
+
+PATH
+  remote: ext_whenever
+  specs:
     ext_whenever (5.1.0.1)
       settings_yml
       whenever (~> 0.10)
@@ -501,7 +569,24 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ext_async!
+  ext_aws_sdk!
+  ext_bootstrap!
+  ext_capistrano!
+  ext_chartkick!
+  ext_coffee!
+  ext_devise!
+  ext_globals!
+  ext_mail!
   ext_plugins!
+  ext_pundit!
+  ext_rails!
+  ext_rails_admin!
+  ext_rake!
+  ext_settings!
+  ext_tasks!
+  ext_throttler!
+  ext_whenever!
 
 BUNDLED WITH
    1.16.0
