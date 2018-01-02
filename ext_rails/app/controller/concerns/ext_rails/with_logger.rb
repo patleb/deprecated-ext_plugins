@@ -10,9 +10,9 @@ module ExtRails
       context = request_context.each_with_object('') do |(type, values), memo|
         case values
         when Array
-          memo << "[#{values.join('][')}]\n"
+          memo << "\n[#{values.join('][')}]\n"
         when Hash
-          memo << "[#{type.to_s.upcase}]\n#{values}\n"
+          memo << "\n[#{type.to_s.upcase}]\n#{values}\n"
         end
       end
       context << "[PREVIOUS_EXCEPTION_COUNT][#{status[:previous] || 'Unknown'}][#{status[:count] || 0}]"
