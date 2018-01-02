@@ -27,4 +27,6 @@
   %body{id: body_id}
     /[if lt IE 11]
       %p.browerupgrade= t('browerupgrade_html')
+    = area :header
     = yield
+    = area :footer
