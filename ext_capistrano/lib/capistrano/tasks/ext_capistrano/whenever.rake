@@ -12,7 +12,7 @@ namespace :whenever do
   desc 'Push every_minutes.sh cron script'
   task :push_every_minute do
     on release_roles fetch(:whenever_roles) do
-      (SettingsYml[:batch_workers]&.to_i || 1).times.each do |i|
+      SettingsYml[:batch_workers].times.each do |i|
         invoke! 'template:push', 'every_minute.sh', release_path.join('bin', "every_minute_#{i}.sh")
       end
       fetch(:whenever_batch_scripts).each do |script|

@@ -105,7 +105,7 @@ http {
   <% if fetch(:stage) == :staging %>
     passenger_max_instances_per_app 2;
   <% end %>
-  passenger_max_pool_size <%= SettingsYml[:max_pool_size]&.to_i || 6 %>
+  passenger_max_pool_size <%= SettingsYml[:max_pool_size] %>
 
   <% fetch(:nginx_denied_ips).each do |ip| %>
     deny <%= ip %>;

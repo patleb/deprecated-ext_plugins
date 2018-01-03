@@ -49,7 +49,7 @@ module ExtAsync
     end
 
     def min_pool_size
-      @min_pool_size ||= (SettingsYml[:max_pool_size]&.to_i || 6) - 2
+      @min_pool_size ||= SettingsYml[:max_pool_size] - 2
     end
 
     def flash_expires_in
