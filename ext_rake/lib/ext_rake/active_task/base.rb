@@ -51,8 +51,6 @@ module ActiveTask
 
     def run
       _save_environment
-      I18n.locale = :en
-      Time.zone = 'UTC'
       unless _parse_args
         before_run
         _steps.each do |step|
