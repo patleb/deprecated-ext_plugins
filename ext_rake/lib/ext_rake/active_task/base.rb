@@ -1,16 +1,5 @@
-require 'rubygems/package'
-require 'colorize'
-require 'dotiw'
-require 'open3'
-require 'optparse'
-require 'ext_aws_sdk'
-
 module ActiveTask
   class Base
-    TASK_STARTED = '[STARTED]'.freeze
-    TASK_COMPLETED = '[COMPLETED]'.freeze
-    TASK_FAILED = '[FAILED]'.freeze
-
     EXIT_CODE_HELP = 10
 
     STEPS_ARGS = %i(
@@ -30,9 +19,6 @@ module ActiveTask
       format
       require
     ).freeze
-
-    include ActionView::Helpers::DateHelper
-    include ActionView::Helpers::NumberHelper
 
     attr_reader :rake, :task, :options
 
@@ -62,36 +48,19 @@ module ActiveTask
     end
 
     def before_run; end
-    def before_rescue(exception); end
-    def before_ensure(exception); end
 
     def run
-      start = Time.current.utc
       _save_environment
       I18n.locale = :en
       Time.zone = 'UTC'
-      unless (help = _parse_args)
-        puts "#{TASK_STARTED} #{self.class.name}".green
+      unless _parse_args
         before_run
         _steps.each do |step|
           puts "[#{Time.current.utc}][step] #{step}".yellow
           send step
         end
       end
-    rescue StandardError, Exception => exception
-      before_rescue(exception)
-      ExtMail::Mailer.new.deliver! exception, subject: self.class.name do |message|
-        puts message
-      end
     ensure
-      unless help
-        before_ensure(exception)
-        if exception
-          puts "#{TASK_FAILED} after #{distance_of_time (Time.current.utc - start).seconds}".red
-        else
-          puts "#{TASK_COMPLETED} after #{distance_of_time (Time.current.utc - start).seconds}".green
-        end
-      end
       _restore_environment
     end
 
@@ -106,8 +75,7 @@ module ActiveTask
     end
 
     def puts(obj = '', *arg)
-      task.output << obj << "\n"
-      super
+      task.puts(obj, *arg)
     end
 
     def method_missing(name, *args, &block)

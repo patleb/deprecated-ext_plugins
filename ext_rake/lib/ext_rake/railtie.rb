@@ -1,3 +1,9 @@
+module ExtRake
+  TASK_STARTED = '[STARTED]'.freeze
+  TASK_COMPLETED = '[COMPLETED]'.freeze
+  TASK_FAILED = '[FAILED]'.freeze
+end
+
 class ExtRake::Railtie < Rails::Railtie
   rake_tasks do
     load 'tasks/ext_rake.rake'
@@ -7,13 +13,64 @@ class ExtRake::Railtie < Rails::Railtie
     require 'rake/task'
 
     Rake::Task.class_eval do
+      include ActionView::Helpers::DateHelper
+      include ActionView::Helpers::NumberHelper
+
+      def self.log_file
+        @_log_file ||= File.expand_path(File.join(Dir.pwd, "log/rake.log"))
+      end
+
       module WithOutput
         attr_accessor :output
 
-        def execute(args = nil)
-          self.output = ''
+        def puts(obj = '', *arg)
+          self.output ||= ''
+          self.output << obj << "\n"
           super
-          output.dup
+        end
+
+        def execute(args = nil)
+          return super if (skip = (ARGV.include? '--help') || name == 'environment')
+
+          time = Time.current.utc
+          self.output = ''
+          puts "#{ExtRake::TASK_STARTED} #{name}".green
+          super
+        rescue StandardError, Exception => exception
+          ExtMail::Mailer.new.deliver! exception, subject: name do |message|
+            puts message
+            Rails.logger.error message
+          end
+        ensure
+          return if skip
+
+          total = Time.current.utc - time
+          if output.exclude? '[step]'
+            puts "[#{time}][task]"
+          end
+          if exception
+            puts "#{ExtRake::TASK_FAILED} after #{distance_of_time total.seconds}".red
+          else
+            puts "#{ExtRake::TASK_COMPLETED} after #{distance_of_time total.seconds}".green
+          end
+
+          log_line = {
+            remote_addr:            '127.0.0.1 -',
+            remote_user:            '-',
+            time_local:             "[#{time.strftime('%d/%b/%Y:%H:%M:%S +0000')}]",
+            request:                %{"PUT /task/#{name}/edit HTTP/1.1"},
+            status:                 exception ? '500' : '200',
+            body_bytes_sent:        '-',
+            http_referer:           %{"-"},
+            http_user_agent:        %{"-"},
+            upstream_response_time: "%.3f -" % total.ceil(3),
+            scheme:                 "- -",
+            gzip_ratio:             '-',
+          }
+
+          `echo '#{log_line.values.join ' '}' >> #{self.class.log_file}`
+
+          return output.dup
         end
       end
       prepend WithOutput

@@ -1,4 +1,10 @@
 require "require_all"
+require 'rubygems/package'
+require 'colorize'
+require 'dotiw'
+require 'open3'
+require 'optparse'
+require 'ext_aws_sdk'
 require "ext_mail"
 require "ext_rake/configuration"
 require 'ext_rake/railtie' if defined?(Rails)

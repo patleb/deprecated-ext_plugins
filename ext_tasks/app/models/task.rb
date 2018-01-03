@@ -68,7 +68,7 @@ class Task < ExtTasks.config.parent_model.constantize
 
   def status
     if output.present? && output.exclude?(RUNNING)
-      output.include? ActiveTask::Base::TASK_COMPLETED
+      output.include? ExtRake::TASK_COMPLETED
     end
   end
 
@@ -93,16 +93,8 @@ class Task < ExtTasks.config.parent_model.constantize
     args = arguments.to_s.split(',').map(&:strip)
     ARGV.clear
     result = Rake::Task[id].invoke(*args)
-    if result.exclude? ActiveTask::Base::TASK_STARTED
-      result = to_completed_task
-    end
-  rescue => exception
-    ExtMail::Mailer.new.deliver!(exception, subject: id) do |message|
-      result = to_failed_task(message)
-      Rails.logger.error(result)
-    end
   ensure
-    if result.include? ActiveTask::Base::TASK_FAILED
+    if result.include? ExtRake::TASK_FAILED
       errors.add :base, result
     end
     String.try :disable_colorization=, false
@@ -127,23 +119,6 @@ class Task < ExtTasks.config.parent_model.constantize
   end
 
   def to_running_task
-    "#{RUNNING}\n[#{Time.current.utc}][task] #{id}"
-  end
-
-  def to_completed_task
-    to_active_task(ActiveTask::Base::TASK_COMPLETED)
-  end
-
-  def to_failed_task(message)
-    to_active_task(ActiveTask::Base::TASK_FAILED, message)
-  end
-
-  def to_active_task(state, output = self.output)
-    unless output.include? RUNNING
-      output = self.output << "\n" << output
-    end
-    start = Time.parse(output.match(/#{Regexp.quote RUNNING}\n\[(.+)\]\[task\]/)[1])
-    result = output.sub RUNNING, ActiveTask::Base::TASK_STARTED
-    result << "\n" << "#{state} after #{distance_of_time (Time.current.utc - start).seconds}"
+    "#{RUNNING} #{id}\n[#{Time.current.utc}][task]"
   end
 end
