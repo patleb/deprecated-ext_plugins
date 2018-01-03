@@ -102,6 +102,9 @@ class Task < ExtTasks.config.parent_model.constantize
       Rails.logger.error(result)
     end
   ensure
+    if result.include? ActiveTask::Base::TASK_FAILED
+      errors.add :base, result
+    end
     String.try :disable_colorization=, false
     Rake::Task[id].reenable
     self.output = ::Global.write(global_key, result, expires: true)
