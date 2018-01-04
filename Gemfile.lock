@@ -4,7 +4,7 @@ PATH
     ext_async (5.1.0.1)
       ext_rails (= 5.1.0.1)
       ext_rake
-      ext_shell
+      ext_shell (= 5.1.0.1)
 
 PATH
   remote: ext_aws_sdk
@@ -40,7 +40,7 @@ PATH
       capistrano-rails (~> 1.1)
       capistrano-rails-console
       capistrano-rbenv (~> 2.0)
-      sun_cap
+      sun_cap (= 5.1.0.1)
 
 PATH
   remote: ext_chartkick
@@ -154,6 +154,12 @@ PATH
       ext_rails (= 5.1.0.1)
 
 PATH
+  remote: ext_shell
+  specs:
+    ext_shell (5.1.0.1)
+      ext_ruby
+
+PATH
   remote: ext_tasks
   specs:
     ext_tasks (5.1.0.1)
@@ -178,6 +184,23 @@ PATH
       whenever (~> 0.10)
 
 PATH
+  remote: sun_cap
+  specs:
+    sun_cap (5.1.0.1)
+      ext_shell (= 5.1.0.1)
+      require_all (~> 1.4)
+      settings_yml
+
+PATH
+  remote: sunzistrano
+  specs:
+    sunzistrano (3.3.0)
+      bcrypt (~> 3.1)
+      rainbow
+      sshkit
+      sun_cap (= 5.1.0.1)
+
+PATH
   remote: .
   specs:
     ext_plugins (5.1.0.1)
@@ -196,13 +219,14 @@ PATH
       ext_rake
       ext_ruby
       ext_settings (= 5.1.0.1)
-      ext_shell
+      ext_shell (= 5.1.0.1)
       ext_tasks (= 5.1.0.1)
       ext_throttler (= 5.1.0.1)
       ext_whenever (= 5.1.0.1)
       rails (~> 5.1)
       settings_yml
-      sun_cap
+      sun_cap (= 5.1.0.1)
+      sunzistrano
 
 GEM
   remote: https://rubygems.org/
@@ -372,8 +396,6 @@ GEM
     ext_ruby (0.7.11)
       require_all (~> 1.4)
       unicode (~> 0.4)
-    ext_shell (1.6.9)
-      ext_ruby (>= 0.7.11)
     ffi (1.9.18)
     font-awesome-sass (4.7.0)
       sass (>= 3.2)
@@ -486,6 +508,7 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
+    rainbow (3.0.0)
     rake (12.3.0)
     rb-fsevent (0.10.2)
     rb-inotify (0.9.10)
@@ -536,10 +559,6 @@ GEM
       net-ssh (>= 2.8.0)
     sshkit-interactive (0.2.3)
       sshkit (~> 1.12)
-    sun_cap (0.3.5)
-      ext_shell (>= 1.6)
-      require_all (~> 1.4)
-      settings_yml (>= 2.5.8)
     temple (0.8.0)
     term-ansicolor (1.6.0)
       tins (~> 1.0)
@@ -584,9 +603,12 @@ DEPENDENCIES
   ext_rails_admin!
   ext_rake!
   ext_settings!
+  ext_shell!
   ext_tasks!
   ext_throttler!
   ext_whenever!
+  sun_cap!
+  sunzistrano!
 
 BUNDLED WITH
    1.16.1
