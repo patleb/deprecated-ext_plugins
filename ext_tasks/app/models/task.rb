@@ -95,7 +95,7 @@ class Task < ExtTasks.config.parent_model.constantize
     result = Rake::Task[id].invoke(*args)
   ensure
     if result.include? ExtRake::TASK_FAILED
-      errors.add :base, result
+      errors.add :base, to_failed_task(result)
     end
     String.try :disable_colorization=, false
     Rake::Task[id].reenable
@@ -120,5 +120,11 @@ class Task < ExtTasks.config.parent_model.constantize
 
   def to_running_task
     "#{RUNNING} #{id}\n[#{Time.current.utc}][task]"
+  end
+
+  def to_failed_task(result)
+    lines = result.split("\n")
+    index = lines.index{ |l| l.include? ExtMail::Mailer::BODY_START }
+    lines[(index + 1)..(index + 2)].join("\n")
   end
 end
