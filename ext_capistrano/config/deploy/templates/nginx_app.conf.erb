@@ -16,7 +16,7 @@
 <% deferred = fetch(:nginx_deferred) ? 'deferred' : '' %>
 
 <% fetch(:nginx_upstreams).each do |upstream, content| %>
-  upstream <%= upstream %> {
+  upstream '<%= upstream %>' {
     <%= content %>
   }
 <% end %>
@@ -25,7 +25,7 @@ server {
   listen 80 <%= deferred %>;
   listen [::]:80 <%= deferred %>;
 
-  server_name <%= fetch(:server) %>;
+  server_name '<%= fetch(:server) %>';
 
   <% if fetch(:nginx_rails) %>
     root <%= fetch(:deploy_to) %>/current/public;
@@ -61,15 +61,15 @@ server {
   <% end %>
 
   <% if (satisfy = fetch(:nginx_satisfy)) %>
-    satisfy <%= satisfy %>;
+    satisfy '<%= satisfy %>';
   <% end %>
 
   <% fetch(:nginx_denied_ips).each do |ip| %>
-    deny <%= ip %>;
+    deny '<%= ip %>';
   <% end %>
   <% if (allowed_ips = fetch(:nginx_allowed_ips)).any? %>
     <% allowed_ips.each do |ip| %>
-      allow <%= ip %>;
+      allow '<%= ip %>';
     <% end %>
     deny all;
   <% end %>
@@ -97,7 +97,7 @@ server {
   # include snippets/snakeoil.conf;
 
   <% fetch(:nginx_locations).each do |location, content| %>
-    location <%= location %> {
+    location '<%= location %>' {
       <%= content %>
     }
   <% end %>
@@ -138,7 +138,7 @@ server {
     listen 443 ssl;
     listen [::]:443 ssl;
 
-    server_name <%= fetch(:server) %>;
+    server_name '<%= fetch(:server) %>';
 
     <% fetch(:nginx_redirects).each do |src, dst| %>
       location = /<%= src.sub(/^\//, '') %> {
