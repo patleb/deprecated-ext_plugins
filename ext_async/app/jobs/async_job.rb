@@ -42,7 +42,7 @@ class AsyncJob < ActiveJob::Base
   protected
 
   def run_inline(url)
-    ActionController::Base.dispatch_now(url)
+    ActionController::Base.dispatch_now(url) << url
   end
 
   def run_async(url, wait)

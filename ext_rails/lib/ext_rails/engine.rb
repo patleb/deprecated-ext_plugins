@@ -144,6 +144,14 @@ module ExtRails
       app.routes.default_url_options = app.config.action_mailer.default_url_options
     end
 
+    initializer "ext_rails.rack_lineprof" do |app|
+      if Rails.root.join('tmp/profiler.txt').exist?
+        require 'rack_lineprof'
+
+        app.middleware.use ::Rack::Lineprof, profile: ExtRails.config.profile
+      end
+    end
+
     initializer "ext_rails.active_record_query_trace" do
       if defined? ::ActiveRecordQueryTrace
         ActiveRecordQueryTrace.enabled = ExtRails.config.query_debug

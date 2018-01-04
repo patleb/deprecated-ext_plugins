@@ -43,7 +43,7 @@ module ExtAsync
       Rails.application.reloader.wrap do
         return [nil, nil] unless (batch = Batch.dequeue)
 
-        status, _headers = AsyncJob.perform_batch(url = batch.url)
+        status, _headers, _body, url = AsyncJob.perform_batch(batch.url)
       end
       [url, status]
     end
