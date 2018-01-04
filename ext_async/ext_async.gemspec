@@ -18,6 +18,6 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,db,lib}/**/*", "MIT-LICENSE", "README.md"]
 
   s.add_dependency "ext_rails", version
-  s.add_dependency "ext_rake", version
+  s.add_dependency "ext_rake"
   s.add_dependency "ext_shell"
 end

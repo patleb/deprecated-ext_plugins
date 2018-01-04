@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
   s.add_dependency "ext_pundit",      version
   s.add_dependency "ext_rails",       version
   s.add_dependency "ext_rails_admin", version
-  s.add_dependency "ext_rake",        version
+  s.add_dependency "ext_rake"
   s.add_dependency "ext_ruby"
   s.add_dependency "ext_settings",    version
   s.add_dependency "ext_shell"
