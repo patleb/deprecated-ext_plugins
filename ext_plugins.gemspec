@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.description = "ExtPlugins"
   s.license     = "MIT"
 
-  s.files = Dir["MIT-LICENSE", "README.md"]
+  s.files = Dir["lib/**/*", "MIT-LICENSE", "README.md"]
 
   s.required_ruby_version = ">= #{File.read(File.expand_path(".ruby-version", __dir__)).strip}"
 
