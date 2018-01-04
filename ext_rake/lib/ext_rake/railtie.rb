@@ -30,7 +30,7 @@ class ExtRake::Railtie < Rails::Railtie
         end
 
         def execute(args = nil)
-          return super if (skip = (ARGV.include? '--help') || name == 'environment')
+          return super if (ARGV.include? '--help') || name == 'environment'
 
           time = Time.current.utc
           self.output = ''
@@ -45,8 +45,6 @@ class ExtRake::Railtie < Rails::Railtie
                   Rails.logger.error message
                 end
               ensure
-                return if skip
-
                 total = Time.current.utc - time
                 if output.exclude? '[step]'
                   puts "[#{time}][task]"

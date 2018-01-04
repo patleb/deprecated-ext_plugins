@@ -39,10 +39,7 @@ module ActiveTask
     end
 
     def initialize(rake, task, args = {}, **defaults)
-      if (@debug = ENV['DEBUG'].to_b)
-        ENV['DEBUG_RESPONSE'] = 'true'
-      end
-
+      @debug = ENV['DEBUG'].to_b
       @rake, @task = rake, task
       @options = self.class.defaults.with_indifferent_access.merge!(defaults).merge!(args.to_h)
     end
