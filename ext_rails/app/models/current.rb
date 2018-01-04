@@ -1,4 +1,4 @@
 class Current < ActiveSupport::CurrentAttributes
-  attribute :request_id, :session_id
+  attribute :session_id, :request_id
   attribute :locale, :time_zone, :currency
 end

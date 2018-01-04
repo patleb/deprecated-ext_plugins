@@ -20,8 +20,8 @@ class AsyncJob < ActiveJob::Base
   def perform(url, wait: nil, _now: nil, _later: nil, _type: 'job', **context)
     context.merge!(
       _now: _now,
-      _request_id: Current.request_id,
       _session_id: Current.session_id,
+      _request_id: Current.request_id,
       _locale: Current.locale,
       _time_zone: Current.time_zone,
       _currency: Current.currency,

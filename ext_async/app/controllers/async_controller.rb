@@ -9,8 +9,8 @@ class AsyncController < ExtAsync.config.parent_controller.constantize
   protected
 
   def set_current
-    Current.request_id      = params[:_request_id]
     Current.session_id      = params[:_session_id]
+    Current.request_id      = params[:_request_id]
     Current.job_id          = params[:_job_id]
     Current.job_timestamp   = params[:_job_timestamp]
     Current.batch_id        = params[:_batch_id]

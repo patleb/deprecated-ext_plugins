@@ -22,8 +22,8 @@ module ExtRails
     protected
 
     def set_current
-      Current.request_id ||= request.uuid
       Current.session_id ||= session.try(:id)
+      Current.request_id ||= request.uuid
       set_current_value(:locale)
       set_current_value(:time_zone)
       set_current_value(:currency)

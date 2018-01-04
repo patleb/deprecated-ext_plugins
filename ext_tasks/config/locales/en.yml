@@ -13,3 +13,8 @@ en:
     help:
       task:
         arguments: separated by a comma ,
+
+  ext_tasks:
+    flash:
+      success_html: "Task <a href='/task/%{name}/edit' class='pjax'>%{name}</a> successfully executed"
+      error_html: "Task <a href='/task/%{name}/edit' class='pjax'>%{name}</a> failed to execute"

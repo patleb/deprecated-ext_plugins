@@ -1,15 +1,14 @@
 module Async
   class TaskController < ExtTasks.config.parent_async.constantize
     def perform_now
-      task = Task.find(params.require(:id))
+      task = Task.find(name = params.require(:id))
       task.update! params.permit(:argurments, :_skip_lock)
       unless inline?
-        # TODO I18n messages
         if task.errors.empty?
-          # TODO exponential polling with an asymptote if there is a session, otherwise, do not poll
-          Flash[:success] = 'Succeeded!'
+          Flash[:success_sticky] = I18n.t('ext_tasks.flash.success_html', name: name)
         else
-          Flash[:error] = task.errors.full_messages.join("\n")
+          Flash[:error] = I18n.t('ext_tasks.flash.error_html', name: name)
+          Flash[:error] += %(<br>- #{task.errors.full_messages.join('<br>- ')})
         end
       end
     end

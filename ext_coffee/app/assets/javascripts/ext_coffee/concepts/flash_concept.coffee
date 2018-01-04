@@ -4,6 +4,7 @@ class Js.FlashConcept
   constants: ->
     MESSAGES: 'ID'
     WRAPPER: 'CLASS'
+    DISMISS: '.alert-info:visible:not(.alert-sticky), .alert-success:visible:not(.alert-sticky)'
 
   ready: =>
     return unless (messages = $(@MESSAGES)).length
@@ -29,11 +30,15 @@ class Js.FlashConcept
   #### PRIVATE ####
 
   alert_class: (type) ->
-    switch type
-      when 'error'  then 'alert-danger'
-      when 'alert'  then 'alert-warning'
-      when 'notice' then 'alert-info'
-      else "alert-#{type}"
+    [type, sticky] = type.split('_')
+    css_classes =
+      switch type
+        when 'error'  then 'alert-danger'
+        when 'alert'  then 'alert-warning'
+        when 'notice' then 'alert-info'
+        else "alert-#{type}"
+    css_classes += ' alert-sticky' if sticky == 'sticky'
+    css_classes
 
   auto_dismiss: =>
-    $('.alert-info:visible, .alert-success:visible').fadeTo(2000, 500).slideUp(500)
+    $(@DISMISS).fadeTo(2000, 500).slideUp(500)
