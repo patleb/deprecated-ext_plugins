@@ -13,6 +13,8 @@ namespace :bundler do
   end
   before 'bundler:install', 'bundler:set_correct_ruby_version'
 
+  # TODO update bundler task
+
   desc 'install ext_bundler'
   task :install_ext_bundler do
     on release_roles :all do
