@@ -1,9 +1,0 @@
-{
-  "name": "ext_bootstrap",
-  "private": true,
-  "dependencies": {
-    "bootswatch": "3.3.7",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.47",
-    "roboto-fontface": "^0.8.0"
-  }
-}

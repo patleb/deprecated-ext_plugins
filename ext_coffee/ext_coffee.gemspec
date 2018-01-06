@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.description = "ExtCoffee"
   s.license     = "MIT"
 
-  s.files = `git ls-files -z`.split("\x0")
+  s.files = Dir["{app,lib,vendor}/**/*", "MIT-LICENSE", "README.md"]
 
   s.required_ruby_version = ">= #{File.read(File.expand_path("../.ruby-version", __dir__)).strip}"
 
@@ -24,5 +24,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'uglifier', '>= 1.3.0'
   s.add_dependency 'alaska', '>= 1.2.2'
   s.add_dependency 'ext_ruby'
+  s.add_dependency 'ext_sprockets'
   # TODO https://github.com/sfcgeorge/capybara-jsdom
 end

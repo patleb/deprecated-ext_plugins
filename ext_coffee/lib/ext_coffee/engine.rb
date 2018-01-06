@@ -11,10 +11,6 @@ module ExtCoffee
       end
     end
 
-    initializer 'ext_coffee.assets.paths' do |app|
-      app.config.assets.paths << root.join('node_modules')
-    end
-
     initializer 'ext_coffee.execjs' do
       if Rails.env.development? || Rails.env.test?
         require 'alaska/runtime'

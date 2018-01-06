@@ -25,6 +25,7 @@ PATH
     ext_bootstrap (5.1.0.1)
       autoprefixer-rails (~> 7.1)
       bootstrap-sass (~> 3.3.7)
+      ext_sprockets
       font-awesome-sass (~> 4.7.0)
       railties (~> 5.1)
       sass-rails
@@ -55,6 +56,7 @@ PATH
       alaska (>= 1.2.2)
       coffee-rails (~> 4.2)
       ext_ruby
+      ext_sprockets
       railties (~> 5.1)
       uglifier (>= 1.3.0)
 
@@ -220,6 +222,7 @@ PATH
       ext_ruby
       ext_settings (= 5.1.0.1)
       ext_shell (= 5.1.0.1)
+      ext_sprockets
       ext_tasks (= 5.1.0.1)
       ext_throttler (= 5.1.0.1)
       ext_whenever (= 5.1.0.1)
@@ -396,6 +399,8 @@ GEM
     ext_ruby (0.7.11)
       require_all (~> 1.4)
       unicode (~> 0.4)
+    ext_sprockets (0.1.1)
+      sprockets-rails (~> 3.2)
     ffi (1.9.18)
     font-awesome-sass (4.7.0)
       sass (>= 3.2)
@@ -520,7 +525,7 @@ GEM
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
-    sass (3.5.4)
+    sass (3.5.5)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)

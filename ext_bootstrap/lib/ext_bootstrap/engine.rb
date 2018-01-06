@@ -12,14 +12,6 @@ module ExtBootstrap
       end
     end
 
-    initializer 'ext_bootstrap.assets.paths' do |app|
-      app.config.assets.paths << root.join('node_modules')
-    end
-
-    initializer 'ext_bootstrap.assets.precompile' do |app|
-      app.config.assets.precompile << 'roboto-fontface/fonts/*'
-    end
-
     ActiveSupport.on_load(:action_controller) do
       ::ActionController::Base.class_eval do
         helper ExtBootstrap::Engine.helpers

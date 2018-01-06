@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
   s.add_dependency "ext_ruby"
   s.add_dependency "ext_settings",    version
   s.add_dependency "ext_shell",       version
+  s.add_dependency "ext_sprockets"
   s.add_dependency "ext_tasks",       version
   s.add_dependency "ext_throttler",   version
   s.add_dependency "ext_whenever",    version

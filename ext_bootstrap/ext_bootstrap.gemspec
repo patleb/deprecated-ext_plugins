@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.description = "ExtBootstrap"
   s.license     = "MIT"
 
-  s.files = `git ls-files -z`.split("\x0")
+  s.files = Dir["{app,lib}/**/*", "MIT-LICENSE", "README.md"]
 
   s.required_ruby_version = ">= #{File.read(File.expand_path("../.ruby-version", __dir__)).strip}"
 
@@ -25,4 +25,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'autoprefixer-rails', '~> 7.1'
   s.add_dependency 'bootstrap-sass', '~> 3.3.7'
   s.add_dependency 'font-awesome-sass', '~> 4.7.0'
+  s.add_dependency 'ext_sprockets'
 end
