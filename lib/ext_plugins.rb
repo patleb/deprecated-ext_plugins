@@ -17,6 +17,7 @@ require 'ext_shell'
 require 'ext_tasks'
 require 'ext_throttler'
 # require 'ext_whenever'
+require 'settings_yml'
 # require 'sun_cap'
 # require 'sunzistrano'
 
