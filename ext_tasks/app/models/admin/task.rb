@@ -5,6 +5,9 @@ module Admin::Task
 
   included do
     rails_admin do
+      navigation_label I18n.t('admin.navigation.system')
+      weight 999
+
       configure :id do
         pretty_value{ value.sub(/^ext_(rake)?/, '').tr(':', '_').humanize }
       end

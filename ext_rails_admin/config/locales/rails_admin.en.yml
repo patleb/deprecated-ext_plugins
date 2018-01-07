@@ -173,4 +173,5 @@ en:
         chose_all: All
         clear_all: Clear
         reset: Reset
-        
+    navigation:
+      system: System

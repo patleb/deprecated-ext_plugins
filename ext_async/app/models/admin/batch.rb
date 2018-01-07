@@ -3,6 +3,9 @@ module Admin::Batch
 
   included do
     rails_admin do
+      navigation_label I18n.t('admin.navigation.system')
+      weight 999
+
       show do
         configure :url do
           pretty_value do
