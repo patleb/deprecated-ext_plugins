@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "README.md"]
 
+  s.add_dependency 'active_hash'
   s.add_dependency 'active_record_query_trace'
   s.add_dependency 'active_type', '~> 0.7'
   s.add_dependency 'activerecord-rescue_from_duplicate'
@@ -28,6 +29,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'ext_mail', version
   s.add_dependency 'ext_ruby'
   s.add_dependency 'hamlit-rails', '~> 0.2'
+  s.add_dependency 'hashid-rails'
   s.add_dependency 'http_accept_language', '~> 2.1'
   s.add_dependency 'i18n-debug', '~> 1.1'
   s.add_dependency 'jsonb_accessor', '~> 1.0'

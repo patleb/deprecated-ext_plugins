@@ -7,6 +7,7 @@ end
 module ExtRails
   class Engine < Rails::Engine
     # TODO slow require --> try faster_path
+    require 'active_hash'
     if Rails::VERSION::STRING < '5.2'
       require 'active_record_query_trace' if Rails.env.development?
       require 'ext_rails/active_support/current_attributes_rails_5_1'
@@ -21,6 +22,7 @@ module ExtRails
     require 'ext_mail'
     require 'ext_ruby'
     require 'hamlit-rails'
+    require 'hashid/rails'
     require 'http_accept_language'
     require 'i18n/debug' if Rails.env.development?
     require 'jsonb_accessor'
