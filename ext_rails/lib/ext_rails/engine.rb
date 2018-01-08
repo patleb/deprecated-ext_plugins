@@ -28,6 +28,7 @@ module ExtRails
     require 'jsonb_accessor'
     require 'logidze'
     require 'mail_interceptor' unless Rails.env.production?
+    require 'mobility'
     require 'ext_rails/money_rails'
     # TODO https://github.com/procore/migration-lock-timeout
     require 'monogamy'

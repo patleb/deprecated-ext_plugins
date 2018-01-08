@@ -35,6 +35,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'jsonb_accessor', '~> 1.0'
   s.add_dependency 'logidze', '~> 0.5'
   s.add_dependency 'mail_interceptor'
+  s.add_dependency 'mobility', '~> 0.3'
   s.add_dependency 'money-rails', '~> 1.9'
   s.add_dependency 'monogamy', '>= 0.0.2'
   s.add_dependency 'nestive', '~> 0.6'
