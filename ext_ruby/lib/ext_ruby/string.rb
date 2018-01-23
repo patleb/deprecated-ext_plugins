@@ -29,6 +29,10 @@ String.class_eval do
     gsub(/\\n/, "\n")
   end
 
+  def strip_sql_script
+    gsub(/(--.*\n|\n)/, ' ').gsub(/\s{2,}/, ' ')
+  end
+
   %i(
     downcase
     upcase

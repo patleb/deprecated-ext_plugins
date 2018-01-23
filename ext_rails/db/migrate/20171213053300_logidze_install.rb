@@ -4,7 +4,7 @@ class LogidzeInstall < ActiveRecord::Migration[5.1]
 
   def up
     unless current_setting_missing_supported?
-      execute <<-SQL
+      execute <<-SQL.strip_sql_script
         DO $$
           BEGIN
           EXECUTE 'ALTER DATABASE ' || quote_ident(current_database()) || ' SET logidze.disabled=' || quote_literal('');
@@ -17,7 +17,7 @@ class LogidzeInstall < ActiveRecord::Migration[5.1]
 
     
 
-    execute <<-SQL
+    execute <<-SQL.strip_sql_script
       CREATE OR REPLACE FUNCTION logidze_version(v bigint, data jsonb, ts timestamp with time zone, blacklist text[] DEFAULT '{}') RETURNS jsonb AS $body$
         DECLARE
           buf jsonb;
@@ -196,7 +196,7 @@ class LogidzeInstall < ActiveRecord::Migration[5.1]
 
   def down
     
-    execute <<-SQL
+    execute <<-SQL.strip_sql_script
       DROP FUNCTION logidze_version(bigint, jsonb, timestamp with time zone, text[]) CASCADE;
       DROP FUNCTION logidze_exclude_keys(jsonb, text[]) CASCADE;
       DROP FUNCTION logidze_compact_history(jsonb) CASCADE;
