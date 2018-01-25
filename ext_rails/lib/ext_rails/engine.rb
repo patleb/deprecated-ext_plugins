@@ -4,6 +4,11 @@ module ActiveHelper
   autoload :Base, "ext_rails/active_helper/base"
 end
 
+module ActivePresenter
+  autoload :Base, "ext_rails/active_presenter/base"
+  autoload :BaseList, "ext_rails/active_presenter/base_list"
+end
+
 module ExtRails
   class Engine < Rails::Engine
     # TODO slow require --> try faster_path
@@ -12,9 +17,11 @@ module ExtRails
       require 'active_record_query_trace' if Rails.env.development?
       require 'ext_rails/active_support/current_attributes_rails_5_1'
     end
+    require 'active_record_upsert'
     require 'active_type'
     require 'activerecord-rescue_from_duplicate'
     require 'activevalidators'
+    require 'acts_as_list'
     require 'baby_squeel' # https://github.com/activerecord-hackery/polyamorous/issues/26
     require 'bumbler' if Rails.env.development?
     require 'countries'
@@ -28,7 +35,6 @@ module ExtRails
     require 'jsonb_accessor'
     require 'logidze'
     require 'mail_interceptor' unless Rails.env.production?
-    require 'mobility'
     require 'ext_rails/money_rails'
     # TODO https://github.com/procore/migration-lock-timeout
     require 'monogamy'
@@ -38,9 +44,13 @@ module ExtRails
     require 'oj'
     require 'oj/active_support_helper'
     require 'pg'
+    require 'polymorphic_constraints'
     require 'query_diet' if Rails.env.development?
     require 'rails-i18n'
+    require 'rails_select_on_includes'
+    require 'route_translator'
     require 'settings_yml'
+    require 'store_base_sti_class'
     require 'time_difference'
     require 'ext_rails/countries/country'
     require 'ext_rails/action_mailer/smtp_settings'
@@ -81,14 +91,11 @@ module ExtRails
       app.config.i18n.default_locale = :fr
       app.config.i18n.available_locales = [:fr, :en]
 
-      if Rails.env.development?
+      if Rails.env.development? || Rails.env.test?
         localhost = ENV['NGROK'] ? "#{ENV['NGROK']}.ngrok.io" : 'localhost:3000'
         app.config.action_controller.asset_host = "http://#{localhost}"
         app.config.action_mailer.asset_host = app.config.action_controller.asset_host
         app.config.action_mailer.default_url_options = { host: localhost }
-      end
-
-      if Rails.env.development? || Rails.env.test?
         app.config.logger = ActiveSupport::Logger.new(app.config.paths['log'].first, 5)
         app.config.logger.formatter = app.config.log_formatter
       else
@@ -157,9 +164,10 @@ module ExtRails
 
     initializer "ext_rails.active_record_query_trace" do
       if defined? ::ActiveRecordQueryTrace
-        ActiveRecordQueryTrace.enabled = ExtRails.config.query_debug
+        query_debug = ExtRails.config.query_debug
+        ActiveRecordQueryTrace.enabled = !!query_debug
         ActiveRecordQueryTrace.level = :full
-        ActiveRecordQueryTrace.lines = 40
+        ActiveRecordQueryTrace.lines = query_debug == true ? 40 : query_debug
       end
     end
 
@@ -233,10 +241,12 @@ module ExtRails
     end
 
     ActiveSupport.on_load(:action_view) do
-      require 'ext_rails/action_view/with_template_virtual_path'
+      require 'ext_rails/action_view/with_active_helper'
+      require 'ext_rails/action_view/with_active_presenter'
 
       ActionView::TemplateRenderer.class_eval do
-        prepend ActionView::WithTemplateVirtualPath
+        prepend ActionView::WithActiveHelper
+        prepend ActionView::WithActivePresenter
       end
     end
 
@@ -246,6 +256,7 @@ module ExtRails
       require "ext_rails/active_support/json/encoding/oj"
       require "ext_rails/active_record/base"
       require "ext_rails/active_record/relation"
+      require "ext_rails/polymorphic_constraints/connection_adapters/postgresql_adapter"
     end
 
     config.to_prepare do
@@ -277,7 +288,7 @@ module ExtRails
       app.routes.append do
         match '/' => 'application#healthcheck', via: :head
 
-        match '*not_found', via: %w[ get post put patch delete head options any ], to: 'application#render_404'
+        match '*not_found', via: %w(get post put patch delete head options any), to: 'application#render_404'
       end
     end
   end

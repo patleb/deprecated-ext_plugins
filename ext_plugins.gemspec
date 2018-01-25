@@ -27,6 +27,9 @@ Gem::Specification.new do |s|
   s.add_dependency "ext_devise",      version
   s.add_dependency "ext_globals",     version
   s.add_dependency "ext_mail",        version
+  s.add_dependency "ext_minitest",    version
+  s.add_dependency "ext_mobility",    version
+  s.add_dependency "ext_pages",       version
   s.add_dependency "ext_pundit",      version
   s.add_dependency "ext_rails",       version
   s.add_dependency "ext_rails_admin", version

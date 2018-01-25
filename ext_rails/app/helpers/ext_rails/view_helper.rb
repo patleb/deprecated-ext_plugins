@@ -1,11 +1,7 @@
 module ExtRails
   module ViewHelper
     def current_layout
-      @_current_layout ||= controller.send(:_layout, []) || 'application'
-    end
-
-    def application_version
-      @_application_version ||= Rails.root.join('REVISION').exist? ? Rails.root.join('REVISION').read.first(7) : ''
+      @_current_layout ||= (self.is_a?(ActionController::Base) ? self : controller).send(:_layout, []) || 'application'
     end
 
     def application_name

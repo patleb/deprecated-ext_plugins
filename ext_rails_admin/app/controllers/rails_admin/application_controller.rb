@@ -63,7 +63,7 @@ module RailsAdmin
     end
 
     def _versionize
-      response.set_header('X-PJAX-VERSION', application_version)
+      response.set_header('X-PJAX-VERSION', ExtRails.config.version)
     end
 
     def rails_admin_controller?

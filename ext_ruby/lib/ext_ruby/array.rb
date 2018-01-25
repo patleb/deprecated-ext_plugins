@@ -5,6 +5,10 @@ Array.class_eval do
     map{ |item| [item, item] }.to_h
   end
 
+  def to_range
+    Range.new(first, last)
+  end
+
   def except(*values)
     self - values
   end

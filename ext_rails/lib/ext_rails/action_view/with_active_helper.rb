@@ -1,5 +1,5 @@
 module ActionView
-  module WithTemplateVirtualPath
+  module WithActiveHelper
     private
 
     def determine_template(options)

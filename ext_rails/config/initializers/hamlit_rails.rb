@@ -1,1 +1,1 @@
-Hamlit::Template.options[:ugly] = true
+Hamlit::RailsTemplate.set_options format: :xhtml

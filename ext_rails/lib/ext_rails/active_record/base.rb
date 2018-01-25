@@ -1,5 +1,13 @@
 ActiveRecord::Base.class_eval do
+  include Hashid::Rails
+
+  self.store_base_sti_class = false
+
   delegate :url_helpers, to: 'Rails.application.routes'
+
+  def self.inheritance_types
+    @inheritance_types ||= [base_class.name].concat base_class.descendants.map(&:name)
+  end
 
   def self.sanitize_matcher(regex)
     like = sanitize_sql_like(regex.to_string)
@@ -7,6 +15,10 @@ ActiveRecord::Base.class_eval do
     like.gsub!('.', '_')
     like = (like.start_with? '^') ? like[1..-1] : "%#{like}"
     (like.end_with? '$') ? like.chop! : (like << '%')
+  end
+
+  def locking_enabled?
+    super && changed.any? { |attribute| ExtRails.config.skip_locking.exclude? attribute }
   end
 
   def can_destroy?

@@ -18,8 +18,15 @@ module ExtRake
   end
 
   class Configuration
+    attr_writer :skip_override
     attr_writer :parent_task, :env_vars
     attr_writer :archive, :s3_versionned
+
+    def skip_override
+      return @skip_override if defined?(@skip_override)
+
+      @skip_override = %w(test development).include?(ENV['RAILS_ENV'])
+    end
 
     def parent_task
       @parent_task ||= '::ActiveTask::Base'

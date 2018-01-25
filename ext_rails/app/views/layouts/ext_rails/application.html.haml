@@ -4,7 +4,7 @@
     = javascript_include_tag current_layout, defer: true
     = stylesheet_link_tag current_layout, media: :all
     = area :head
-    %meta{"http-equiv": "X-PJAX-VERSION", content: application_version}
+    %meta{"http-equiv": "X-PJAX-VERSION", content: ExtRails.config.version}
     %meta{"http-equiv": "x-ua-compatible", content: "ie=edge"}
     %meta{charset: "utf-8"}
     %meta{name: "viewport", content: "width=device-width, initial-scale=1"}

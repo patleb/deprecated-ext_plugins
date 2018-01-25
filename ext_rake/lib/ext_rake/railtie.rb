@@ -30,7 +30,7 @@ class ExtRake::Railtie < Rails::Railtie
         end
 
         def execute(args = nil)
-          return super if (ARGV.include? '--help') || name == 'environment'
+          return super if (ARGV.include? '--help') || name == 'environment' || ExtRake.config.skip_override
 
           time = Time.current.utc
           self.output = ''

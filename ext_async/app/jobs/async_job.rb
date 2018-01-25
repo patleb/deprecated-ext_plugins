@@ -1,23 +1,25 @@
 # TODO extract into module so it can be injected into action_mailer/delivery_job.rb
 
 class AsyncJob < ActiveJob::Base
+  PRIORITY = 1
+
   def self.log_file
     @_log_file ||= File.expand_path(File.join(Dir.pwd, "log/#{Rails.env}_async.log"))
   end
 
-  def self.perform_flash(url, **context)
-    perform_later(url, _later: true, **context)
+  def self.perform_flash(url, **options)
+    perform_later(url, _later: true, **options)
   end
 
-  def self.perform_batch(url, **context)
-    perform_now(url, _type: 'batch', **context)
+  def self.perform_batch(url, **options)
+    perform_now(url, _type: 'batch', **options)
   end
 
-  def self.perform_now(url,**context)
-    super(url, wait: nil, _now: true, **context)
+  def self.perform_now(url, **options)
+    super(url, wait: nil, wait_until: nil, _now: true, **options)
   end
 
-  def perform(url, wait: nil, _now: nil, _later: nil, _type: 'job', **context)
+  def perform(url, wait: nil, wait_until: nil, _now: nil, _later: nil, _type: 'job', **context)
     context.merge!(
       _now: _now,
       _session_id: Current.session_id,
@@ -35,7 +37,7 @@ class AsyncJob < ActiveJob::Base
       run_inline url
     else
       Current.later = _later
-      run_async url, wait
+      run_async url, wait, wait_until
     end
   end
 
@@ -45,19 +47,24 @@ class AsyncJob < ActiveJob::Base
     ActionController::Base.dispatch_now(url) << url
   end
 
-  def run_async(url, wait)
-    cmd = Sh.http_get url, username: 'deployer', password: SettingsYml[:deployer_password]
-    cmd = "#{cmd} > /dev/null 2> #{self.class.log_file}"
-    wait =
-      case wait
-      when ActiveSupport::Duration
-        (wait.to_f / 60).ceil
-      else
-        wait
+  def run_async(url, wait, wait_until)
+    if wait || wait_until
+      if wait
+        run_at =
+          case wait
+          when ActiveSupport::Duration
+            (wait.to_f / 60).ceil
+          else
+            wait
+          end.minutes.from_now
       end
-    cmd = %{echo "#{cmd}" | at now + #{wait} minutes} if wait
-
-    Thread.new{ Open3.popen3(cmd) }
+      run_at ||= wait_until
+      Batch.create! url: url, priority: PRIORITY, run_at: run_at
+    else
+      cmd = Sh.http_get url, username: 'deployer', password: SettingsYml[:deployer_password]
+      cmd = "#{cmd} > /dev/null 2> #{self.class.log_file}"
+      Thread.new{ Open3.popen3(cmd) }
+    end
   end
 
   private
