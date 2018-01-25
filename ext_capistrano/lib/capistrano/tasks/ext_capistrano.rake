@@ -26,7 +26,7 @@ namespace :load do
     set :rbenv_ruby,          -> { RUBY_VERSION }
     set :rbenv_prefix,        -> { "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec" }
 
-    set :ext_bundler_version, -> { '2.0.7' }
+    set :ext_bundler_version, -> { '2.0.8' }
     
     set :secrets_excluded,    -> { %w(
       aws_access_key_id
