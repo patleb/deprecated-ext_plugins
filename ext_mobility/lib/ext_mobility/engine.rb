@@ -4,6 +4,7 @@ module ExtMobility
   class Engine < ::Rails::Engine
     require 'ext_rails'
     require 'mobility'
+    require 'ext_mobility/attributes'
 
     initializer 'ext_mobility.append_migrations' do |app|
       unless ExtMobility.config.skip_migrations
