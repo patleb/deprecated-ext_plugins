@@ -119,6 +119,7 @@ PATH
   specs:
     ext_minitest (5.1.0.1)
       connection_pool
+      ext_ruby (= 5.1.0.1)
       maxitest
       minitest (= 5.10.3)
       minitest-hooks
