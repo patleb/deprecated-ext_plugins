@@ -9,7 +9,7 @@ ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.class_eval do
       CREATE FUNCTION check_#{relation}_upsert_integrity()
         RETURNS TRIGGER AS '
           BEGIN
-            IF (NEW.#{relation}_type IS NULL AND NEW.#{relation}_type IS NULL) THEN
+            IF (NEW.#{relation}_id IS NULL OR NEW.#{relation}_type IS NULL) THEN
 
               RETURN NEW;
     SQL
