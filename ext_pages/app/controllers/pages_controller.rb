@@ -31,11 +31,9 @@ class PagesController < ExtPages.config.parent_controller.constantize
 
   def fetch_page
     if (hashid = params[:hashid]).present?
-      Page.find(hashid).with_associations
+      Page::Simple.fetch_page_by_hashid! hashid
     else
-      Page::Template.fetch_or_create_by_view_path! "pages/#{params[:_page]}" do |page|
-        page.layout = Page::Layout.find_or_create_by! view_path: "layouts/#{current_layout}"
-      end
+      Page::Template.fetch_page_by_view_path! "pages/#{params[:_page]}"
     end
   end
 

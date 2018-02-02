@@ -1,24 +1,25 @@
 module Page::WithContent
   extend ActiveSupport::Concern
 
-  def self.associations
-    [:translations]
+  class_methods do
+    def associations
+      [:translations]
+    end
   end
 
   def fetch_contents
     existing_contents = Content.where(page: [self, template, layout])
       .order(:page_id, :name, :position)
-      .eager_load(:page, *Page::WithContent.associations)
+      .eager_load(:page, *self.class.associations)
     existing_contents = existing_contents.each_with_object({}) do |content, memo|
       view_path = (memo[content.view_path] ||= {})
-      type = (view_path[content.class] ||= {})
-      (type[content.name] ||= []) << content
+      (view_path[content.name] ||= []) << content
     end
 
-    result = { page: to_content }
+    result = {}
 
-    synchronize_contents(existing_contents) do |name, type, records, options|
-      result[name.to_sym] = { type: type, list: records, **options }
+    synchronize_contents(existing_contents) do |name, records, types|
+      result[name.to_sym] = { list: records, types: types }
     end
 
     result
@@ -35,28 +36,27 @@ module Page::WithContent
 
   def synchronize_ranges(existing_contents)
     expected_contents.each do |view_path, contents|
-      page_copies, _no_cache = contents.slice(*PagesYml::PAGE_OPTIONS).values
-      contents.except(*PagesYml::PAGE_OPTIONS).each do |type, names|
-        names.each do |name, options|
-          pointer = (existing_contents[view_path] ||= {})
-          pointer = (pointer[type] ||= {})
-          records = (pointer[name] ||= [])
-          content_copies, range = options.slice(*PagesYml::CONTENT_OPTIONS).values
-          content_copies &&= page_copies
-          if records.size > range.end
-            records[range.end..-1].each(&:destroy!)
-            records.pop(records.size - range.end)
-          elsif records.size < range.begin
-            (range.begin - records.size).times.each do |_i|
+      page_type, page_multiple = contents.slice(*PagesYml::PAGE_OPTIONS).values
+      contents.except(*PagesYml::PAGE_OPTIONS).each do |name, types|
+        page_contents = (existing_contents[view_path] ||= {})
+        records = (page_contents[name] ||= [])
+        types.each do |options|
+          content_type, content_multiple, type_range = options.slice(*PagesYml::CONTENT_OPTIONS).values
+          type_records = records.map{ |record| record.is_a? content_type }
+          if type_records.size > type_range.end
+            deleted_ids = type_records[type_range.end..-1].map(&:id)
+            records.delete_if{ |record| deleted_ids.include? record.id }.each(&:destroy!)
+          elsif type_records.size < type_range.begin
+            (type_range.begin - type_records.size).times.each do |_i|
               page =
                 if view_path.start_with?('layouts/')
                   layout
-                elsif content_copies
-                  is_a?(Page::TemplateCopy) ? self : template
+                elsif content_multiple
+                  self
                 else
-                  is_a?(Page::TemplateCopy) ? template : self
+                  template
                 end
-              records << type.create!(page: page, name: name)
+              records << content_type.create!(page: page, name: name)
             end
           end
         end
@@ -66,37 +66,20 @@ module Page::WithContent
 
   def synchronize_types(existing_contents)
     existing_contents.each do |view_path, contents|
-      removed_types = []
-      contents.each do |type, names|
-        removed_names = []
-        names.each do |name, records|
-          if (pointer = expected_contents[view_path])
-            if (pointer = pointer[type])
-              if (options = pointer[name])
-                yield name, type, records, options
-                next
-              end
-            end
+      removed_names = []
+      contents.each do |name, records|
+        if (page_contents = expected_contents[view_path])
+          if (types = page_contents[name])
+            types_classes = types.map{ |options| options[:type] }
+            records.delete_if{ |record| types_classes.none?{ |type| record.is_a? type } }.each(&:destroy!)
+            yield name, records, types
+            next
           end
-          records.each(&:destroy!)
           removed_names << name
         end
-        removed_names.each{ |name| names.delete(name) }
-        removed_types << type if names.empty?
+        records.each(&:destroy!)
       end
-      removed_types.each{ |type| contents.delete(type) }
-    end
-  end
-
-  def to_content
-    @content ||= begin
-      # TODO page should not be a content
-      options = expected_contents[view_path].slice(*PagesYml::PAGE_OPTIONS)
-      options.merge!(
-        type: self.class,
-        list: [self],
-        range: options[:with_copies] ? 1..Float::INFINITY : 1..1
-      )
+      removed_names.each{ |name| contents.delete(name) }
     end
   end
 

@@ -1,10 +1,7 @@
 class PageListPresenter < ContentListPresenter
-  attr_accessor :skip_cache
-
-  def initialize(skip_cache:, **options)
+  def initialize(**options)
     super
     @page = first
-    self.skip_cache = skip_cache
   end
 
   def method_missing(name, *args, &block)

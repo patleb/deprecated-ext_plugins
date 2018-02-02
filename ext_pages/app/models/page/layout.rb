@@ -1,5 +1,5 @@
 class Page::Layout < Page
-  has_many :pages, dependent: :restrict_with_error
+  has_many :templates, foreign_key: :page_id, dependent: :restrict_with_error
 
   def layout
     self

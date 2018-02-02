@@ -1,23 +1,31 @@
 class Page::Template < Page
-  include Page::AsView
-
-  belongs_to :layout, foreign_key: :page_id, class_name: Page::Layout.name
-  has_many   :pages, dependent: :restrict_with_error
+  belongs_to :layout, foreign_key: :page_id
+  has_many   :pages, foreign_key: :page_id
+  has_one    :page, -> { order(:level_parent_id, :level_slot) }, foreign_key: :page_id
 
   validates :layout, presence: true
 
-  def self.fetch_or_create_by_view_path!(view_path)
-    eager_load(:layout, :translations).find_or_create_by! view_path: view_path do |page|
-      page.version = ExtRails.config.version
-      yield page
-    end
+  def nuke!
+    pages.each(&:nuke!)
+    destroy!
   end
 
-  def with_associations
-    self.class.eager_load(:layout, :translations).where(id: id).take!
+  def self.fetch_page_by_view_path!(view_path)
+    template = eager_load(:layout, :page).where(view_path: view_path).take!
+    page = template.page
+    page.template = template
+    page
   end
 
   def template
     self
+  end
+
+  def view
+    view_path.sub /^pages\//, ''
+  end
+
+  def default_title
+    view.parameterize.titleize
   end
 end

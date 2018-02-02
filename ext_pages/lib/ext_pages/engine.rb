@@ -18,11 +18,11 @@ module ExtPages
 
     config.after_initialize do |app|
       app.routes.prepend do
-        PagesYml.initialize!.names.each do |page|
+        PagesYml.load.pages_types.each do |page, _type|
           get page => 'pages#show', defaults: { _page: page }
         end
 
-        get "/:slug/#{Page::AsView::URL_SEGMENT}/:hashid" => 'pages#show'
+        get "/:slug/#{Page::Simple::URL_SEGMENT}/:hashid" => 'pages#show', as: :page
       end
     end
   end

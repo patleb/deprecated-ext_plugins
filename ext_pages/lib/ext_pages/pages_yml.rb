@@ -8,20 +8,25 @@ class PagesYml
   ).freeze
 
   PAGE_OPTIONS = %i(
-    with_copies
-    skip_cache
+    type
+    multiple
   ).freeze
 
   CONTENT_OPTIONS = %i(
-    with_copies
+    type
+    multiple
     range
   ).freeze
 
-  WITH_COPIES   = '+'.freeze
-  WITHOUT_CACHE = '!'.freeze
-  WITH_OPTIONS  = /_([#{WITH_COPIES}#{WITHOUT_CACHE}]{1,2})$/
+  MULTIPLE     = '+'.freeze
+  WITH_OPTIONS = /_([#{MULTIPLE}]+)$/
 
-  def self.initialize!
+  @@page_types = {}
+  @@content_types = {}
+
+  def self.load
+    return self if @yml
+
     clear
 
     file = Pathname.new(ExtPages.config.pages_config_path).expand_path
@@ -39,15 +44,30 @@ class PagesYml
     self
   end
 
-  def self.names
-    @names ||= begin
-      names = pages.keys.map do |page|
-        @pages_with_options ||= {}
-        without_options = page.sub WITH_OPTIONS, ''
-        @pages_with_options[without_options] = page
-        without_options
-      end
-      Set.new(names)
+  def self.load!
+    clear
+    load
+  end
+
+  def self.clear
+    instance_variables.each do |ivar|
+      instance_variable_set(ivar, nil)
+    end
+
+    self
+  end
+
+  def self.pages_layout
+    @layout ||= layouts.first.first
+  end
+
+  def self.pages_types
+    @names ||= pages.keys.each_with_object({}) do |page, memo|
+      @pages_with_options ||= {}
+      without_options = page.sub WITH_OPTIONS, ''
+      @pages_with_options[without_options] = page
+      without_options
+      memo[without_options] = page_type_class(without_options)
     end
   end
 
@@ -56,7 +76,7 @@ class PagesYml
     raise ArgumentError, "layout [#{layout}] not found" unless layouts.has_key? layout
     categories = { layouts: layout }
     page = page.view
-    raise ArgumentError, "page [#{page}] not found" unless names.include? page
+    raise ArgumentError, "page [#{page}] not found" unless pages_types.has_key? page
     categories[:pages] = page
 
     @contents ||= { layouts: {}, pages: {} }
@@ -68,24 +88,26 @@ class PagesYml
           {}
         else
           _view, options = split_options(category, view_with_options)
-          { 
-            with_copies: options.include?(WITH_COPIES),
-            skip_cache: options.include?(WITHOUT_CACHE)
+          {
+            type: page_type_class(view),
+            multiple: options.include?(MULTIPLE),
           }
         end
       contents.merge!(@contents[category][view] ||= begin
         view_contents = send(category)[view_with_options] || {}
         {
-          "#{category}/#{view}" => view_contents.each_with_object(view_options) do |(content, type), memo|
-            # TODO could have multiple types
-            type, range = type.first
-            type, range = "Content::#{type.camelize}".constantize, range.to_range
-            validate_range(range)
-            content, options = split_options(category, content)
-            (memo[type] ||= {})[content] = {
-              with_copies: options.include?(WITH_COPIES),
-              range: range,
-            }
+          "#{category}/#{view}" => view_contents.each_with_object(view_options) do |(content, types), memo|
+            # TODO validate_types(types)
+            types.each do |type, range|
+              type, range = content_type_class(type), range.to_range
+              validate_range(range)
+              content, options = split_options(category, content)
+              (memo[content] ||= []) << {
+                type: type,
+                multiple: options.include?(MULTIPLE),
+                range: range,
+              }
+            end
           end
         }
       end)
@@ -102,13 +124,32 @@ class PagesYml
     end
   end
 
+  def self.validate_types(types)
+    # TODO
+  end
+  
   def self.validate_range(range)
     raise ArgumentError, "bad range [#{range.begin}] is not <= [#{range.end}]" unless range.begin <= range.end
   end
 
-  def self.clear
-    instance_variables.each do |ivar|
-      instance_variable_set(ivar, nil)
+  # TODO extract as concern
+  def self.page_type_class(name)
+    klass = "Page::#{name.to_s.camelize}"
+    if @@page_types.has_key? klass
+      @@page_types[klass]
+    else
+      @@page_types[klass] = klass.constantize
+    end
+  rescue NameError, LoadError
+    @@page_types[klass] = Page::Simple
+  end
+
+  def self.content_type_class(name)
+    klass = "Content::#{name.to_s.camelize}"
+    if @@content_types.has_key? klass
+      @@content_types[klass]
+    else
+      @@content_types[klass] = klass.constantize
     end
   end
 end

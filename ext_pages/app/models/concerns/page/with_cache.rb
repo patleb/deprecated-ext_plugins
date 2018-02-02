@@ -8,6 +8,8 @@ module Page::WithCache
       version: :string
 
     validates :version, presence: true
+
+    before_create :set_version
   end
 
   def html_cache_expired?
@@ -27,6 +29,10 @@ module Page::WithCache
   end
 
   private
+
+  def set_version
+    self.version ||= ExtRails.config.version
+  end
 
   def html_cache_record
     @_html_cache_record ||= translations.find{ |t| t.locale == Current.locale && t.key == 'html_cache' }

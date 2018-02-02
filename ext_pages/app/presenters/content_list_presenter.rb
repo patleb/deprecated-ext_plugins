@@ -1,9 +1,9 @@
 class ContentListPresenter < ActivePresenter::BaseList
-  attr_accessor :with_copies, :range
+  attr_accessor :multiple, :range
 
-  def initialize(with_copies:, range:, **options)
+  def initialize(multiple:, range:, **options)
     super
-    self.with_copies = with_copies
+    self.multiple = multiple
     self.range = range
   end
 end
