@@ -1,4 +1,4 @@
-unless defined? ExtPlugins::STRING
+unless defined? ExtPlugins::VERSION::STRING
   module ExtPlugins
     def self.gem_version
       Gem::Version.new VERSION::STRING
