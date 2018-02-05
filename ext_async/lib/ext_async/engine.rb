@@ -6,10 +6,6 @@ module ExtAsync
     require 'ext_rake'
     require 'ext_shell'
 
-    config.before_configuration do |app|
-      app.config.active_job.queue_adapter = :inline
-    end
-
     initializer 'ext_async.append_migrations' do |app|
       unless ExtAsync.config.skip_migrations
         unless app.root.to_s.match root.to_s

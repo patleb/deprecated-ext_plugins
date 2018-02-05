@@ -1,4 +1,5 @@
 class Page < ExtPages.config.parent_model.constantize
+  include Hashid::Rails
   extend Mobility
 
   has_many :translations, -> { where(translatable_type: Page.inherited_types) }, as: :translatable, dependent: :destroy

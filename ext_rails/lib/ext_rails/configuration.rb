@@ -54,8 +54,16 @@ module ExtRails
       @version ||= Rails.root.join('REVISION').exist? ? Rails.root.join('REVISION').read.first(7) : '0.1.0'
     end
 
-    def skip_locking
-      @skip_locking ||= %w(updated_at)
+    def skip_locking(*fields)
+      if block_given?
+        @skip_locking ||= ['id']
+        skip_locking_was = @skip_locking
+        @skip_locking += fields
+        yield
+        @skip_locking = skip_locking_was
+      else
+        @skip_locking ||= ['id'] # updated_at
+      end
     end
   end
 end

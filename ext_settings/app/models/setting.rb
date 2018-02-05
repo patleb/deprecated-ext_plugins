@@ -22,6 +22,17 @@ class Setting < ExtSettings.config.parent_model.constantize
     end
   end
 
+  def self.has_key?(name)
+    if yml[name]
+      true
+    elsif where(id: name).exists?
+      true
+    else
+      false
+    end
+  end
+  singleton_class.send :alias_method, :key?, :has_key?
+
   def self.rename(old_name, new_name)
     find(old_name).update!(id: new_name)
   end

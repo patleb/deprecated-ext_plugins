@@ -88,6 +88,7 @@ module ExtRails
       app.config.action_mailer.smtp_settings = ActionMailer::SmtpSettings.new(SettingsYml)
       app.config.action_view.embed_authenticity_token_in_remote_forms = true
       app.config.active_record.schema_format = :sql
+      app.config.active_job.queue_adapter ||= :inline
       app.config.i18n.default_locale = :fr
       app.config.i18n.available_locales = [:fr, :en]
 
@@ -218,25 +219,10 @@ module ExtRails
         prepend ActionMailer::WithQuietInfo
       end
 
-      if defined?(MailInterceptor)
-        options = {
-          forward_emails_to: Class.new do
-            def self.to_ary
-              Class.new do
-                def self.flatten
-                  Class.new do
-                    def self.uniq
-                      (defined?(Setting) ? Setting : SettingsYml)[:mail_to]
-                    end
-                  end
-                end
-              end
-            end
-          end
-        }
-        interceptor = MailInterceptor::Interceptor.new(options)
+      if defined? MailInterceptor
+        require 'ext_rails/mail_interceptor'
 
-        ActionMailer::Base.register_interceptor(interceptor)
+        ActionMailer::Base.register_interceptor(MAIL_INTERCEPTOR)
       end
     end
 

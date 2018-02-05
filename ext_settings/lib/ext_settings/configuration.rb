@@ -18,9 +18,19 @@ module ExtSettings
   class Configuration
     attr_accessor :skip_migrations
     attr_accessor :settings_included
-    attr_accessor :settings_excluded
+    attr_writer   :settings_excluded
     attr_accessor :history_show_limite
-    attr_writer :parent_model
+    attr_writer   :parent_model
+
+    def settings_excluded
+      return @settings_excluded if defined? @settings_excluded
+
+      @settings_excluded ||=
+        case Rails.env.to_sym
+        when :production then [:mail_interceptors]
+        when :staging    then [:notify_user]
+        end
+    end
 
     def settings_visible
       @_settings ||= begin

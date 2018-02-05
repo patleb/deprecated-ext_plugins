@@ -1,6 +1,4 @@
 ActiveRecord::Base.class_eval do
-  include Hashid::Rails
-
   self.store_base_sti_class = false
 
   delegate :url_helpers, to: 'Rails.application.routes'
@@ -21,10 +19,9 @@ ActiveRecord::Base.class_eval do
     (like.end_with? '$') ? like.chop! : (like << '%')
   end
 
-  # TODO maybe not necessary
-  # def locking_enabled?
-  #   super && changed.any? { |attribute| ExtRails.config.skip_locking.exclude? attribute }
-  # end
+  def locking_enabled?
+    super && changed.any? { |attribute| ExtRails.config.skip_locking.exclude? attribute }
+  end
 
   def can_destroy?
     self.class.reflect_on_all_associations.all? do |assoc|
