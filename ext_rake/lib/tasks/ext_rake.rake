@@ -6,7 +6,7 @@ namespace :ext_rake do
     update_application
     update_vpn_ip
   ).each do |name|
-    klass = "ExtRake::Addons::#{name.camelize}".constantize
+    klass = "::ExtRake::Addons::#{name.camelize}".constantize
 
     desc name.tr('_', ' ')
     task name.to_sym, klass.args.keys => :environment do |t, args|

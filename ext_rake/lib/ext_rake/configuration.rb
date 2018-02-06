@@ -25,7 +25,7 @@ module ExtRake
     def skip_override
       return @skip_override if defined?(@skip_override)
 
-      @skip_override = %w(test development).include?(ENV['RAILS_ENV'])
+      @skip_override = %w(test).include?(ENV['RAILS_ENV'])
     end
 
     def parent_task

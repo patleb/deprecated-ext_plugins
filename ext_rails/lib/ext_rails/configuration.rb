@@ -31,6 +31,8 @@ module ExtRails
     end
 
     def profile
+      return @profile if defined? @profile
+
       @profile ||= '(app|lib)/'
     end
 
