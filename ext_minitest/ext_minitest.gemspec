@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails-controller-testing'
   s.add_dependency 'sql_query'
   s.add_dependency 'ext_ruby', version
+  s.add_dependency 'chronic'
   # TODO gem 'test-prof'
   # https://evilmartians.com/chronicles/testprof-a-good-doctor-for-slow-ruby-tests
   # http://docs.seattlerb.org/minitest/Minitest/Expectations.html
