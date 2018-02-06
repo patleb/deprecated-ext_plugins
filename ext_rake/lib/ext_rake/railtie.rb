@@ -37,7 +37,7 @@ class ExtRake::Railtie < Rails::Railtie
           I18n.with_locale(:en) do
             Time.use_zone('UTC') do
               begin
-                puts "#{ExtRake::TASK_STARTED} #{name}".green
+                puts "#{ExtRake::TASK_STARTED} #{name}".blue
                 super
               rescue StandardError, Exception => exception
                 ExtMail::Mailer.new.deliver! exception, subject: name do |message|

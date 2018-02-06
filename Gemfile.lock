@@ -213,7 +213,7 @@ PATH
 PATH
   remote: ext_rake
   specs:
-    ext_rake (0.6.0)
+    ext_rake (0.6.1)
       colorize (~> 0.8)
       dotiw (~> 3.1)
       ext_aws_sdk
