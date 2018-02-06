@@ -110,7 +110,7 @@ class Global < ExtGlobals.config.parent_model.constantize
   end
 
   def cast(data)
-    return unless data
+    return data unless data
 
     if type.start_with? 'json'
       if type.end_with? 's'

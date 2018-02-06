@@ -19,7 +19,7 @@ class AsyncController < ExtAsync.config.parent_controller.constantize
   end
 
   def inline?
-    params[:_now].to_b
+    ExtAsync.config.inline? || params[:_now].to_b
   end
 
   private
