@@ -49,9 +49,9 @@ module ExtMail
         HTML
       end
 
-      yield message if block_given?
+      yield message, subject if block_given?
       mail.deliver!
-      message
+      [message, subject]
     end
   end
 end
