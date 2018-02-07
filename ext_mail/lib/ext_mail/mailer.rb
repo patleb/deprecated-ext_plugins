@@ -21,14 +21,15 @@ module ExtMail
         authentication: "plain",
         enable_starttls_auto: true,
       }
-      mail.to      = SettingsYml[:mail_to]
-      mail.from    = SettingsYml[:mail_from]
-      mail.subject = "Notification: #{subject}"
+      mail.to   = SettingsYml[:mail_to]
+      mail.from = SettingsYml[:mail_from]
+      subject = "Notification: #{subject}"
       message = <<~TEXT
         #{BODY_START}[#{Time.current.utc}]#{"\n#{before_body}" if before_body}
         #{exception.backtrace_log}#{"\n#{after_body}" if after_body}
         #{BODY_END}
       TEXT
+      mail.subject   = subject
       mail.text_part = ::Mail::Part.new do
         content_type 'text/plain; charset=UTF-8'
         body message.gsub(/\n/, "\r\n")

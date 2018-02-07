@@ -9,6 +9,15 @@ ActionController::TestCase.class_eval do
     controller.respond_to?(name, include_private) || super
   end
 
+  def reset
+    @_memoized.delete('controller')
+    if @controller
+      @controller.send(:instance_variables).each do |name|
+        @controller.send(:remove_instance_variable, name)
+      end
+    end
+  end
+
   protected
 
   def params=(values)
