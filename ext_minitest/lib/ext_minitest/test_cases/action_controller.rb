@@ -15,7 +15,11 @@ ActionController::TestCase.class_eval do
     controller.stubs(:params).returns(values)
   end
 
-  def instance_variable(name)
+  def [](name)
     controller.send(:instance_variable_get, name)
+  end
+  
+  def []=(name, value)
+    controller.send(:instance_variable_set, name, value)
   end
 end
