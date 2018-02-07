@@ -41,6 +41,7 @@ namespace :deploy do
   # TODO https://superuser.com/questions/19563/how-do-i-skip-the-known-host-question-the-first-time-i-connect-to-a-machine-vi
   desc 'Full server deploy after provisioning'
   task :push do
+    invoke 'dns:set_localhost'
     invoke 'nginx:push'
     invoke 'deploy:app:push'
     invoke 'monit:push'
