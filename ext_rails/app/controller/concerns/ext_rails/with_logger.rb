@@ -19,9 +19,8 @@ module ExtRails
 
       ExtMail::Mailer.new.deliver!(exception, subject: subject, after_body: context) do |message|
         Rails.logger.error message
+        yield message if block_given?
       end
-
-      yield exception, subject, context if block_given?
     end
 
     protected
