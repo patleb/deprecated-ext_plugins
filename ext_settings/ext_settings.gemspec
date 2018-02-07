@@ -22,9 +22,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency "ext_rails", version
 
-  s.add_development_dependency 'rspec-rails', '~> 3.5'
-  s.add_development_dependency 'fantaskspec', '~> 1.0'
-  s.add_development_dependency 'shoulda-matchers', '~> 3.1'
-  s.add_development_dependency 'shoulda-callback-matchers', '~> 1.1'
   s.add_development_dependency 'set_things_engine_test', '0.1.2'
 end

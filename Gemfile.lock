@@ -72,6 +72,7 @@ PATH
       capistrano-rails (~> 1.1)
       capistrano-rails-console
       capistrano-rbenv (~> 2.0)
+      settings_yml
       sun_cap (= 5.1.0.1)
 
 PATH
@@ -267,10 +268,11 @@ PATH
 PATH
   remote: settings_yml
   specs:
-    settings_yml (2.6.2)
+    settings_yml (2.6.3)
       activesupport (~> 5.0)
       chronic_duration (~> 0.10.6)
       ext_ruby
+      inifile
 
 PATH
   remote: sun_cap
@@ -492,6 +494,7 @@ GEM
     i18n-debug (1.1.0)
       i18n (< 1)
     i18n_data (0.8.0)
+    inifile (3.0.0)
     jmespath (1.3.1)
     jsonb_accessor (1.0.0)
       activerecord (>= 5.0)

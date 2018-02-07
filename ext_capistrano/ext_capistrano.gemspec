@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'capistrano-rails-console'
   s.add_dependency 'capistrano-passenger'
   s.add_dependency 'sun_cap', version
+  s.add_dependency 'settings_yml'
 
   s.add_development_dependency "rake"
 end

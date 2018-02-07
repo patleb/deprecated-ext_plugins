@@ -1,6 +1,7 @@
 require 'active_support/all'
 require 'ext_ruby'
 require 'yaml'
+require 'inifile'
 require 'settings_yml/version'
 require 'settings_yml/type'
 require 'settings_yml/railtie' if defined?(Rails)

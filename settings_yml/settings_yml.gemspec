@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= #{File.read(File.expand_path("../.ruby-version", __dir__)).strip}"
 
   s.add_dependency 'activesupport', '~> 5.0'
-  s.add_dependency "chronic_duration", "~> 0.10.6"
+  s.add_dependency 'chronic_duration', '~> 0.10.6'
   s.add_dependency 'ext_ruby'
+  s.add_dependency 'inifile'
 end
