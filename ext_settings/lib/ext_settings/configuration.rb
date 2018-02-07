@@ -23,13 +23,7 @@ module ExtSettings
     attr_writer   :parent_model
 
     def settings_excluded
-      return @settings_excluded if defined? @settings_excluded
-
-      @settings_excluded ||=
-        case Rails.env.to_sym
-        when :production then [:mail_interceptors]
-        when :staging    then [:notify_user]
-        end
+      @settings_excluded ||= Rails.env.production? ? [:mail_interceptors] : []
     end
 
     def settings_visible
@@ -41,10 +35,8 @@ module ExtSettings
           settings = settings.select{ |name| name.in? included }
         end
 
-        if settings_excluded
-          excluded = settings_excluded.map(&:to_s)
-          settings = settings.reject{ |name| name.in? excluded }
-        end
+        excluded = settings_excluded.map(&:to_s)
+        settings = settings.reject{ |name| name.in? excluded }
 
         settings
       end
