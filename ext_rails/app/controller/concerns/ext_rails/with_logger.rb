@@ -17,10 +17,11 @@ module ExtRails
       end
       context << "[PREVIOUS_EXCEPTION_COUNT][#{status[:previous] || 'Unknown'}][#{status[:count] || 0}]"
 
-      ExtMail::Mailer.new.deliver!(exception, subject: subject, after_body: context) do |message|
+      message = ExtMail::Mailer.new.deliver!(exception, subject: subject, after_body: context) do |message|
         Rails.logger.error message
-        yield message if block_given?
       end
+
+      yield message if block_given?
     end
 
     protected
