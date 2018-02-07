@@ -1,4 +1,4 @@
-module ExtRake::Addons
+module ExtRake
   class BackupGit < ExtRake.config.parent_task.constantize
     def self.steps
       [:run_backup]

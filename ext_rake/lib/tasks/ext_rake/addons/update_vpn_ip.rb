@@ -1,4 +1,4 @@
-module ExtRake::Addons
+module ExtRake
   class UpdateVpnIp < ExtRake.config.parent_task.constantize
     IP = /(?:[0-9]{1,3}\.){3}[0-9]{1,3}/
 

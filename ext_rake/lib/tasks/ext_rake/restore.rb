@@ -1,7 +1,5 @@
 module ExtRake
   module Restore
-    autoload_rel 'restore'
-
     class RestoreFailed < ::StandardError; end
     class NoTarFile < ::StandardError; end
     class NoWindowsSupport < ::StandardError; end

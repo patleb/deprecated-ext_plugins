@@ -1,6 +1,6 @@
-module ExtRake::Restore
-  class Archive < ExtRake.config.parent_task.constantize
-    include ExtRake::Restore
+module ExtRake
+  class ArchiveRestore < ExtRake.config.parent_task.constantize
+    include Restore
 
     def self.args
       {

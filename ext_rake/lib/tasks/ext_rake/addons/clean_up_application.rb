@@ -1,4 +1,4 @@
-module ExtRake::Addons
+module ExtRake
   class CleanUpApplication < ExtRake.config.parent_task.constantize
     CHMOD_777 = 'rwxrwxrwx'
     CHMOD_755 = 'rwxr-xr-x'

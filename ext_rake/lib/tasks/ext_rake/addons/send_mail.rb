@@ -1,4 +1,4 @@
-module ExtRake::Addons
+module ExtRake
   class SendMail < ExtRake.config.parent_task.constantize
     class Message < ::StandardError
       def backtrace

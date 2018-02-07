@@ -1,6 +1,6 @@
-module ExtRake::Restore
-  class Postgres < ExtRake.config.parent_task.constantize
-    include ExtRake::Restore
+module ExtRake
+  class PostgresRestore < ExtRake.config.parent_task.constantize
+    include Restore
 
     def self.args
       # TODO pg_restore --format=c

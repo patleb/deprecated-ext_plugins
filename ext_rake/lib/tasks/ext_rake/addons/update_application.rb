@@ -1,4 +1,4 @@
-module ExtRake::Addons
+module ExtRake
   class UpdateApplication < ExtRake.config.parent_task.constantize
     GEMFILE_LOCK = /Gemfile\.lock$/
 

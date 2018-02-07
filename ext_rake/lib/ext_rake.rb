@@ -14,8 +14,17 @@ module ActiveTask
 end
 
 module ExtRake
-  autoload :Addons, 'tasks/ext_rake/addons'
-  autoload :Backup, 'tasks/ext_rake/backup'
-  autoload :Openvpn, 'tasks/ext_rake/openvpn'
-  autoload :Restore, 'tasks/ext_rake/restore'
+  autoload :Backup,   'tasks/ext_rake/backup'
+  autoload :Openvpn,  'tasks/ext_rake/openvpn'
+  autoload :Restore,  'tasks/ext_rake/restore'
+
+  autoload :ArchiveRestore,   'tasks/ext_rake/restores/archive'
+  autoload :PostgresRestore,  'tasks/ext_rake/restores/postgres'
+  autoload :SyncRestore,      'tasks/ext_rake/restores/sync'
+
+  autoload :BackupGit,          'tasks/ext_rake/addons/backup_git'
+  autoload :CleanUpApplication, 'tasks/ext_rake/addons/clean_up_application'
+  autoload :SendMail,           'tasks/ext_rake/addons/send_mail'
+  autoload :UpdateApplication,  'tasks/ext_rake/addons/update_application'
+  autoload :UpdateVpnIp,        'tasks/ext_rake/addons/update_vpn_ip'
 end
