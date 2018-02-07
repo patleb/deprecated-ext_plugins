@@ -15,7 +15,7 @@ module ExtRails
           memo << "\n[#{type.to_s.upcase}]\n#{values}\n"
         end
       end
-      context << "[PREVIOUS_EXCEPTION_COUNT][#{status[:previous] || 'Unknown'}][#{status[:count] || 0}]"
+      context << "[PREVIOUS_EXCEPTION_COUNT][#{status[:previous]}][#{status[:count] || 0}]"
 
       message = ExtMail::Mailer.new.deliver!(exception, subject: subject, after_body: context) do |message|
         Rails.logger.error message
