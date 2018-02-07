@@ -7,7 +7,7 @@ module SettingsYml::Type
     def cast(value, type)
       type = type.to_s
       if type == 'emails'
-        value.split(/[\s,;]/).reject(&:blank?)
+        value&.split(/[\s,;]/)&.reject(&:blank?)
       elsif type.end_with? 's'
         type = type.chop
         (value || '').split(',').map!{ |element| cast(element.strip, type) }
