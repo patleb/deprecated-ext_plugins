@@ -268,7 +268,7 @@ PATH
 PATH
   remote: settings_yml
   specs:
-    settings_yml (2.6.3)
+    settings_yml (2.6.4)
       activesupport (~> 5.0)
       chronic_duration (~> 0.10.6)
       ext_ruby
