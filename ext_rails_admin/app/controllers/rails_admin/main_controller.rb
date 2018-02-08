@@ -22,6 +22,7 @@ module RailsAdmin
     before_action :check_for_cancel
     before_action :after_redirected
     before_action :prepare_action, except: :bulk_action
+    around_action :use_model_time_zone
 
     def bulk_action
       serve_action(params[:bulk_action].to_sym) if params[:bulk_action].in?(RailsAdmin::Config::Actions.all(controller: self, abstract_model: @abstract_model).select(&:bulkable?).collect(&:route_fragment))
@@ -42,6 +43,16 @@ module RailsAdmin
     end
 
     private
+
+    def use_model_time_zone
+      if (tz = @model_config.time_zone)
+        Time.use_zone(tz) do
+          yield
+        end
+      else
+        yield
+      end
+    end
 
     def prepare_action(name = nil)
       action_config = RailsAdmin::Config::Actions.find(name || action_name.to_sym)

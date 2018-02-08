@@ -22,6 +22,10 @@ module RailsAdmin
 
           @abstract_model = root.abstract_model
         end
+
+        register_instance_option :time_zone do
+          nil
+        end
       end
     end
   end
