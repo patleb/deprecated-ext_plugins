@@ -172,8 +172,8 @@ module RailsAdmin
 
       def build_statement_for_date
         start_date, end_date = get_filtering_duration
-        start_date = (start_date.beginning_of_day rescue nil) if start_date
-        end_date = (end_date.end_of_day rescue nil) if end_date
+        start_date = (start_date.beginning_of_day.to_date rescue nil) if start_date
+        end_date = (end_date.end_of_day.to_date rescue nil) if end_date
         range_filter(start_date, end_date)
       end
 
