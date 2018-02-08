@@ -15,7 +15,7 @@ module RailsAdmin
       return [] unless @objects.exists?
 
       if (estimate = @objects.count_estimate) > RailsAdmin.config.chart_max_rows
-        raise RailsAdmin::TooManyRows.new("Too many rows: #{estimate} > #{RailsAdmin.config.chart_max_rows}")
+        raise RailsAdmin::TooManyRows.new("Too many rows: #{estimate} (max: #{RailsAdmin.config.chart_max_rows})")
       end
 
       charts = if params.has_key? :c

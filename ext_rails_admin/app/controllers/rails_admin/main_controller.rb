@@ -2,8 +2,6 @@
 
 module RailsAdmin
   class MainController < RailsAdmin::ApplicationController
-    include RailsAdmin::Main::WithExceptions
-
     include ActionView::Helpers::DateHelper
     include ActionView::Helpers::NumberHelper
     include ActionView::Helpers::TextHelper

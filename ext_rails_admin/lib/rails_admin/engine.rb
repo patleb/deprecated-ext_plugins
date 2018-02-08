@@ -18,6 +18,10 @@ module RailsAdmin
     end
 
     config.to_prepare do
+      RailsAdmin::MainController.class_eval do
+        include RailsAdmin::Main::WithExceptions
+      end
+
       if RailsAdmin.config.with_admin_concerns
         (Rails::Engine.subclasses.map(&:root) << Rails.root).each do |root|
           Dir[root.join('app', 'models', 'admin', '**', '*.rb')].each do |name|
