@@ -172,17 +172,13 @@ module RailsAdmin
 
       def build_statement_for_date
         start_date, end_date = get_filtering_duration
-        start_date = (start_date.to_date rescue nil) if start_date
-        end_date = (end_date.to_date rescue nil) if end_date
+        start_date = (start_date.beginning_of_day rescue nil) if start_date
+        end_date = (end_date.end_of_day rescue nil) if end_date
         range_filter(start_date, end_date)
       end
 
       def build_statement_for_datetime_or_timestamp
         start_date, end_date = get_filtering_duration
-        unless @operator == "between"
-          start_date = Time.zone.at(start_date.to_time).to_datetime.try(:beginning_of_day) if start_date
-          end_date = Time.zone.at(end_date.to_time).to_datetime.try(:end_of_day) if end_date
-        end
         range_filter(start_date, end_date)
       end
 
@@ -212,20 +208,23 @@ module RailsAdmin
         end
 
         def today
-          [Date.today, Date.today]
+          today = Time.current
+          [today.beginning_of_day, today.end_of_day]
         end
 
         def yesterday
-          [Date.yesterday, Date.yesterday]
+          yesterday = 1.day.ago
+          [yesterday.beginning_of_day, yesterday.end_of_day]
         end
 
         def this_week
-          [Date.today.beginning_of_week, Date.today.end_of_week]
+          today = Time.current
+          [today.beginning_of_week, today.end_of_week]
         end
 
         def last_week
-          [1.week.ago.to_date.beginning_of_week,
-           1.week.ago.to_date.end_of_week]
+          last_week = 1.week.ago
+          [last_week.beginning_of_week, last_week.end_of_week]
         end
 
         def between
@@ -233,7 +232,7 @@ module RailsAdmin
         end
 
         def default
-          [default_date, default_date]
+          [default_date.beginning_of_day, default_date.end_of_day]
         end
 
       private
