@@ -34,8 +34,9 @@ module RailsAdmin
           handle_save_error :edit
         end
 
-        rescue_from RailsAdmin::TooManyRows do
-          head 413 # request_entity_too_large
+        rescue_from RailsAdmin::TooManyRows do |exception|
+          response.headers['X-Status-Reason'] = exception.message
+          head 413
         end
       end
     end
