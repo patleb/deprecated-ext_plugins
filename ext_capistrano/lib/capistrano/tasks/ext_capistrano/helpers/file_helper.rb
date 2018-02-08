@@ -18,8 +18,8 @@ module ExtCapistrano
       run_locally { execute "rsync --progress -rutzvh -e 'ssh -p #{fetch(:port, 22)}' #{server.user}@#{server.hostname}:#{shared_path}/#{root}/#{folder} ./#{root}/" }
     end
 
-    def upload_file(server, source, destination)
-      run_locally { execute "rsync --rsync-path='sudo rsync' -azvh -e 'ssh -p #{fetch(:port, 22)}' '#{source}' deployer@#{server.hostname}:#{destination}" }
+    def upload_file(server, source, destination, user: false)
+      run_locally { execute "rsync --rsync-path='sudo rsync' #{'--chown=deployer:deployer' if user} -azvh -e 'ssh -p #{fetch(:port, 22)}' '#{source}' deployer@#{server.hostname}:#{destination}" }
     end
 
     def download_file(server, source, destination)

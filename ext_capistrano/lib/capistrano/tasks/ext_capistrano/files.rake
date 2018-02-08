@@ -7,9 +7,12 @@ namespace :files do
   end
 
   desc 'Upload local file(s)'
-  task :upload, [:src, :dst] do |t, args|
+  task :upload, [:src, :dst, :user] do |t, args|
     on release_roles :all do |host|
-      upload_file(host, args[:src], args[:dst])
+      if (user = args[:user]).present?
+        user = (user == 'user') || user.to_b
+      end
+      upload_file(host, args[:src], args[:dst], user: user)
     end
   end
 
