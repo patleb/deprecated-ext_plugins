@@ -75,12 +75,16 @@ preconfigure 'ExtRakeSync' do
 end
 
 ExtRakeBackup.new(:app_logs, 'Backup application logs') do
+  store_with ExtRake.config.storage
+
   archive :logs do |archive|
     archive.add ExtRake.config.log_dir
   end
 end
 
 ExtRakeBackup.new(:sys_logs, 'Backup system logs') do
+  store_with ExtRake.config.storage
+
   archive :logs do |archive|
     archive.use_sudo
     archive.add '/var/log/'

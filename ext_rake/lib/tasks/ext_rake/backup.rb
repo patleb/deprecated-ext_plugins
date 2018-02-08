@@ -43,7 +43,9 @@ module ExtRake
 
     def run_backup
       config_models = %w(app_logs sys_logs meta)
-      unless config_models.include?(options.model.to_s) || self.class.backup_root.join('models', "#{options.model}.rb").exist?
+      model = options.model.to_s
+      system = config_models.include? model
+      unless system || self.class.backup_root.join('models', "#{model}.rb").exist?
         raise InvalidModel
       end
 
@@ -56,7 +58,7 @@ module ExtRake
       ]
       backup_cmd = "bundle exec backup perform"
       backup_opt = [
-        "--trigger #{options.model}#{',meta' unless options.sync || options.s3_versionned}",
+        "--trigger #{model}#{',meta' unless system || options.sync || options.s3_versionned}",
         "--config_file #{self.class.backup_root.join('config.rb')}"
       ]
 

@@ -53,6 +53,7 @@ namespace :nginx do
             site_enabled = "/etc/nginx/sites-enabled/#{site}"
             execute :sudo, :ln, '-nfs', site_available, site_enabled
           end
+          invoke 'nginx:reload'
         end
       end
     end
@@ -66,6 +67,7 @@ namespace :nginx do
             site_enabled = "/etc/nginx/sites-enabled/#{site}"
             execute :sudo, :rm, '-f', site_enabled
           end
+          invoke 'nginx:reload'
         end
       end
     end
