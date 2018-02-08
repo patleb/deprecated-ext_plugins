@@ -257,8 +257,11 @@ module ExtRails
           controller = name.match(/app\/controllers\/(.+)\.rb/)[1].camelize.safe_constantize
           if controller&.superclass.in? [ActionController::Base, ActionController::API]
             controller.class_eval do
-              include ExtRails::WithExceptions
+              include ExtRails::WithStatus
             end
+          end
+          controller.class_eval do
+            include ExtRails::WithExceptions
           end
         end
       end

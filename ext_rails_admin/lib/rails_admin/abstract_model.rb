@@ -232,7 +232,7 @@ module RailsAdmin
         end
 
         def default
-          [default_date.beginning_of_day, default_date.end_of_day]
+          [default_date, default_date]
         end
 
       private
