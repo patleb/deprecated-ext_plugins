@@ -12,7 +12,7 @@ namespace :db do
         if ENV['SKIP'].present?
           skip = ENV['SKIP'].split(',').reject(&:blank?).map{ |table| "--exclude-table='#{table}'" }.join(' ')
         end
-        sh <<~CMD
+        sh <<~CMD, verbose: false
           export PGPASSWORD=#{pwd};
           pg_dump --host #{host} --username #{user} #{ENV['OPTIONS']} --verbose --clean --no-owner --no-acl #{format_c} #{only} #{skip} #{db} > #{Rails.root}/db/dump.pg
         CMD
@@ -25,7 +25,7 @@ namespace :db do
         disable_triggers = '--disable-triggers'
       end
       with_config do |host, db, user, pwd|
-        sh <<~CMD
+        sh <<~CMD, verbose: false
           export PGPASSWORD=#{pwd};
           pg_restore --verbose --host #{host} --username #{user} #{ENV['OPTIONS']} --clean --no-owner --no-acl #{disable_triggers} --dbname #{db} #{Rails.root}/db/dump.pg
         CMD
