@@ -17,8 +17,6 @@ Gem::Specification.new do |s|
 
   s.files = Dir['Gemfile', 'LICENSE.md', 'README.md', 'Rakefile', 'app/**/*', 'config/**/*', 'lib/**/*', 'public/**/*', 'vendor/**/*']
 
-  s.required_ruby_version = ">= #{File.read(File.expand_path("../.ruby-version", __dir__)).strip}"
-
   s.add_dependency 'rails_admin-i18n', '~> 1.11'
   s.add_dependency 'ext_rails', version
   s.add_dependency 'ext_coffee', version

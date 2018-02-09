@@ -17,8 +17,6 @@ Gem::Specification.new do |s|
 
   s.files = Dir["lib/**/*", "MIT-LICENSE", "README.md"]
 
-  s.required_ruby_version = ">= #{File.read(File.expand_path("../.ruby-version", __dir__)).strip}"
-
   s.add_dependency 'actionview', "~> #{ExtPlugins::VERSION::RAILS_MAJOR}.#{ExtPlugins::VERSION::RAILS_MINOR}"
   s.add_dependency 'mail', '~> 2.7'
   s.add_dependency 'settings_yml'

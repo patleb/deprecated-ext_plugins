@@ -17,8 +17,6 @@ Gem::Specification.new do |s|
 
   s.files = Dir["lib/**/*", "MIT-LICENSE", "README.md"]
 
-  s.required_ruby_version = ">= #{File.read(File.expand_path("../.ruby-version", __dir__)).strip}"
-
   s.add_dependency 'minitest', '5.10.3' # https://github.com/seattlerb/minitest/issues/730
   s.add_dependency 'minitest-hooks'
   s.add_dependency 'minitest-spec-rails'

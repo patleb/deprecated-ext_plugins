@@ -17,8 +17,6 @@ Gem::Specification.new do |s|
 
   s.files = Dir["lib/**/*", "MIT-LICENSE", "README.md"]
 
-  s.required_ruby_version = ">= #{File.read(File.expand_path("../.ruby-version", __dir__)).strip}"
-
   s.add_dependency 'require_all', '~> 1.4'
   s.add_dependency 'ext_shell', version
   s.add_dependency 'settings_yml'

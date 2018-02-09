@@ -15,8 +15,6 @@ Gem::Specification.new do |s|
 
   s.files = Dir["lib/**/*", "MIT-LICENSE", "README.md"]
 
-  s.required_ruby_version = ">= #{File.read(File.expand_path(".ruby-version", __dir__)).strip}"
-
   s.add_dependency "rails", "~> #{ExtPlugins::VERSION::RAILS_MAJOR}.#{ExtPlugins::VERSION::RAILS_MINOR}"
   s.add_dependency "ext_async",       version
   s.add_dependency "ext_aws_sdk",     version

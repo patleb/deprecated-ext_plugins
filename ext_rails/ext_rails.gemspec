@@ -21,6 +21,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'active_hash'
   # gem 'active_record-mti'
   # https://github.com/k0kubun/activerecord-precounter
+  # https://github.com/oelmekki/activerecord_any_of
+  # https://github.com/brianhempel/active_record_union
   s.add_dependency 'active_record_query_trace'
   s.add_dependency 'active_record_upsert'
   s.add_dependency 'active_type', '~> 0.7'
@@ -28,6 +30,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'activevalidators'
   s.add_dependency 'acts_as_list'
   # https://github.com/Faveod/arel-extensions
+  # https://github.com/dylanahsmith/ar_transaction_changes
   s.add_dependency 'baby_squeel', '~> 1.2'
   s.add_dependency 'bootsnap'
   s.add_dependency 'bumbler', '~> 0.3'
@@ -62,6 +65,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails', "~> #{ExtPlugins::VERSION::RAILS_MAJOR}.#{ExtPlugins::VERSION::RAILS_MINOR}"
   s.add_dependency 'rails-i18n', '~> 5.0'
   s.add_dependency 'rails_select_on_includes', '~> 0.5'
+  # https://github.com/nullobject/rein
   s.add_dependency 'route_translator'
   # https://github.com/wvanbergen/scoped_search
   s.add_dependency 'settings_yml'

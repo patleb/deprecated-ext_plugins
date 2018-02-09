@@ -19,8 +19,6 @@ Gem::Specification.new do |s|
   s.bindir        = "bin"
   s.executables   = ["sun"]
 
-  s.required_ruby_version = ">= #{File.read(File.expand_path("../.ruby-version", __dir__)).strip}"
-
   s.add_dependency "sshkit"
   s.add_dependency 'rainbow'
   s.add_dependency 'bcrypt', '~> 3.1'

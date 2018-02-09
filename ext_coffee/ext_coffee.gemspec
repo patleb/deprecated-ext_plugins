@@ -17,8 +17,6 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,lib,vendor}/**/*", "MIT-LICENSE", "README.md"]
 
-  s.required_ruby_version = ">= #{File.read(File.expand_path("../.ruby-version", __dir__)).strip}"
-
   s.add_dependency "railties", "~> #{ExtPlugins::VERSION::RAILS_MAJOR}.#{ExtPlugins::VERSION::RAILS_MINOR}"
   s.add_dependency 'coffee-rails', '~> 4.2'
   s.add_dependency 'uglifier', '>= 1.3.0'
@@ -26,4 +24,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'ext_ruby'
   s.add_dependency 'ext_sprockets'
   # TODO https://github.com/sfcgeorge/capybara-jsdom
+  # https://github.com/GoogleChrome/puppeteer
 end
