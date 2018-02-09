@@ -19,8 +19,11 @@ module ExtThrottler
     attr_writer :duration
 
     def duration
-      @duration = @duration.call if @duration.is_a? Proc
-      @duration ||= 4.hours
+      if @duration.is_a? Proc
+        @duration.call
+      else
+        @duration ||= 4.hours
+      end
     end
   end
 end
