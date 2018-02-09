@@ -2,7 +2,7 @@ module Async
   class TaskController < ExtTasks.config.parent_async.constantize
     def perform_now
       task = Task.find(name = params.require(:id))
-      task.update! params.permit(:argurments, :_skip_lock)
+      task.update! params.permit(:arguments, :_skip_lock)
       unless inline?
         Flash[:success_sticky] = I18n.t('ext_tasks.flash.success_html', name: name)
       end
