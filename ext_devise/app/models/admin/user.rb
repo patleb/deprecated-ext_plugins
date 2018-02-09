@@ -3,6 +3,9 @@ module Admin::User
 
   included do
     rails_admin do
+      navigation_label I18n.t('admin.navigation.system')
+      weight 999
+
       object_label_method do
         :email
       end
