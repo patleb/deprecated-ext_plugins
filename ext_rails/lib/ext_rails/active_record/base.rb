@@ -12,7 +12,7 @@ ActiveRecord::Base.class_eval do
   end
 
   def self.sanitize_matcher(regex)
-    like = sanitize_sql_like(regex.to_string)
+    like = sanitize_sql_like(regex.to_string).gsub "\\/", '/'
     like.gsub!('.*', '%')
     like.gsub!('.', '_')
     like = (like.start_with? '^') ? like[1..-1] : "%#{like}"
