@@ -1,4 +1,12 @@
 namespace :files do
+  desc 'Create directory'
+  task :mkdir, [:dst, :sudo] do |t, args|
+    on release_roles :all do
+      sudo = args[:sudo].to_s
+      execute sudo, :mkdir, '-p', args[:dst]
+    end
+  end
+
   desc 'Download remote file(s)'
   task :download, [:src, :dst] do |t, args|
     on release_roles :all do |host|
