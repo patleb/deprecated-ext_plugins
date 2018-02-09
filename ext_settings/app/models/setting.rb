@@ -14,8 +14,8 @@ class Setting < ExtSettings.config.parent_model.constantize
   scope :hidden, -> { where.not(id: ExtSettings.config.settings_visible) }
 
   def self.[](name)
-    if (value = SettingsYml[name])
-      value
+    if SettingsYml.has_key? name
+      SettingsYml[name]
     else
       record = where(id: name).select(:id, :value).take!
       cast(record.value, SettingsYml.type_of(record.id))
@@ -23,12 +23,10 @@ class Setting < ExtSettings.config.parent_model.constantize
   end
 
   def self.has_key?(name)
-    if SettingsYml[name]
-      true
-    elsif where(id: name).exists?
+    if SettingsYml.has_key? name
       true
     else
-      false
+      where(id: name).exists?
     end
   end
   singleton_class.send :alias_method, :key?, :has_key?

@@ -19,6 +19,11 @@ class SettingsYml
     cast(value, @types[name])
   end
 
+  def self.has_key?(name)
+    (@all || with).has_key? name
+  end
+  singleton_class.send :alias_method, :key?, :has_key?
+
   def self.type_of(name)
     with unless @all
     (@types[name] || :text).to_sym
