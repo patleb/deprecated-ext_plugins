@@ -47,7 +47,7 @@ class Task < ExtTasks.config.parent_model.constantize
   end
 
   def self.all
-    outputs = ::Global.fetch_multi(*ExtTasks.config.tasks_visible.keys.map{ |id| global_key(id) }, expires: true){ '' }
+    outputs = ::Global.fetch_multi(*ExtTasks.config.tasks_visible.keys.map{ |id| global_key(id) }){ '' }
     list = ExtTasks.config.tasks_visible.map do |name, task|
       new(
         id: name, 
@@ -99,11 +99,11 @@ class Task < ExtTasks.config.parent_model.constantize
     end
     String.try :disable_colorization=, false
     Rake::Task[id].reenable
-    self.output = ::Global.write(global_key, result, expires: true)
+    self.output = ::Global.write(global_key, result)
   end
 
   def acquire_lock
-    record = ::Global.fetch_record(global_key, expires: true){ '' }
+    record = ::Global.fetch_record(global_key){ '' }
     record.with_lock do
       if record.data&.include? RUNNING
         false
