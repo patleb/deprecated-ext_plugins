@@ -254,14 +254,15 @@ module ExtRails
 
       (Rails::Engine.subclasses.map(&:root) << Rails.root).each do |root|
         Dir[root.join('app', 'controllers', '**', '*_controller.rb')].each do |name|
-          controller = name.match(/app\/controllers\/(.+)\.rb/)[1].camelize.safe_constantize
-          if controller&.superclass.in? [ActionController::Base, ActionController::API]
-            controller.class_eval do
-              include ExtRails::WithStatus
+          if (controller = name.match(/app\/controllers\/(.+)\.rb/)[1].camelize.safe_constantize)
+            if controller.superclass.in? [ActionController::Base, ActionController::API]
+              controller.class_eval do
+                include ExtRails::WithStatus
+              end
             end
-          end
-          controller.class_eval do
-            include ExtRails::WithExceptions
+            controller.class_eval do
+              include ExtRails::WithExceptions
+            end
           end
         end
       end
