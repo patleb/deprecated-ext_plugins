@@ -2,4 +2,5 @@
   %ul.pagination
     = next_page_tag
     %li.total-count
-      %span= "#{current_count} / #{total_count.floor} #{pluralized_name}"
+      - total_count = (total_count < page_count) ? "#{(current_count)}+" : total_count.floor
+      %span= "#{current_count} / #{total_count} #{pluralized_name}"

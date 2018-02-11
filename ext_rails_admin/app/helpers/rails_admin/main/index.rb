@@ -23,28 +23,46 @@ module RailsAdmin
         }
       end
 
+      def show_all?
+        total_count, page_count, total_pages, current_page = paginate_options.slice(:total_count, :page_count, :total_pages, :current_page).values
+        total_count <= 100 && total_count > page_count && total_pages != current_page
+      end
+
       def paginate_options
-        per_page = (params[:per] || list_config.items_per_page).to_i
-        page_count = @objects.size
-        if (total_count = list_config.total_count)
-          total_pages = (total_count.to_f / per_page).ceil
-        else
-          total_count = @objects.total_count.to_i
-        end
-        pluralized_name = @model_config.pluralize(total_count).downcase
-        current_page = (params[:page] || 1).to_i
-        current_count = current_page == 1 ? page_count : page_count + (current_page - 1) * per_page
-        if list_config.freeze_first?
-          first_item = if current_page == 1
-            if (value = @objects.first.try(@sort || sort_by_default)).respond_to? :utc
-              value = value.utc
+        @_paginate_options ||= begin
+          per_page = (params[:per] || list_config.items_per_page).to_i
+          page_count = @objects.size
+          current_page = (params[:page] || 1).to_i
+          if (total_count = list_config.total_count)
+            if total_count < page_count # means that the count estimate is off
+              total_pages = current_page + 1
             end
-            value
           else
-            params[:first]
+            total_count = @objects.total_count.to_i
           end
+          total_pages ||= (total_count.to_f / per_page).ceil
+          pluralized_name = @model_config.pluralize(total_count).downcase
+          current_count = (current_page == 1) ? page_count : (page_count + (current_page - 1) * per_page)
+          if list_config.freeze_first?
+            first_item = if current_page == 1
+              if (value = @objects.first.try(@sort || sort_by_default)).respond_to? :utc
+                value = value.utc
+              end
+              value
+            else
+              params[:first]
+            end
+          end
+          {
+            page_count: page_count,
+            current_count: current_count,
+            total_count: total_count,
+            pluralized_name: pluralized_name,
+            current_page: current_page,
+            total_pages: total_pages,
+            first_item: first_item
+          }
         end
-        [page_count, current_count, total_count, pluralized_name, total_pages, first_item]
       end
 
       def inline_create_action

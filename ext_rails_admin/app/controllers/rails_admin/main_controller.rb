@@ -169,9 +169,9 @@ module RailsAdmin
     def get_collection(model_config, scope, pagination)
       associations = model_config.list.fields.select { |f| f.try(:eager_load?) }.collect { |f| f.association.name }
       options = {}
-      options = options.merge(include: associations) unless associations.blank?
-      options = options.merge(get_sort_hash(model_config))
-      # TODO doesn't work if there are new records being fetched --> use only the last item received
+      options.merge!(include: associations) unless associations.blank?
+      options.merge!(get_sort_hash(model_config))
+      # TODO convert to keyset pagination
       # http://mysql.rjweb.org/doc.php/pagination#implementation_getting_rid_of_offset
       if pagination
         page = (params[:page] || 1).to_i
@@ -179,11 +179,11 @@ module RailsAdmin
           operator = options[:sort_reverse].to_b ? '>=' : '<='
           scope = scope.where("#{options[:sort]} #{operator} :first_item", first_item: first_item)
         end
-        options = options.merge(page: page, per: (params[:per] || model_config.list.items_per_page))
+        options.merge!(page: page, per: (params[:per] || model_config.list.items_per_page))
       end
-      options = options.merge(query: params[:query]) if params[:query].present?
-      options = options.merge(filters: params[:f]) if params[:f].present?
-      options = options.merge(bulk_ids: params[:bulk_ids]) if params[:bulk_ids]
+      options.merge!(query: params[:query]) if params[:query].present?
+      options.merge!(filters: params[:f]) if params[:f].present?
+      options.merge!(bulk_ids: params[:bulk_ids]) if params[:bulk_ids]
       model_config.abstract_model.all(options, scope)
     end
 

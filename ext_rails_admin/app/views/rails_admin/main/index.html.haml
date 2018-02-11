@@ -49,18 +49,11 @@
               %ul.list-inline= menu_for :member, @abstract_model, object, true
 
   - if @objects.respond_to?(:total_count)
-    - page_count, current_count, total_count, pluralized_name, total_pages, first_item = @h.paginate_options
     .row
       .col-md-6
-        = paginate @objects,
-          theme: 'rails_admin',
-          current_count: current_count,
-          total_count: total_count,
-          pluralized_name: pluralized_name,
-          total_pages: total_pages,
-          first_item: first_item
+        = paginate @objects, theme: 'rails_admin', **@h.paginate_options
     .row
-      - unless total_count > 100 || total_count <= page_count
+      - if @h.show_all?
         .col-md-6= link_to(t("admin.misc.show_all"), index_path(@h.params.except(:page).merge(all: true)), class: "show-all btn btn-default clearfix pjax")
   - else
     - total_count = @objects.size
