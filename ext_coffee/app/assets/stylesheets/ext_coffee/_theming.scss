@@ -6,6 +6,7 @@
 
 .js_disabled {
   @extend .disabled;
+  pointer-events: none;
 }
 
 .js_action_error {
