@@ -1,10 +1,19 @@
+# TODO https://makandracards.com/makandra/24451-sticky-table-header-with-jquery
+
 class RailsAdmin.TableConcept
   @include RailsAdmin.ApplicationConcept
 
   constants: ->
     WRAPPER: 'CLASS'
     STICKY_HEAD: 'CLASS'
+    SCROLL_UP: 'CLASS'
     APPLICATION_WINDOW: RailsAdmin.ApplicationConcept
+
+  document_on: => [
+    'click', @SCROLL_UP, =>
+      $('html, body').animate(scrollTop: 0)
+      $(@APPLICATION_WINDOW).animate(scrollTop: 0)
+  ]
 
   ready: =>
     return unless (@table_wrapper = $(@WRAPPER)).length

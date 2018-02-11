@@ -16,8 +16,8 @@
   .js_table_sticky_head
     %table.table.table-condensed.table-striped{class: "#{@abstract_model.param_key}_list #{'no_bulk_menu' unless bulk_menu?}"}
       %thead
-        %tr
-          %th.shrink
+        %tr.js_table_sticky_head_row
+          %th.shrink.fa.fa-arrow-circle-up.fa-6.js_table_scroll_up
           - @h.properties.each do |property|
             %th{class: [property.css_class, property.type_css_class]}= capitalize_first_letter(property.label)
           %th.last.shrink

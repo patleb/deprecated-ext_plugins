@@ -17,7 +17,7 @@
 }
 
 @mixin hidden_bulk_actions {
-  tr:not(.js_inline_create_row) {
+  tr:not(.js_inline_create_row,.js_table_sticky_head_row) {
     th:first-child {
       opacity: 0.5; // TODO or display: none; text-indent: 2px;
       pointer-events: none;
