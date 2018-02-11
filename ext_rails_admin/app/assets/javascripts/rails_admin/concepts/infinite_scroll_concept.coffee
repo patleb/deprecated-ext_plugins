@@ -6,7 +6,7 @@ class RailsAdmin.InfiniteScrollConcept
 
   document_on: => [
     'click', @LINK, (event, target) =>
-      return if (@link_wrapper = target).find('a').has_disabled()
+      return if (@link_wrapper = target).has_disabled()
 
       $.ajax(
         url: @link_wrapper.data('url')
@@ -19,16 +19,8 @@ class RailsAdmin.InfiniteScrollConcept
       )
   ]
 
-  ready: =>
-    return unless (link_wrapper = $(@LINK)).length
-
-    if link_wrapper.hasClass('disabled')
-      link_wrapper.find('a').add_disabled()
-
   #### PRIVATE ####
 
-  # TODO Bug --> when ending unavailable, the list becomes blank
-  # --> maybe check received number equals max page size
   prepend_old_list_and_replace_container: (data) =>
     index = $("<div>").html(data)
     new_container = index.find(@CONTAINER)
