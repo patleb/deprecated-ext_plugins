@@ -25,7 +25,7 @@ module RailsAdmin
 
       def show_all?
         total_count, page_count, total_pages, current_page = paginate_options.slice(:total_count, :page_count, :total_pages, :current_page).values
-        total_count <= 100 && total_count > page_count && total_pages != current_page
+        total_count <= 100 && page_count < total_count && current_page != total_pages
       end
 
       def paginate_options
@@ -41,7 +41,7 @@ module RailsAdmin
             total_count = @objects.total_count.to_i
           end
           total_pages ||= (total_count.to_f / per_page).ceil
-          pluralized_name = @model_config.pluralize(total_count).downcase
+          pluralized_name = @model_config.pluralize(total_count < page_count ? page_count : total_count).downcase
           current_count = (current_page == 1) ? page_count : (page_count + (current_page - 1) * per_page)
           if list_config.freeze_first?
             first_item = if current_page == 1
