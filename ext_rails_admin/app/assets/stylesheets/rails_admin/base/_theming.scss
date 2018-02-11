@@ -20,6 +20,7 @@ iframe.wysihtml5-sandbox, .wysihtml5-editor{
   max-width: 300px;
 }
 
+// TODO https://css-tricks.com/annoying-mobile-double-tap-link-issue/
 #rails_admin {
   min-width: 320px;
 
@@ -408,11 +409,13 @@ iframe.wysihtml5-sandbox, .wysihtml5-editor{
 
   .show-all {
     margin-left: 10px;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
+    margin-top: -5px;
   }
 
   .total-count {
     position: relative;
+    margin: 6px 5px 15px 10px;
 
     span {
       margin: 6px 5px 5px 10px;
