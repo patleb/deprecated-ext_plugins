@@ -17,7 +17,11 @@ class RailsAdmin.TableConcept
 
     'click', @SCROLL_X, =>
       wrapper = $(@WRAPPER)
-      wrapper.animate(scrollLeft: (wrapper[0].scrollWidth - wrapper[0].clientWidth) - wrapper.scrollLeft())
+      scroll_width = (wrapper[0].scrollWidth - wrapper[0].clientWidth)
+      if wrapper.scrollLeft() < scroll_width / 2
+        wrapper.animate(scrollLeft: scroll_width)
+      else
+        wrapper.animate(scrollLeft: 0)
   ]
 
   ready: =>
