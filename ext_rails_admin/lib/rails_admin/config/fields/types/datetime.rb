@@ -44,6 +44,7 @@ module RailsAdmin
 
           register_instance_option :datepicker_options do
             {
+              ignoreReadonly: true,
               showTodayButton: true,
               format: parser.to_momentjs,
             }
@@ -51,6 +52,7 @@ module RailsAdmin
 
           register_instance_option :html_attributes do
             {
+              readonly: true,
               required: required?,
               size: 22,
             }

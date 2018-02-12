@@ -206,7 +206,9 @@ module RailsAdmin
         end
 
         register_instance_option :render do
-          form.send view_helper, method_name, html_attributes.reverse_merge(value: form_value, class: 'form-control', required: required)
+          div(class: 'input-group') do
+            form.send view_helper, method_name, html_attributes.reverse_merge(value: form_value, class: 'form-control', required: required)
+          end
         end
 
         def editable?

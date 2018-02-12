@@ -182,7 +182,10 @@ iframe.wysihtml5-sandbox, .wysihtml5-editor{
 
     /* We want input size to be used, unfixate input width */
     input, textarea {
-      width:auto;
+      width: 100%;
+      &.js_datetimepicker {
+        width: auto;
+      }
     }
     .help-block {
       clear:left;
