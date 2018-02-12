@@ -1,6 +1,6 @@
 # https://codeburst.io/the-only-way-to-detect-touch-with-javascript-7791a3346685
 
-class Js.TouchConcept
+class Js.DeviceConcept
   global: true
 
   ready_once: =>

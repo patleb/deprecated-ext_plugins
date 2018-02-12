@@ -122,7 +122,7 @@ class RailsAdmin.FilterBoxConcept
         else
           size = 25
           input_type = 'datetime'
-        readonly = if Touch.touched then "readonly='readonly'" else ''
+        readonly = if Device.touched then "readonly='readonly'" else ''
         additional_control = "
           <input
             #{readonly}
