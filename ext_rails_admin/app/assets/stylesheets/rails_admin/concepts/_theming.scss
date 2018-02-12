@@ -101,24 +101,13 @@
     vertical-align: middle !important;
   }
 
-  .table_scroll_x {
+  .js_table_scroll_x {
     position: fixed;
-    right: 16px;
-    bottom: 25px;
-    font-size: 16px;
+    right: 0;
+    bottom: 0;
+    cursor: pointer;
+    font-size: 20px;
     z-index: $zindex-navbar-fixed - 5;
-  }
-
-  .js_table_scroll_left {
-    float: left;
-    margin-bottom: 25px;
-    cursor: pointer;
-  }
-
-  .js_table_scroll_right {
-    float: left;
-    clear: both;
-    cursor: pointer;
   }
 
   .js_menu_overlay {

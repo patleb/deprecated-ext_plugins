@@ -7,8 +7,7 @@ class RailsAdmin.TableConcept
     WRAPPER: 'CLASS'
     STICKY_HEAD: 'CLASS'
     SCROLL_UP: 'CLASS'
-    SCROLL_LEFT: 'CLASS'
-    SCROLL_RIGHT: 'CLASS'
+    SCROLL_X: 'CLASS'
     APPLICATION_WINDOW: RailsAdmin.ApplicationConcept
 
   document_on: => [
@@ -16,10 +15,7 @@ class RailsAdmin.TableConcept
       $('html, body').animate(scrollTop: 0)
       $(@APPLICATION_WINDOW).animate(scrollTop: 0)
 
-    'click', @SCROLL_LEFT, =>
-      $(@WRAPPER).animate(scrollLeft: 0)
-
-    'click', @SCROLL_RIGHT, =>
+    'click', @SCROLL_X, =>
       wrapper = $(@WRAPPER)
       wrapper.animate(scrollLeft: (wrapper[0].scrollWidth - wrapper[0].clientWidth) - wrapper.scrollLeft())
   ]
@@ -73,8 +69,6 @@ class RailsAdmin.TableConcept
 
   toggle_scroll_x: =>
     if !Device.touched && $(@WRAPPER).has_scroll_x()
-      $(@SCROLL_LEFT).show()
-      $(@SCROLL_RIGHT).show()
+      $(@SCROLL_X).show()
     else
-      $(@SCROLL_LEFT).hide()
-      $(@SCROLL_RIGHT).hide()
+      $(@SCROLL_X).hide()
