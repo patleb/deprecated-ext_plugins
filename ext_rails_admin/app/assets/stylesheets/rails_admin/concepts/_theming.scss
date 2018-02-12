@@ -107,9 +107,12 @@
     }
   }
 
+  .js_table_scroll_up {
+    cursor: pointer;
+  }
+
   th > .js_table_scroll_up {
     margin-left: 5px;
-    cursor: pointer;
     font-size: 20px;
     vertical-align: middle !important;
   }
