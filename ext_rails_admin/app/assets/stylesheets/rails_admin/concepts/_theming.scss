@@ -103,7 +103,7 @@
 
   .js_table_scroll_x {
     position: fixed;
-    right: 37%;
+    right: calc(40% - 40px);
     bottom: -2px;
     cursor: pointer;
     font-size: 20px;
