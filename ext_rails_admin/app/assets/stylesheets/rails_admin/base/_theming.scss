@@ -184,7 +184,7 @@ iframe.wysihtml5-sandbox, .wysihtml5-editor{
     /* We want input size to be used, unfixate input width */
     input, textarea {
       width: 100%;
-      &.js_datetimepicker {
+      &.js_datetimepicker, &[type=checkbox] {
         width: auto;
       }
     }
