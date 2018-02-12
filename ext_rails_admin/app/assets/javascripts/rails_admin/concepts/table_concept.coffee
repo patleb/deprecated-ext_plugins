@@ -7,12 +7,21 @@ class RailsAdmin.TableConcept
     WRAPPER: 'CLASS'
     STICKY_HEAD: 'CLASS'
     SCROLL_UP: 'CLASS'
+    SCROLL_LEFT: 'CLASS'
+    SCROLL_RIGHT: 'CLASS'
     APPLICATION_WINDOW: RailsAdmin.ApplicationConcept
 
   document_on: => [
     'click', @SCROLL_UP, =>
       $('html, body').animate(scrollTop: 0)
       $(@APPLICATION_WINDOW).animate(scrollTop: 0)
+
+    'click', @SCROLL_LEFT, =>
+      $(@WRAPPER).animate(scrollLeft: 0)
+
+    'click', @SCROLL_RIGHT, =>
+      wrapper = $(@WRAPPER)
+      wrapper.animate(scrollLeft: (wrapper[0].scrollWidth - wrapper[0].clientWidth) - wrapper.scrollLeft())
   ]
 
   ready: =>
@@ -24,8 +33,9 @@ class RailsAdmin.TableConcept
     @sticky_table = @sticky_head.find('.table')
 
     @bind_sticky_head()
-    @bind_double_scroll()
+    @bind_scroll_x()
     @update_sticky_head()
+    @toggle_scroll_x()
 
   leave: =>
     @unbind_sticky_head()
@@ -33,18 +43,17 @@ class RailsAdmin.TableConcept
   #### PRIVATE ####
 
   bind_sticky_head: =>
-    $(@APPLICATION_WINDOW).on 'scroll.responsive_table', _.throttle(@toggle_sticky_head, 100)
-    $(window).on 'scroll.responsive_table', _.throttle(@toggle_sticky_head, 100)
-    $(window).on 'resize.responsive_table', _.throttle(@update_sticky_head, 100)
+    $(@APPLICATION_WINDOW).on 'scroll.table_concept', _.throttle(@toggle_sticky_head, 100)
+    $(window).on 'scroll.table_concept', _.throttle(@toggle_sticky_head, 100)
+    $(window).on 'resize.table_concept', _.throttle(@update_sticky_head, 100)
+
+  bind_scroll_x: =>
+    $(window).on 'resize.table_concept', _.throttle(@toggle_scroll_x, 100)
 
   unbind_sticky_head: =>
-    $(@APPLICATION_WINDOW).off 'scroll.responsive_table'
-    $(window).off 'scroll.responsive_table'
-    $(window).off 'resize.responsive_table'
-
-  bind_double_scroll: =>
-    @table_wrapper.on 'scroll', (event) =>
-      @sticky_table.css(left: "-#{@table_wrapper.scrollLeft()}px")
+    $(@APPLICATION_WINDOW).off 'scroll.table_concept'
+    $(window).off 'scroll.table_concept'
+    $(window).off 'resize.table_concept'
 
   update_sticky_head: =>
     @sticky_head.css(width: "#{@table_wrapper[0].scrollWidth}px")
@@ -61,3 +70,11 @@ class RailsAdmin.TableConcept
     else
       @sticky_head.hide()
       @table_head.fadeTo(0, 1)
+
+  toggle_scroll_x: =>
+    if $(@WRAPPER).has_scroll_x()
+      $(@SCROLL_LEFT).show()
+      $(@SCROLL_RIGHT).show()
+    else
+      $(@SCROLL_LEFT).hide()
+      $(@SCROLL_RIGHT).hide()

@@ -285,6 +285,9 @@ jQuery.define_methods
       this.scrollTop(this.scrollTop() - this.position().top + item.position().top)
     this
 
+  has_scroll_x: ->
+    this.scrollLeft(1) && this.scrollLeft() > 0 && this.scrollLeft(0) && true
+
   has_error: ->
     this.has_content_error() || this.has_action_error()
 

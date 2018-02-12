@@ -90,6 +90,7 @@ iframe.wysihtml5-sandbox, .wysihtml5-editor{
   }
 
   .sidebar-nav {
+    z-index: $zindex-navbar-fixed - 1;
     padding: 0;
     background-color: $navbar-default-bg;
 
