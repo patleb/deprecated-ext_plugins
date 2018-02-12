@@ -19,8 +19,8 @@
         %tr.js_table_sticky_head_row
           %th.shrink
             .fa.fa-arrow-circle-up.js_table_scroll_up
-          - @h.properties.each do |property|
-            %th{class: [property.css_class, property.type_css_class]}= capitalize_first_letter(property.label)
+          - @h.properties.each_with_index do |property, index|
+            %th{class: [property.css_class, property.type_css_class, ('js_table_scroll_up' if index == 0)]}= capitalize_first_letter(property.label)
           %th.last.shrink
   /.js_double_scroll_wrapper
   /  .scroll_bar

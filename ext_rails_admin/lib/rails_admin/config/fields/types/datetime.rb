@@ -44,6 +44,7 @@ module RailsAdmin
 
           register_instance_option :datepicker_options do
             {
+              showClear: true,
               ignoreReadonly: true,
               showTodayButton: true,
               format: parser.to_momentjs,
@@ -76,7 +77,7 @@ module RailsAdmin
                 form.send(view_helper, method_name, html_attributes.reverse_merge(
                   value: form_value,
                   class: 'form-control js_field_input js_datetimepicker',
-                  data: { js: { showClear: true }.reverse_merge(datepicker_options).to_json }
+                  data: { js: datepicker_options.to_json }
                 )),
                 form.label(method_name, class: 'input-group-addon') do
                   i '.fa.fa-fw.fa-calendar'

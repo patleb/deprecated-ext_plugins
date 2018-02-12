@@ -1,3 +1,5 @@
+# TODO https://talosintelligence.com/vulnerability_reports/TALOS-2017-0450
+
 class RailsAdmin.FilterBoxConcept
   constants: =>
     INIT: 'ID'
@@ -120,8 +122,10 @@ class RailsAdmin.FilterBoxConcept
         else
           size = 25
           input_type = 'datetime'
+        readonly = if Touch.touched then "readonly='readonly'" else ''
         additional_control = "
           <input
+            #{readonly}
             type='text'
             name='#{value_name}[]' value='#{value[0] || ''}'
             size='#{size}'
@@ -129,6 +133,7 @@ class RailsAdmin.FilterBoxConcept
             style='display:#{if !operator || operator == 'default' then 'inline-block' else 'none'};'
           />
           <input
+            #{readonly}
             type='text'
             name='#{value_name}[]'
             size='#{size}'
@@ -138,6 +143,7 @@ class RailsAdmin.FilterBoxConcept
             style='display:#{if operator == 'between' then 'inline-block' else 'none'};'
           />
           <input
+            #{readonly}
             type='text'
             name='#{value_name}[]'
             size='#{size}'
@@ -210,14 +216,14 @@ class RailsAdmin.FilterBoxConcept
           "
         additional_control = "
           <input
-            type='#{type}'
+            type='number'
             name='#{value_name}[]'
             value='#{value[0] || ''}'
             class='additional-fieldset default input-sm form-control'
             style='display:#{if !operator || operator == 'default' then 'inline-block' else 'none'};'
           />
           <input
-            type='#{type}'
+            type='number'
             name='#{value_name}[]'
             placeholder='-∞'
             value='#{value[1] || ''}'
@@ -225,7 +231,7 @@ class RailsAdmin.FilterBoxConcept
             style='display:#{if operator == 'between' then 'inline-block' else 'none'};'
           />
           <input
-            type='#{type}'
+            type='number'
             name='#{value_name}[]'
             placeholder='∞'
             value='#{value[2] || ''}'
@@ -254,6 +260,8 @@ class RailsAdmin.FilterBoxConcept
     $(@CONTAINER).append(content)
     content.find('.date, .datetime').datetimepicker(
       locale: I18n.locale
+      showClear: true
+      ignoreReadonly: true
       showTodayButton: true
       format: datetimepicker_format
     )

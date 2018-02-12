@@ -15,6 +15,7 @@ module RailsAdmin
 
           register_instance_option :datepicker_options do
             {
+              showClear: true,
               ignoreReadonly: true,
               showTodayButton: true,
               format: parser.to_momentjs,
