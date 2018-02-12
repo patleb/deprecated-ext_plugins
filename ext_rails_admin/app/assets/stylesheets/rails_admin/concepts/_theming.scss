@@ -103,8 +103,8 @@
 
   .js_table_scroll_x {
     position: fixed;
-    right: 16px;
-    bottom: 0;
+    right: 37%;
+    bottom: -2px;
     cursor: pointer;
     font-size: 20px;
     z-index: $zindex-navbar-fixed - 5;
@@ -316,7 +316,7 @@
     }
 
     .js_table_scroll_x {
-      right: 0;
+      right: 48%;
     }
   }
 }
