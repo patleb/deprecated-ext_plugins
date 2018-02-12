@@ -103,7 +103,7 @@
 
   .js_table_scroll_x {
     position: fixed;
-    right: 0;
+    right: 16px;
     bottom: 0;
     cursor: pointer;
     font-size: 20px;
@@ -313,6 +313,10 @@
 
     .js_datetimepicker + label {
       float: left;
+    }
+
+    .js_table_scroll_x {
+      right: 0;
     }
   }
 }
