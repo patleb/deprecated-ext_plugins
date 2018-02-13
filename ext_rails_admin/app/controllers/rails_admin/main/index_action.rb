@@ -11,7 +11,7 @@ module RailsAdmin
             unless @scopes.first.nil? || compact
               @objects = @objects.public_send(@scopes.first)
             end
-          elsif @scopes.collect(&:to_s).include?(params[:scope])
+          elsif @scopes.map(&:to_s).include?(params[:scope])
             @objects = @objects.public_send(params[:scope].to_sym)
           end
         end
@@ -25,6 +25,9 @@ module RailsAdmin
             @objects = @objects.select(*columns)
           end
         end
+
+        exists = @model_config.list.with(controller: self, list: @objects).exists?
+        @objects = @objects.none unless exists
 
         respond_to do |format|
           format.html do
@@ -76,6 +79,9 @@ module RailsAdmin
                 type: "text/csv; charset=#{encoding}; #{'header=present' if header}",
                 disposition: "attachment; filename=#{params[:model_name]}_#{DateTime.now.strftime('%Y-%m-%d_%Hh%Mm%S')}.csv"
             elsif Rails.version.to_s >= '5'
+              # TODO https://coderwall.com/p/kad56a/streaming-large-data-responses-with-rails
+              # https://medium.com/table-xi/stream-csv-files-in-rails-because-you-can-46c212159ab7
+              # http://smsohan.com/blog/2013/05/09/genereating-and-streaming-potentially-large-csv-files-using-ruby-on-rails/
               render plain: output
             else
               render text: output

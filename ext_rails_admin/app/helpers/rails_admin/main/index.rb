@@ -43,7 +43,7 @@ module RailsAdmin
           total_pages ||= (total_count.to_f / per_page).ceil
           pluralized_name = @model_config.pluralize(total_count < page_count ? page_count : total_count).downcase
           current_count = (current_page == 1) ? page_count : (page_count + (current_page - 1) * per_page)
-          if list_config.freeze_first?
+          if list_config.from_first?
             first_item = if current_page == 1
               if (value = @objects.first.try(@sort || sort_by_default)).respond_to? :utc
                 value = value.utc

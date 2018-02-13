@@ -24,8 +24,12 @@ module RailsAdmin
           true # By default show latest first
         end
 
-        register_instance_option :freeze_first? do
+        register_instance_option :from_first? do
           true # Paginate from the first item of the first request before loading more items
+        end
+
+        register_instance_option :freeze_first do
+          nil # TODO first columns (0, 1, 2) --> 0 is bulk actions
         end
 
         register_instance_option :scopes do
@@ -44,9 +48,14 @@ module RailsAdmin
           nil
         end
 
+        register_instance_option :exists? do
+          true
+        end
+
         def default_scope_or_none?
-          values = bindings[:list].values
-          if values.has_key? :where
+          if !(list = bindings[:list])
+            true
+          elsif (values = list.values).has_key? :where
             values[:where].send(:predicates).size <= 1
           else
             true
