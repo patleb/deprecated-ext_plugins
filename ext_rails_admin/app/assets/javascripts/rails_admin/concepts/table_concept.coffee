@@ -54,8 +54,9 @@ class RailsAdmin.TableConcept
     $(window).off 'resize.table_concept'
 
   bind_double_scroll: =>
-    @table_wrapper.on 'scroll', (event) =>
-      @sticky_table.css(left: "-#{@table_wrapper.scrollLeft()}px")
+    # https://github.com/cubiq/iscroll
+    @table_wrapper.on 'scroll', =>
+      @sticky_table[0].style.left = "-#{@table_wrapper.scrollLeft()}px"
 
   bind_scroll_x: =>
     $(window).on 'resize.table_concept', _.throttle(@toggle_scroll_x, 100)
