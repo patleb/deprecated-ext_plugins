@@ -1,5 +1,7 @@
 ActiveRecord::Relation.class_eval do
   def count_estimate
+    return 0 if none?
+
     sql = limit(nil).offset(nil).reorder(nil).to_sql
     connection.execute("EXPLAIN #{sql}").first["QUERY PLAN"].match(/rows=(\d+)/)[1].to_i
   end
