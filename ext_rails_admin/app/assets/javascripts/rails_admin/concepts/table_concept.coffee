@@ -33,6 +33,7 @@ class RailsAdmin.TableConcept
     @sticky_table = @sticky_head.find('.table')
 
     @bind_sticky_head()
+    @bind_double_scroll()
     @bind_scroll_x()
     @update_sticky_head()
     @toggle_scroll_x()
@@ -47,13 +48,17 @@ class RailsAdmin.TableConcept
     $(window).on 'scroll.table_concept', _.throttle(@toggle_sticky_head, 100)
     $(window).on 'resize.table_concept', _.throttle(@update_sticky_head, 100)
 
-  bind_scroll_x: =>
-    $(window).on 'resize.table_concept', _.throttle(@toggle_scroll_x, 100)
-
   unbind_sticky_head: =>
     $(@APPLICATION_WINDOW).off 'scroll.table_concept'
     $(window).off 'scroll.table_concept'
     $(window).off 'resize.table_concept'
+
+  bind_double_scroll: =>
+    @table_wrapper.on 'scroll', (event) =>
+      @sticky_table.css(left: "-#{@table_wrapper.scrollLeft()}px")
+
+  bind_scroll_x: =>
+    $(window).on 'resize.table_concept', _.throttle(@toggle_scroll_x, 100)
 
   update_sticky_head: =>
     @sticky_head.css(width: "#{@table_wrapper[0].scrollWidth}px")
