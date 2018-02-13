@@ -27,10 +27,6 @@ module RailsAdmin
           288
         end
 
-        register_instance_option :resolution_ratio do
-          2
-        end
-
         register_instance_option :y2_ratio do
           10
         end

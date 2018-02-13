@@ -69,7 +69,6 @@ module RailsAdmin
       query = @objects
       if @field && @chart_config.group_by
         query = run_query(query)
-        query = adjust_query_count(query)
         query = map_query_values(query)
       elsif @association
         association_name, option_hash = @association.first
@@ -103,10 +102,8 @@ module RailsAdmin
 
     def run_query(query)
       group_by = @chart_config.group_by
-      resolution = automatic_resolution(query, group_by)
 
-      group_base = "(DATE_TRUNC('#{resolution}', #{group_by}))"
-      group_name = "date_trunc_#{resolution.underscore}_#{group_by.to_s.underscore.tr('.', '_')}"
+      group_base, group_name = automatic_resolution(query, group_by)
       query = query.reorder(nil).group(group_base).order(group_name)
 
       field_name = @field.name
@@ -131,49 +128,12 @@ module RailsAdmin
       first, last = last, first if first > last
       seconds = (last - first).to_i
       max_size = @chart_config.max_size
-      resolution_ratio = @chart_config.resolution_ratio
+      chunk_size = (seconds / max_size.to_f).ceil
 
-      resolution = 'second'
-      if seconds > (max_size * 60 / resolution_ratio)
-        resolution = 'minute'
-        if (minutes = seconds / 60) > (max_size * 60 / resolution_ratio)
-          resolution = 'hour'
-          if (_hours = minutes / 60) > (max_size * 24 / resolution_ratio)
-            resolution = 'day'
-          end
-        end
-      end
-
-      resolution
-    end
-
-    def adjust_query_count(query)
-      max_size = @chart_config.max_size
-
-      if max_size && (size = query.size) > max_size
-        chunk_size = (size / max_size.to_f).ceil
-        result = {}
-        query.each_slice(chunk_size) do |segment|
-          start, first = segment.first
-          finish, last = segment.last
-          aggregation =
-            if first.nil? || last.nil?
-              nil
-            else
-              case @calculation
-              when :count, :sum then segment.sum{ |item| item.last }
-              when :average     then segment.sum{ |item| item.last } / segment.count.to_f
-              when :minimum     then segment.min_by{ |item| item.last }.last
-              when :maximum     then segment.max_by{ |item| item.last }.last
-              end
-            end
-          timestamp = start + ((finish - start) / 2).to_i
-          result[timestamp] = aggregation
-        end
-        query = result
-      end
-
-      query
+      sql = <<~SQL
+        to_timestamp(FLOOR((EXTRACT('epoch' FROM #{group_by}) / #{chunk_size} )) * #{chunk_size}) AT TIME ZONE 'UTC'
+      SQL
+      [sql, "to_timestamp_floor_extract_epoch_from_#{group_by}_#{chunk_size}_all_#{chunk_size}_at_time_zone_utc"[0..62]]
     end
 
     def map_query_values(query)
