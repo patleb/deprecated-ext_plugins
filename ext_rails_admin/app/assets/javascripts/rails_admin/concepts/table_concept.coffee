@@ -55,12 +55,8 @@ class RailsAdmin.TableConcept
 
   bind_double_scroll: =>
     # https://github.com/cubiq/iscroll
-    if Device.touched
-      @table_wrapper.on 'touchmove', =>
-        @sticky_table[0].style.left = "-#{@table_wrapper.scrollLeft()}px"
-    else
-      @table_wrapper.on 'scroll', =>
-        @sticky_table[0].style.left = "-#{@table_wrapper.scrollLeft()}px"
+    @table_wrapper.on 'scroll', =>
+      @sticky_table.css(left: "-#{@table_wrapper.scrollLeft()}px")
 
   bind_scroll_x: =>
     $(window).on 'resize.table_concept', _.throttle(@toggle_scroll_x, 100)
