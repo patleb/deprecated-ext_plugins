@@ -28,10 +28,6 @@ module RailsAdmin
           true # Paginate from the first item of the first request before loading more items
         end
 
-        register_instance_option :freeze_first do
-          nil # TODO first columns (0, 1, 2) --> 0 is bulk actions
-        end
-
         register_instance_option :scopes do
           []
         end
@@ -44,6 +40,10 @@ module RailsAdmin
           nil
         end
 
+        register_instance_option :freeze_columns do
+          nil # TODO first columns (0, 1, 2) --> 0 is bulk actions
+        end
+
         register_instance_option :total_count do
           nil
         end
@@ -52,7 +52,7 @@ module RailsAdmin
           true
         end
 
-        def default_scope_or_none?
+        def no_filters?
           if !(list = bindings[:list])
             true
           elsif (values = list.values).has_key? :where
