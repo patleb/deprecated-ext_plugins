@@ -11,12 +11,12 @@ namespace :db do
         end
         sh <<~CMD, verbose: false
           export PGPASSWORD=#{pwd};
-          pg_dump --host #{host} --username #{user} #{ENV['OPTIONS']} --verbose --no-owner --no-acl --format=c #{only} #{skip} #{db} > #{Rails.root}/db/dump.pg
+          pg_dump --host #{host} --username #{user} #{ENV['OPTIONS']} --verbose --no-owner --no-acl --clean --format=c #{only} #{skip} #{db} > #{Rails.root}/db/dump.pg
         CMD
       end
     end
 
-    desc "Restore the database from db/dump.pg"
+    desc "Restore the database from db/dump.pg"''
     task :restore => :environment do
       with_config do |host, db, user, pwd|
         if ENV['ONLY'].present?
