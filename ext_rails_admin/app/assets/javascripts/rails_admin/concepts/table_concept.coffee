@@ -72,7 +72,7 @@ class RailsAdmin.TableConcept
       @table_head.fadeTo(0, 1)
 
   toggle_scroll_x: =>
-    if !Device.touched && $(@WRAPPER).has_scroll_x()
+    if $(@WRAPPER).has_scroll_x()
       $(@SCROLL_X).show()
     else
       $(@SCROLL_X).hide()
