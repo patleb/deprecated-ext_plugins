@@ -12,10 +12,10 @@ module RailsAdmin
     end
 
     def extract_charts
-      return [] unless @objects.exists?
-
       if (estimate = @objects.count_estimate) > RailsAdmin.config.chart_max_rows
         raise RailsAdmin::TooManyRows.new("Too many rows: #{estimate} (max: #{RailsAdmin.config.chart_max_rows})")
+      elsif estimate == 0
+        return []
       end
 
       charts = if params.has_key? :c
@@ -154,7 +154,7 @@ module RailsAdmin
     def adjust_query_count(query)
       max_size = @chart_config.max_size
 
-      if max_size && (size = query.count) > max_size
+      if max_size && (size = query.size) > max_size
         chunk_size = (size / max_size.to_f).ceil
         result = {}
         query.each_slice(chunk_size) do |segment|
