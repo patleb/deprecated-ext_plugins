@@ -23,10 +23,6 @@ module RailsAdmin
           :created_at
         end
 
-        register_instance_option :with_time_zone? do
-          false
-        end
-
         register_instance_option :max_size do
           288
         end

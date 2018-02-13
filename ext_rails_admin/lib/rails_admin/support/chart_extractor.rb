@@ -105,13 +105,9 @@ module RailsAdmin
       group_by = @chart_config.group_by
       resolution = automatic_resolution(query, group_by)
 
-      if @chart_config.with_time_zone?
-        # TODO time zone
-      else
-        group_base = "(DATE_TRUNC('#{resolution}', #{group_by}))"
-        group_name = "date_trunc_#{resolution.underscore}_#{group_by.to_s.underscore.tr('.', '_')}"
-        query = query.reorder(nil).group(group_base).order(group_name)
-      end
+      group_base = "(DATE_TRUNC('#{resolution}', #{group_by}))"
+      group_name = "date_trunc_#{resolution.underscore}_#{group_by.to_s.underscore.tr('.', '_')}"
+      query = query.reorder(nil).group(group_base).order(group_name)
 
       field_name = @field.name
       model, select_method = @abstract_model.model, "chart_#{field_name}"
