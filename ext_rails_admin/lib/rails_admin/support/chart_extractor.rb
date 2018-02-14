@@ -138,14 +138,15 @@ module RailsAdmin
 
     def map_query_values(query)
       if (map = @chart_config.map)
-        query = if map.is_a? Proc
-          query.map(&map)
-        else
-          method, *args = Array.wrap(map)
-          query.map do |group_by_value|
-            group_by_value[1] = group_by_value[1].send(method, *args)
-            group_by_value
-          end
+        query =
+          if map.is_a? Proc
+            query.map(&map)
+          else
+            method, *args = Array.wrap(map)
+            query.map do |group_by_value|
+              group_by_value[1] = group_by_value[1].send(method, *args)
+              group_by_value
+            end
         end
       end
 
