@@ -130,10 +130,9 @@ module RailsAdmin
       max_size = @chart_config.max_size
       chunk_size = (seconds / max_size.to_f).ceil
 
-      sql = <<~SQL
+      [<<~SQL, "to_timestamp_floor_extract_epoch_from_#{group_by}_#{chunk_size}_all_#{chunk_size}_at_time_zone_utc"[0..62]]
         to_timestamp(FLOOR((EXTRACT('epoch' FROM #{group_by}) / #{chunk_size} )) * #{chunk_size}) AT TIME ZONE 'UTC'
       SQL
-      [sql, "to_timestamp_floor_extract_epoch_from_#{group_by}_#{chunk_size}_all_#{chunk_size}_at_time_zone_utc"[0..62]]
     end
 
     def map_query_values(query)
@@ -149,7 +148,6 @@ module RailsAdmin
             end
         end
       end
-
       query
     end
   end
