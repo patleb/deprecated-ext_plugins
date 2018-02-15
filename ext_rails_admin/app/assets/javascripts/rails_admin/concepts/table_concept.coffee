@@ -16,12 +16,11 @@ class RailsAdmin.TableConcept
       $(@APPLICATION_WINDOW).animate(scrollTop: 0)
 
     'click', @SCROLL_X, =>
-      wrapper = $(@WRAPPER)
-      scroll_width = (wrapper[0].scrollWidth - wrapper[0].clientWidth)
-      if wrapper.scrollLeft() < scroll_width / 2
-        wrapper.animate(scrollLeft: scroll_width)
+      scroll_width = (@table_wrapper[0].scrollWidth - @table_wrapper[0].clientWidth)
+      if @table_wrapper.scrollLeft() < scroll_width / 2
+        @table_wrapper.animate(scrollLeft: scroll_width)
       else
-        wrapper.animate(scrollLeft: 0)
+        @table_wrapper.animate(scrollLeft: 0)
   ]
 
   ready: =>
@@ -31,35 +30,33 @@ class RailsAdmin.TableConcept
     @table_head = @table.find('thead')
     @sticky_head = $(@STICKY_HEAD)
     @sticky_table = @sticky_head.find('.table')
+    @scroll_x = $(@SCROLL_X)
 
-    @bind_sticky_head()
-    @bind_double_scroll()
-    @bind_scroll_x()
-    @update_sticky_head()
-    @toggle_scroll_x()
+    $(@APPLICATION_WINDOW).on 'scroll.table_concept', _.throttle(@on_window_scroll, 100)
+    $(window).on 'scroll.table_concept', _.throttle(@on_window_scroll, 100)
+    $(window).on 'resize.table_concept', _.throttle(@on_window_resize, 100)
 
-  leave: =>
-    @unbind_sticky_head()
-
-  #### PRIVATE ####
-
-  bind_sticky_head: =>
-    $(@APPLICATION_WINDOW).on 'scroll.table_concept', _.throttle(@toggle_sticky_head, 100)
-    $(window).on 'scroll.table_concept', _.throttle(@toggle_sticky_head, 100)
-    $(window).on 'resize.table_concept', _.throttle(@update_sticky_head, 100)
-
-  unbind_sticky_head: =>
-    $(@APPLICATION_WINDOW).off 'scroll.table_concept'
-    $(window).off 'scroll.table_concept'
-    $(window).off 'resize.table_concept'
-
-  bind_double_scroll: =>
     # https://github.com/cubiq/iscroll
     @table_wrapper.on 'scroll', =>
       @sticky_table.css(left: "-#{@table_wrapper.scrollLeft()}px")
 
-  bind_scroll_x: =>
-    $(window).on 'resize.table_concept', _.throttle(@toggle_scroll_x, 100)
+    @update_sticky_head()
+    @toggle_scroll_x()
+
+  leave: =>
+    $(@APPLICATION_WINDOW).off 'scroll.table_concept'
+    $(window).off 'scroll.table_concept'
+    $(window).off 'resize.table_concept'
+
+  #### PRIVATE ####
+
+  on_window_scroll: =>
+    @toggle_sticky_head()
+    @toggle_scroll_x()
+
+  on_window_resize: =>
+    @update_sticky_head()
+    @toggle_scroll_x()
 
   update_sticky_head: =>
     @sticky_head.css(width: "#{@table_wrapper[0].scrollWidth}px")
@@ -78,7 +75,12 @@ class RailsAdmin.TableConcept
       @table_head.fadeTo(0, 1)
 
   toggle_scroll_x: =>
-    if $(@WRAPPER).has_scroll_x()
-      $(@SCROLL_X).show()
+    if @table_wrapper.has_scroll_x() && @not_at_bottom()
+      @scroll_x.css(visibility: 'visible')
     else
-      $(@SCROLL_X).hide()
+      @scroll_x.css(visibility: 'hidden')
+
+  not_at_bottom: =>
+    table_bottom = @table_wrapper.offset().top + @table_wrapper.height()
+    scroll_x_bottom = @scroll_x.offset().top + @scroll_x.height()
+    table_bottom >= scroll_x_bottom + 20
