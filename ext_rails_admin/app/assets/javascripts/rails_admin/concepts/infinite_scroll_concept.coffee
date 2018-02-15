@@ -24,7 +24,9 @@ class RailsAdmin.InfiniteScrollConcept
   prepend_old_list_and_replace_container: (data) =>
     index = $("<div>").html(data)
     new_container = index.find(@CONTAINER)
-    new_list = new_container.find('tbody:last > tr:first')
-    new_list.prepend($('tbody:last').html())
-    new_list.find('tr:last').addClass(@SEPARATOR_CLASS)
-    $(@CONTAINER).html(new_container.html())
+    if (new_list = new_container.find('tbody:last > tr:first')).length
+      new_list.prepend($('tbody:last').html())
+      new_list.find('tr:last').addClass(@SEPARATOR_CLASS)
+      $(@CONTAINER).html(new_container.html())
+    else
+      $(@LINK).add_disabled()
