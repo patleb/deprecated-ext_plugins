@@ -101,9 +101,9 @@ Model.new(:meta, 'Backup meta directory') do
   sync_with ExtRake.config.syncer do |syncer|
     syncer.mirror = false
 
-    # TODO sync only dir related to model
     syncer.directories do |directory|
       directory.add ExtRake.config.backup_meta_dir
+      directory.exclude /(?!#{ExtRake.config.backup_model})\//
     end
   end
 
