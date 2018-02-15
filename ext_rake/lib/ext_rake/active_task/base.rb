@@ -45,7 +45,7 @@ module ActiveTask
     end
 
     def before_run; end
-    def before_ensure; end
+    def after_ensure; end
 
     def run
       _save_environment
@@ -57,8 +57,8 @@ module ActiveTask
         end
       end
     ensure
-      before_ensure
       _restore_environment
+      after_ensure
     end
 
     def reload_settings_yml

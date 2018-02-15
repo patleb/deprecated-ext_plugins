@@ -27,7 +27,7 @@ module ExtRake
       sleep 5
     end
 
-    def before_ensure
+    def after_ensure
       sh "sudo systemctl stop openvpn@#{self.class.vpn_client_name}"
     end
   end
