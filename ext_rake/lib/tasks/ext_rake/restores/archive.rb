@@ -1,7 +1,5 @@
 module ExtRake
-  class ArchiveRestore < ExtRake.config.parent_task.constantize
-    include Restore
-
+  class ArchiveRestore < Restore
     def self.args
       {
         model:   ['--model=MODEL',     'Backup model'],

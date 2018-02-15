@@ -14,9 +14,14 @@ module ActiveTask
 end
 
 module ExtRake
-  autoload :Backup,   'tasks/ext_rake/backup'
-  autoload :Openvpn,  'tasks/ext_rake/openvpn'
-  autoload :Restore,  'tasks/ext_rake/restore'
+  autoload :Backup,    'tasks/ext_rake/backup'
+  autoload :Openvpn,   'tasks/ext_rake/openvpn'
+  autoload :Partition, 'tasks/ext_rake/partition'
+  autoload :Pgslice,   'tasks/ext_rake/pgslice'
+  autoload :Psql,      'tasks/ext_rake/psql'
+  autoload :Restore,   'tasks/ext_rake/restore'
+
+  autoload :PartitionBackup,  'tasks/ext_rake/backups/partition'
 
   autoload :ArchiveRestore,   'tasks/ext_rake/restores/archive'
   autoload :PostgresRestore,  'tasks/ext_rake/restores/postgres'

@@ -1,6 +1,6 @@
 module ExtRake
-  class PostgresRestore < ExtRake.config.parent_task.constantize
-    include Restore
+  class PostgresRestore < Restore
+    include Psql
 
     def self.args
       # TODO pg_restore --format=c
@@ -34,10 +34,6 @@ module ExtRake
     def self.psql_options
       ENV['PSQL_OPTIONS'].presence || \
         "--quiet "
-    end
-
-    def self.psql_url
-      "postgresql://#{SettingsYml[:db_username]}:#{SettingsYml[:db_password]}@#{SettingsYml[:db_host]}:5432/#{SettingsYml[:db_database]}"
     end
 
     protected

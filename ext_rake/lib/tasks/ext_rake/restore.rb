@@ -1,28 +1,24 @@
 module ExtRake
-  module Restore
+  class Restore < ExtRake.config.parent_task.constantize
     class Failed < ::StandardError; end
     class NoTarFile < ::StandardError; end
     class NoWindowsSupport < ::StandardError; end
     class RootPath < ::StandardError; end
 
-    extend ActiveSupport::Concern
+    def self.steps
+      [:run_restore]
+    end
 
-    class_methods do
-      def steps
-        [:run_restore]
-      end
+    def self.ignored_errors
+      []
+    end
 
-      def ignored_errors
-        []
-      end
+    def self.sanitized_lines
+      {}
+    end
 
-      def sanitized_lines
-        {}
-      end
-
-      def backup_type
-        raise NotImplementedError
-      end
+    def self.backup_type
+      raise NotImplementedError
     end
 
     def before_run

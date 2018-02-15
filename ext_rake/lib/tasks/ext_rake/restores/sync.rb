@@ -1,7 +1,5 @@
 module ExtRake
-  class SyncRestore < ExtRake.config.parent_task.constantize
-    include Restore
-
+  class SyncRestore < Restore
     def self.steps
       super + [:restore_permissions, :restore_owner]
     end

@@ -109,6 +109,14 @@ module ExtRake
       "#{rails_app}_#{rails_env}"
     end
 
+    def backup_model
+      ENV['MODEL']
+    end
+
+    def backup_partition
+      ENV['PARTITION']
+    end
+
     def storage
       if remote?
         ::Backup::Storage::S3

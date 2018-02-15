@@ -83,6 +83,14 @@ module ActiveTask
       rake.respond_to?(name, include_private) || super
     end
 
+    protected
+
+    def sh_clean(*cmd, &block)
+      Bundler.with_clean_env do
+        rake.__send__ :sh, *cmd, &block
+      end
+    end
+
     private
 
     def _parse_args
