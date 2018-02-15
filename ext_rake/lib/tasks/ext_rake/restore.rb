@@ -1,6 +1,6 @@
 module ExtRake
   module Restore
-    class RestoreFailed < ::StandardError; end
+    class Failed < ::StandardError; end
     class NoTarFile < ::StandardError; end
     class NoWindowsSupport < ::StandardError; end
     class RootPath < ::StandardError; end
@@ -80,8 +80,14 @@ module ExtRake
     end
 
     def notify?(stderr)
-      stderr.strip.split("\n").any? do |line|
-        line.present? && self.class.ignored_errors.exclude?(line.strip)
+      stderr.strip.split("\n").lazy.map(&:strip).any? do |line|
+        line.present? && self.class.ignored_errors.none? do |ignored_error|
+          if ignored_error.is_a? Regexp
+            line.match ignored_error
+          else
+            line == ignored_error
+          end
+        end
       end
     end
 
@@ -89,7 +95,7 @@ module ExtRake
       cmd = self.class.sanitized_lines.each_with_object(cmd) do |(id, match), memo|
         memo.gsub! match, "[#{id}]"
       end
-      raise RestoreFailed, "[#{cmd}]\n\n#{stderr}"
+      raise Failed, "[#{cmd}]\n\n#{stderr}"
     end
 
     def fetch_s3
