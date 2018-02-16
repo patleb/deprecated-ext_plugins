@@ -109,11 +109,11 @@ class Js.Concepts
       uniq_methods.push(element_class::document_on)
       @define_document_on(element_class::)
 
-    attr_readers = element_class::attr_readers?().each_with_object (name, value, readers) =>
+    accessors = element_class::accessors?().each_with_object (name, value, accessors) =>
       element_class::[name] = -> this["__#{name}"] ?= value.apply(this, arguments)
-      readers.push(name)
+      accessors.push(name)
     , []
-    element_class::attr_readers = attr_readers || []
+    element_class::accessors = accessors || []
 
   @define_constant: (klass, name, value, constants) =>
     if value.class_name

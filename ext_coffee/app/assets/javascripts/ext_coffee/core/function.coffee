@@ -8,7 +8,7 @@ JS_CONCEPTS_METHODS = [
   'c'
   'class_name'
   'constants'
-  'attr_readers'
+  'accessors'
   'document_on_before'
   'document_on'
   'document_on_after'

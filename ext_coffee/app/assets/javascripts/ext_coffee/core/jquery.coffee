@@ -288,9 +288,6 @@ jQuery.define_methods
   has_scroll_x: ->
     this.scrollLeft(1) && this.scrollLeft() > 0 && this.scrollLeft(0) && true
 
-  has_error: ->
-    this.has_content_error() || this.has_action_error()
-
 jQuery.decorate_methods
   ready: ->
     handler = arguments[0]

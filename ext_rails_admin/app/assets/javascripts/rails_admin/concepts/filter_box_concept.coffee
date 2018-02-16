@@ -12,7 +12,6 @@ class RailsAdmin.FilterBoxConcept
 
   document_on: => [
     'click', "#{@CONTAINER} .delete", (event, target) ->
-      form = target.parents('form')
       target.parents('.filter').remove()
 
     'click', "#{@CONTAINER} .switch-select", (event, target) ->

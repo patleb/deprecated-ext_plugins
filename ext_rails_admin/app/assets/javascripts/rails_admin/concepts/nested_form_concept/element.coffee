@@ -11,7 +11,7 @@ class RailsAdmin.NestedFormConcept::Element
     TAB_PANE_ADDED: ''
     DESTROY: 'input[id$="__destroy"]'
 
-  attr_readers: =>
+  accessors: =>
     button_toggle: -> @wrapper.find_first(@TOGGLE)
     button_add:    -> @wrapper.find_first(@ADD)
     nav:           -> @wrapper.find_first(@NAV)
