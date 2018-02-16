@@ -3,11 +3,11 @@ module ExtRake
     include Psql
 
     def self.args
-      # TODO pg_restore --format=c
       {
-        model:    ['--model=MODEL',     'Backup model'],
-        version:  ['--version=VERSION', 'Backup version'],
-        drop_all: ['--[no-]drop-all',   'Drop all before restore']
+        model:      ['--model=MODEL',     'Backup model'],
+        version:    ['--version=VERSION', 'Backup version'],
+        drop_all:   ['--[no-]drop-all',   'Drop all before restore'],
+        pg_restore: ['--[no-]pg-restore', 'Use pg_restore'],
       }
     end
 
@@ -36,17 +36,27 @@ module ExtRake
         "--quiet "
     end
 
+    def self.pg_restore_options
+      ENV['PG_RESTORE_OPTIONS'].presence
+    end
+
     protected
 
     def restore_cmd
       drop_all = options.drop_all ? "#{drop_all_cmd} &&" : ''
 
       if Gem.win_platform?
+        raise NoWindowsSupport if options.pg_restore
+
         backup = extract_path.join("PostgreSQL.sql")
         %{#{drop_all} psql #{self.class.psql_options} "#{self.class.psql_url}" < "#{backup}"}
       else
         backup = extract_path.join("PostgreSQL.sql.gz")
-        %{#{drop_all} cat "#{backup}" | gunzip | psql #{self.class.psql_options} "#{self.class.psql_url}"}
+        if options.pg_restore
+          %{#{drop_all} zcat "#{backup}" | pg_restore #{self.class.pg_restore_options} -d "#{self.class.psql_url}"}
+        else
+          %{#{drop_all} zcat "#{backup}" | psql #{self.class.psql_options} "#{self.class.psql_url}"}
+        end
       end
     end
 
