@@ -128,6 +128,7 @@ module RailsAdmin
       first, last = last, first if first > last
       seconds = (last - first).to_i
       chunk_size = (seconds / @chart_config.max_size.to_f).ceil
+      chunk_size = 1 if chunk_size == 0
 
       [<<~SQL, "to_timestamp_floor_extract_epoch_from_#{group_by}_#{chunk_size}_all_#{chunk_size}_at_time_zone_utc"[0..62]]
         to_timestamp(FLOOR((EXTRACT('epoch' FROM #{group_by}) / #{chunk_size} )) * #{chunk_size}) AT TIME ZONE 'UTC'

@@ -179,6 +179,10 @@ module RailsAdmin
 
       def build_statement_for_datetime_or_timestamp
         start_date, end_date = get_filtering_duration
+        if @operator == "default"
+          start_date = (start_date.beginning_of_day rescue nil) if start_date
+          end_date = (end_date.end_of_day rescue nil) if end_date
+        end
         range_filter(start_date, end_date)
       end
 
