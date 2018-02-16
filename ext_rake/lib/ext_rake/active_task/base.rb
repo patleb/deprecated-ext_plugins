@@ -4,7 +4,7 @@ module ActiveTask
 
     STEPS_ARGS = %i(
       only
-      except
+      skip
     ).freeze
 
     RAILS_ARGS = %i(
@@ -75,20 +75,18 @@ module ActiveTask
       task.puts(obj, *arg)
     end
 
+    def sh_clean(*cmd, &block)
+      Bundler.with_clean_env do
+        rake.__send__ :sh, *cmd, &block
+      end
+    end
+
     def method_missing(name, *args, &block)
       rake.__send__(name, *args, &block)
     end
 
     def respond_to_missing?(name, include_private = false)
       rake.respond_to?(name, include_private) || super
-    end
-
-    protected
-
-    def sh_clean(*cmd, &block)
-      Bundler.with_clean_env do
-        rake.__send__ :sh, *cmd, &block
-      end
     end
 
     private
@@ -151,8 +149,8 @@ module ActiveTask
         steps.select!{ |step| step.to_s.in? @options.only }
       end
 
-      if @options.except.present?
-        steps.reject!{ |step| step.to_s.in? @options.except }
+      if @options.skip.present?
+        steps.reject!{ |step| step.to_s.in? @options.skip }
       end
 
       steps
