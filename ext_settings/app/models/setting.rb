@@ -3,9 +3,6 @@ class Setting < ExtSettings.config.parent_model.constantize
 
   has_logidze
 
-  class Entry < OpenStruct
-  end
-
   def self.yml
     SettingsYml
   end
@@ -67,6 +64,9 @@ class Setting < ExtSettings.config.parent_model.constantize
   end
 
   def history
-    @history ||= log_data.data['h'].map{ |h| Entry.new(h['c'].slice('value', 'updated_at')) }
+    @history ||= log_data.data['h'].map do |h|
+      value, updated_at = h['c'].slice('value', 'updated_at').values
+      self.class.new(value: value, updated_at: DateTime.parse(updated_at))
+    end
   end
 end
