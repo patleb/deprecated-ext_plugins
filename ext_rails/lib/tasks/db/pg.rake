@@ -11,7 +11,7 @@ namespace :db do
         end
         sh <<~CMD, verbose: false
           export PGPASSWORD=#{pwd};
-          pg_dump --host #{host} --username #{user} #{ENV['OPTIONS']} --verbose --no-owner --no-acl --clean --format=c #{only} #{skip} #{db} > #{Rails.root}/db/dump.pg
+          pg_dump --host #{host} --username #{user} #{ENV['PG_OPTIONS']} --verbose --no-owner --no-acl --clean --format=c #{only} #{skip} #{db} > #{Rails.root}/db/dump.pg
         CMD
       end
     end
@@ -24,14 +24,14 @@ namespace :db do
         end
         sh <<~CMD, verbose: false
           export PGPASSWORD=#{pwd};
-          pg_restore --verbose --host #{host} --username #{user} #{ENV['OPTIONS']} --no-owner --no-acl #{only} --dbname #{db} #{Rails.root}/db/dump.pg
+          pg_restore --verbose --host #{host} --username #{user} #{ENV['PG_OPTIONS']} --no-owner --no-acl #{only} --dbname #{db} #{Rails.root}/db/dump.pg
         CMD
       end
     end
 
     # TODO http://manuelvanrijn.nl/blog/2012/01/18/convert-postgresql-to-sqlite/
     task :sqlite => :environment do
-      ENV['OPTIONS'] = '--data-only --inserts'
+      ENV['PG_OPTIONS'] = '--data-only --inserts'
       invoke 'db:pg:dump'
 
       dump = "#{Rails.root}/db/dump.pg"
