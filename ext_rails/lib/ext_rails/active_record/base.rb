@@ -19,6 +19,15 @@ ActiveRecord::Base.class_eval do
     (like.end_with? '$') ? like.chop! : (like << '%')
   end
 
+  def self.quoted_column(name)
+    table, column = name.split('.', 2)
+    if column
+      [connection.quote_table_name(table), connection.quote_column_name(column)].join('.')
+    else
+      connection.quote_column_name(table)
+    end
+  end
+
   def locking_enabled?
     super && changed.any? { |attribute| ExtRails.config.skip_locking.exclude? attribute }
   end
