@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency "colorize", "~> 0.8"
   s.add_dependency "dotiw", "~> 3.1"
   s.add_dependency "require_all", "~> 1.4"
+  s.add_dependency "pgslice"
   s.add_dependency "ext_aws_sdk"
   s.add_dependency "ext_mail"
   s.add_dependency "settings_yml"
