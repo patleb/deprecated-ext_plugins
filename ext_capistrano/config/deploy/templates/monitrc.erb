@@ -180,8 +180,8 @@ set alert <%= mail_to %> not on { instance, action, pid }
 #    if swap usage > 25% then alert
 #
 check system $HOST
-  if memory usage > <%= fetch(:monit_max_memory_size) %> then exec "<%= fetch(:monit_restart_passenger) %>"
-  if swap usage > <%= fetch(:monit_max_swap_size) %> then exec "/bin/systemctl restart nginx"
+  if memory usage > <%= fetch(:monit_max_memory_size) %> then <%= fetch(:monit_max_memory_action) %>
+  if swap usage > <%= fetch(:monit_max_swap_size) %> then <%= fetch(:monit_max_swap_action) %>
 #
 ## Check if a file exists, checksum, permissions, uid and gid. In addition
 ## to alert recipients in the global section, customized alert can be sent to
@@ -242,6 +242,10 @@ check system $HOST
 #    if inode usage > 30000 then alert
 #    if inode usage > 99% then stop
 #    group server
+<% unless fetch(:stage) == :vagrant -%>
+check filesystem <%= fetch(:monit_filesystem_root) %> with path /
+  if space usage > 80% then alert
+<% end -%>
 #
 #
 ## Check a file's timestamp. In this example, we test if a file is older

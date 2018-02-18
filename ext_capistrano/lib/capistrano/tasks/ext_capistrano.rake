@@ -62,11 +62,13 @@ namespace :load do
     set :passenger_restart_command, -> { 'rbenv sudo passenger-config restart-app' }
 
     set :monit_max_swap_size,     -> { '25%' }
+    set :monit_max_swap_action,   -> { %{exec "/bin/systemctl restart nginx"} }
     set :monit_max_memory_size,   -> { '75%' }
-    set :monit_restart_passenger, -> do
+    set :monit_max_memory_action, -> do
       command = [fetch(:passenger_restart_command), fetch(:passenger_restart_options)].join(' ')
-      "/usr/bin/sudo -u deployer -H sh -c '/home/deployer/.rbenv/bin/#{command}'"
+      %{exec "/usr/bin/sudo -u deployer -H sh -c '/home/deployer/.rbenv/bin/#{command}'"}
     end
+    set :monit_filesystem_root,   -> { 'xvda1' }
 
     set :whenever_identifier,    -> { fetch(:deploy_dir) }
     set :whenever_batch_scripts, -> { [] }
