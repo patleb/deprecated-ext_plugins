@@ -5,9 +5,10 @@ module RailsAdmin
         action_name == 'index'
       end
 
-      def query?
-        @model_config.list.query?
+      def query
+        @model_config.list.query
       end
+      alias_method :query?, :query
 
       def ordered_filter_string
         ordered_filters.map do |(index, filter_for_field)|

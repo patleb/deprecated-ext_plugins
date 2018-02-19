@@ -19,7 +19,8 @@
     - if filter_box.index_action? || filter_box.query?
       .input-group
         - if filter_box.query?
-          %input.form-control.input-sm{name: "query", type: "search", value: params[:query], placeholder: t("admin.misc.filter")}
+          - query_type = (filter_box.query == true) ? "search" : filter_box.query
+          %input.form-control.input-sm{name: "query", type: query_type, value: params[:query], placeholder: t("admin.misc.filter")}
         - if filter_box.index_action?
           %span.input-group-btn
             %button.btn.btn-primary.btn-sm{type: 'submit', 'data-disable-with': true}
