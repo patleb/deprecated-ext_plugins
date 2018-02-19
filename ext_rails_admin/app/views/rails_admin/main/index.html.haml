@@ -23,7 +23,7 @@
             %th{class: [property.css_class, property.type_css_class, ('js_table_scroll_up' if index == 0)]}= capitalize_first_letter(property.label)
           %th.last.shrink
   .js_table_wrapper
-    .js_table_scroll_x.fa.fa-arrows-h
+    .js_table_scroll_x.fa.fa-exchange
     %table.table.table-condensed.table-striped{class: "#{@abstract_model.param_key}_list #{'no_bulk_menu' unless bulk_menu?}"}
       %thead
         %tr

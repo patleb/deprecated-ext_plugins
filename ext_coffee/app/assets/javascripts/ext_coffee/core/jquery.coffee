@@ -285,8 +285,11 @@ jQuery.define_methods
       this.scrollTop(this.scrollTop() - this.position().top + item.position().top)
     this
 
+  has_scroll_y: ->
+    this[0].scrollHeight > this.innerHeight()
+
   has_scroll_x: ->
-    this.scrollLeft(1) && this.scrollLeft() > 0 && this.scrollLeft(0) && true
+    this[0].scrollWidth > this.innerWidth()
 
 jQuery.decorate_methods
   ready: ->
