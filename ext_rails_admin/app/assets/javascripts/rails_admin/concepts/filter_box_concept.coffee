@@ -9,6 +9,7 @@ class RailsAdmin.FilterBoxConcept
     LINK: 'CLASS'
     FORM: 'CLASS'
     CLEAR: 'CLASS'
+    INPUT: 'CLASS'
 
   document_on: => [
     'click', "#{@CONTAINER} .delete", (event, target) ->
@@ -49,9 +50,10 @@ class RailsAdmin.FilterBoxConcept
       @uniq_filters[field_name] = false
 
     'click', @CLEAR, (event, target) =>
-      $(@CONTAINER).html("")
-      target.parent().siblings("input[type='search']").val("")
-      target.parents("form").submit()
+      $(@INPUT).val("")
+      unless $('#chart_action').length
+        $(@CONTAINER).html("")
+        target.parents("form").submit()
   ]
 
   ready: =>

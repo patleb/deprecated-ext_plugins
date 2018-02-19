@@ -14,13 +14,13 @@
 #js_filter_box_init{'data-js': filter_box.ordered_filter_string}
 
 = form_tag(filter_box.form_path, method: :get, remote: true, class: "form-inline js_filter_box_form") do
-  .well.btn-group.filter_box_actions
+  .well.btn-group.filter_box_actions{class: ('filter_box_actions_no_query' unless filter_box.query?)}
     #js_filter_box_container
     - if filter_box.index_action? || filter_box.query?
       .input-group
         - if filter_box.query?
           - query_type = (filter_box.query == true) ? "search" : filter_box.query
-          %input.form-control.input-sm{name: "query", type: query_type, value: params[:query], placeholder: t("admin.misc.filter")}
+          %input.js_filter_box_input.form-control.input-sm{name: "query", type: query_type, value: params[:query], placeholder: t("admin.misc.filter")}
         - if filter_box.index_action?
           %span.input-group-btn
             %button.btn.btn-primary.btn-sm{type: 'submit', 'data-disable-with': true}
