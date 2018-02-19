@@ -16,13 +16,18 @@
 = form_tag(filter_box.form_path, method: :get, remote: true, class: "form-inline js_filter_box_form") do
   .well.btn-group.filter_box_actions
     #js_filter_box_container
-    - if filter_box.index_action?
+    - if filter_box.index_action? || filter_box.query?
       .input-group
         - if filter_box.query?
           %input.form-control.input-sm{name: "query", type: "search", value: params[:query], placeholder: t("admin.misc.filter")}
-        %span.input-group-btn
-          %button.btn.btn-primary.btn-sm{type: 'submit', 'data-disable-with': true}
-            %i.icon-white.icon-refresh
-            %span{class: ('hidden-xs' if filter_box.query?)}= t('admin.misc.refresh')
-          %button.js_filter_box_clear.btn.btn-info.btn-sm{title: "Reset filters"}
-            %i.icon-white.icon-remove
+        - if filter_box.index_action?
+          %span.input-group-btn
+            %button.btn.btn-primary.btn-sm{type: 'submit', 'data-disable-with': true}
+              %i.icon-white.icon-refresh
+              %span{class: ('hidden-xs' if filter_box.query?)}= t('admin.misc.refresh')
+            %button.js_filter_box_clear.btn.btn-info.btn-sm{title: "Reset filters"}
+              %i.icon-white.icon-remove
+        - else
+          %span.input-group-btn
+            %button.js_filter_box_clear.btn.btn-info.btn-sm{title: "Reset filters"}
+              %i.icon-white.icon-remove

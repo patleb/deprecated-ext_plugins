@@ -1,5 +1,6 @@
 #= require rails_admin/concepts/filter_box_concept
 
+# https://github.com/chartjs/Chart.js/issues/5106 --> wait version 2.8
 class RailsAdmin.ChartConcept
   constants: ->
     CONFIG: '.js_chartkick_config'
@@ -27,6 +28,11 @@ class RailsAdmin.ChartConcept
       wrapper.remove()
       @uniq_charts[key] = false
       @toggle_list()
+
+    'keydown', '#chart_action > form', (event) =>
+      if event.which == $.ui.keyCode.ENTER
+        event.preventDefault()
+        $(@SUBMIT_BUTTON).click()
   ]
 
   ready: =>
