@@ -13,7 +13,7 @@ http {
   log_format goaccess_log '$remote_addr - $remote_user [$time_local] '
     '"$request" $status $body_bytes_sent '
     '"$http_referer" "$http_user_agent" '
-    '$upstream_response_time - $scheme - $gzip_ratio';
+    '$upstream_response_time $pipe $request_time - $scheme - $gzip_ratio';
 
   ##
   # Basic Settings
@@ -106,6 +106,9 @@ http {
     passenger_max_instances_per_app 2;
   <% end %>
   passenger_max_pool_size <%= SettingsYml[:max_pool_size] %>;
+  # TODO https://www.phusionpassenger.com/library/config/nginx/reference/#passenger_max_request_queue_time
+  # or in after_action keep the last long request (5 sec. or so) for about 30 sec with (*unique) session id in cache
+  # and send this response if client request is the same (this could mitigates sucessive refreshes)
 
   <% fetch(:nginx_denied_ips).each do |ip| %>
     deny '<%= ip %>';
