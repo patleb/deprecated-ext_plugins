@@ -83,4 +83,4 @@ class RailsAdmin.TableConcept
   not_at_bottom: =>
     table_bottom = @table_wrapper.offset().top + @table_wrapper.height()
     scroll_x_bottom = @scroll_x.offset().top + @scroll_x.height()
-    table_bottom >= scroll_x_bottom + 20
+    table_bottom >= scroll_x_bottom + 34

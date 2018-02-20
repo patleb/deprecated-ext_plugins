@@ -286,10 +286,10 @@ jQuery.define_methods
     this
 
   has_scroll_y: ->
-    this[0].scrollHeight > this.innerHeight()
+    this[0].scrollHeight > this[0].clientHeight
 
   has_scroll_x: ->
-    this[0].scrollWidth > this.innerWidth()
+    this[0].scrollWidth > this[0].clientWidth
 
 jQuery.decorate_methods
   ready: ->
