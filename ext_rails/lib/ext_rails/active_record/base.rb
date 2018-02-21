@@ -20,12 +20,16 @@ ActiveRecord::Base.class_eval do
   end
 
   def self.quoted_column(name)
-    table, column = name.split('.', 2)
+    table, column = name.to_s.split('.', 2)
     if column
       [connection.quote_table_name(table), connection.quote_column_name(column)].join('.')
     else
       connection.quote_column_name(table)
     end
+  end
+
+  def self.quoted_columns(*names)
+    names.map{ |name| quoted_column(name) }
   end
 
   def locking_enabled?
