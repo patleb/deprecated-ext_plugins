@@ -192,7 +192,7 @@ module RailsAdmin
             if form.object.new_record? && related_id.present? && related_id != 'new'
               [abstract_model.get(related_id)]
             else
-              form.object.send(name).presence || form.object.try("cloned_#{name}") || []
+              form_value.presence || form.object.try("cloned_#{name}") || []
             end
           end
         end

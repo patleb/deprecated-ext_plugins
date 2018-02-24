@@ -33,6 +33,10 @@ module RailsAdmin
           (@label ||= {})[::I18n.locale] ||= abstract_model.model.human_attribute_name association.name
         end
 
+        register_instance_option :scope do
+          nil
+        end
+
         # scope for possible associable records
         register_instance_option :associated_collection_scope do
           # bindings[:object] & bindings[:controller] available
@@ -106,7 +110,9 @@ module RailsAdmin
 
         # Reader for the association's value unformatted
         def value
-          bindings[:object].send(association.name)
+          result = bindings[:object].send(association.name)
+          result = result.send(scope) if scope
+          result
         end
 
         # has many?
@@ -125,7 +131,7 @@ module RailsAdmin
         def render_nested
           config = associated_model_config
           abstract_model = config.abstract_model
-          selected = selected_object(abstract_model) || form.object.send(name)
+          selected = selected_object(abstract_model) || form_value
           can_create, can_destroy = !nested_form[:update_only], nested_form[:allow_destroy]
           with_errors = !!selected && selected.errors.any?
           opened = active? || with_errors
