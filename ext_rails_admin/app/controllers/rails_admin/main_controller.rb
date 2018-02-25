@@ -167,8 +167,10 @@ module RailsAdmin
     end
 
     def get_collection(model_config, scope, pagination)
-      associations = model_config.list.fields.select { |f| f.try(:eager_load?) }.collect { |f| f.association.name }
+      associations = model_config.list.fields.select{ |f| f.try(:eager_load?) }.map{ |f| f.association.name }
+      left_joins = model_config.list.fields.select{ |f| f.try(:left_joins?) }.map{ |f| f.association.name }
       options = {}
+      options.merge!(left_joins: left_joins) unless left_joins.blank?
       options.merge!(include: associations) unless associations.blank?
       options.merge!(get_sort_hash(model_config))
       # TODO convert to keyset pagination

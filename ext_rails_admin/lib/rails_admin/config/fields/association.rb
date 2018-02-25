@@ -74,6 +74,10 @@ module RailsAdmin
           !!searchable
         end
 
+        register_instance_option :left_joins? do
+          false
+        end
+
         register_instance_option :render do
           nested_form ? render_nested : render_filtering
         end
