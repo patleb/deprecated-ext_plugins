@@ -14,7 +14,7 @@ module ExtThrottler
       else
         value.class.to_s
       end
-    new_time = Time.current.utc
+    new_time = Time.current
 
     record = Global.fetch_record(key) do
       { value: new_value, time: new_time.iso8601, count: 1 }
@@ -32,8 +32,8 @@ module ExtThrottler
         return update(record, old_value, new_value, new_time, count)
       end
 
-      elapsed_time = (new_time - Time.zone.parse(old_time)).to_i.seconds
-      if elapsed_time >= (duration || ExtThrottler.config.duration)
+      old_time = Time.zone.parse(old_time)
+      if (new_time - old_time).seconds >= (duration || ExtThrottler.config.duration)
         return update(record, old_value, old_value, new_time, count)
       end
 
