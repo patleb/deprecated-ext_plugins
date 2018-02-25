@@ -29,6 +29,19 @@ namespace :db do
       end
     end
 
+    desc "Truncate the tables"
+    task :truncate => :environment do
+      with_config do |host, db, user, pwd|
+        if ENV['ONLY'].blank?
+          raise "comma separated tables must be specified through 'ONLY' environment variable"
+        end
+        only = ENV['ONLY'].split(',').reject(&:blank?).map{ |table| "TRUNCATE TABLE #{table};" }.join(' ')
+        sh <<~CMD, verbose: false
+          psql -c "#{only}" postgres://#{user}:#{pwd}@#{host}/#{db}
+        CMD
+      end
+    end
+
     # TODO http://manuelvanrijn.nl/blog/2012/01/18/convert-postgresql-to-sqlite/
     task :sqlite => :environment do
       ENV['PG_OPTIONS'] = '--data-only --inserts'
