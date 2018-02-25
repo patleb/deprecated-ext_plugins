@@ -35,7 +35,7 @@ namespace :db do
         if ENV['ONLY'].blank?
           raise "comma separated tables must be specified through 'ONLY' environment variable"
         end
-        only = ENV['ONLY'].split(',').reject(&:blank?).map{ |table| "TRUNCATE TABLE #{table};" }.join(' ')
+        only = ENV['ONLY'].split(',').reject(&:blank?).map{ |table| "TRUNCATE TABLE #{table} RESTART IDENTITY;" }.join(' ')
         sh <<~CMD, verbose: false
           psql -c "#{only}" postgres://#{user}:#{pwd}@#{host}/#{db}
         CMD
