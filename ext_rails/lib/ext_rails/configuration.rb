@@ -21,7 +21,6 @@ module ExtRails
     attr_accessor :query_debug
     attr_writer :html_extra_tags
     attr_writer :profile
-    attr_writer :throttler
     attr_writer :rescue_500
     attr_writer :version
     attr_writer :skip_locking
@@ -34,18 +33,6 @@ module ExtRails
       return @profile if defined? @profile
 
       @profile ||= '(app|lib)/'
-    end
-
-    def throttler
-      @throttler ||= Class.new do
-        def self.status(key:, value:, duration: nil)
-          {
-            throttled: false,
-            previous: nil,
-            count: 0
-          }
-        end
-      end
     end
 
     def rescue_500?

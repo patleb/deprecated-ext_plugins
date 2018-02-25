@@ -3,7 +3,8 @@ module ExtRails
     def log(exception, subject:, throttle_key: 'ext_rails', throttle_duration: nil)
       return if Current[:log_throttled]
 
-      status = ExtRails.config.throttler.status(key: throttle_key, value: exception, duration: throttle_duration)
+      throttle_value = { type: exception.class.to_s, message: exception.messsage }
+      status = ExtThrottler.status(key: throttle_key, value: throttle_value, duration: throttle_duration)
       return if status[:throttled]
 
       Current[:log_throttled] = true
@@ -15,7 +16,12 @@ module ExtRails
           memo << "\n[#{type.to_s.upcase}]\n#{values}\n"
         end
       end
-      context << "[PREVIOUS_EXCEPTION_COUNT][#{status[:previous]}][#{status[:count] || 0}]"
+      if status[:previous]
+        count, previous = status[:count], format_loggee(status[:previous].symbolize_keys)
+      else
+        count, previous = 0, ''
+      end
+      context << "[PREVIOUS_EXCEPTION_COUNT][#{count}]#{previous}"
 
       message = ExtMail::Mailer.new.deliver!(exception, subject: subject, after_body: context) do |message|
         Rails.logger.error message
@@ -33,6 +39,10 @@ module ExtRails
         headers: request.headers.env.select{ |header| header =~ /^HTTP_/ },
         session: session.try(:to_hash) || {},
       }
+    end
+
+    def format_loggee(type:, message:)
+      "\n[#{type}]\n[#{message}]\n"
     end
   end
 end
