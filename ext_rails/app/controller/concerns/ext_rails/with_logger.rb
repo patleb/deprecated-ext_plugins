@@ -3,7 +3,7 @@ module ExtRails
     def log(exception, subject:, throttle_key: 'ext_rails', throttle_duration: nil)
       return if Current[:log_throttled]
 
-      throttle_value = { type: exception.class.to_s, message: exception.messsage }
+      throttle_value = { type: exception.class.to_s, message: exception.message }
       status = ExtThrottler.status(key: throttle_key, value: throttle_value, duration: throttle_duration)
       return if status[:throttled]
 
