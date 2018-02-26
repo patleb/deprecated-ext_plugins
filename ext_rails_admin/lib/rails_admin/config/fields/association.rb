@@ -78,6 +78,10 @@ module RailsAdmin
           false
         end
 
+        register_instance_option :distinct? do
+          false
+        end
+
         register_instance_option :render do
           nested_form ? render_nested : render_filtering
         end

@@ -27,8 +27,9 @@ module RailsAdmin
 
       def all(options = {}, scope = nil)
         scope ||= scoped
-        scope = scope.left_joins(options[:left_joins]) if options[:left_joins]
         scope = scope.includes(options[:include]) if options[:include]
+        scope = scope.left_joins(options[:left_joins]) if options[:left_joins]
+        scope = scope.distinct if options[:distinct]
         scope = scope.limit(options[:limit]) if options[:limit]
         scope = scope.where(primary_key => options[:bulk_ids]) if options[:bulk_ids]
         scope = query_scope(scope, options[:query]) if options[:query]
