@@ -144,11 +144,11 @@ module RailsAdmin
 
     def bulk_menu
       return '' unless bulk_menu?
-      content_tag :li, class: 'dropdown pull-right' do
+      content_tag :li, class: 'bulk_actions dropdown pull-right' do
         content_tag(:a, class: 'dropdown-toggle', data: {toggle: 'dropdown'}, href: '#') { t('admin.misc.bulk_menu_title').html_safe + ' ' + '<b class="caret"></b>'.html_safe } +
           content_tag(:ul, class: 'dropdown-menu position_right') do
             bulkables.map do |action|
-              content_tag :li do
+              content_tag :li, class: "bulk_#{action.action_name}" do
                 link_to wording_for(:bulk_link, action), '#', class: 'js_application_bulk_action', data: {action: action.action_name}
               end
             end.join.html_safe
