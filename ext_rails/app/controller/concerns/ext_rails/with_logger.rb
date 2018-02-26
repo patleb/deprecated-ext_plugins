@@ -17,7 +17,7 @@ module ExtRails
         end
       end
       if status[:previous]
-        count, previous = status[:count], format_loggee(status[:previous].symbolize_keys)
+        count, previous = status[:count], "\n[#{status[:previous]['type']}]\n[#{status[:previous]['message']}]\n"
       else
         count, previous = 0, ''
       end
@@ -39,10 +39,6 @@ module ExtRails
         headers: request.headers.env.select{ |header| header =~ /^HTTP_/ },
         session: session.try(:to_hash) || {},
       }
-    end
-
-    def format_loggee(type:, message:)
-      "\n[#{type}]\n[#{message}]\n"
     end
   end
 end
