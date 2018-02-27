@@ -27,3 +27,18 @@ Number.define_methods
 
   html_safe: ->
     true
+
+  even: ->
+    this % 2 == 0
+
+  odd: ->
+    Math.abs(this % 2) == 1
+
+  ceil: (precision = 0) ->
+    _.ceil(this, precision)
+
+  floor: (precision = 0) ->
+    _.floor(this, precision)
+
+  round: (precision = 0) ->
+    _.round(this, precision)
