@@ -59,11 +59,15 @@ class RailsAdmin.TableConcept
     @toggle_scroll_x()
 
   update_sticky_head: =>
-    @sticky_head.css(width: "#{@table_wrapper[0].scrollWidth}px")
+    @sticky_head.css(width: "#{@table_wrapper.outerWidth()}px")
     sticky_head_row = @sticky_head.find('.table > thead > tr:first > th')
     @table_head.find('tr:first > th').each (index) ->
       width = $(this).outerWidth()
-      $(sticky_head_row[index]).css(width: if index == 0 then width - 2 else width)
+      width = switch index
+        when 0 then width - 1
+        when 2 then width + 1
+        else        width
+      $(sticky_head_row[index]).css(width: width)
     @toggle_sticky_head()
 
   toggle_sticky_head: =>
