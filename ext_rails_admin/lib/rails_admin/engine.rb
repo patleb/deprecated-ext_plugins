@@ -13,10 +13,6 @@ module RailsAdmin
 
     config.action_dispatch.rescue_responses['RailsAdmin::ActionNotAllowed'] = :forbidden
 
-    initializer 'RailsAdmin setup middlewares' do |app|
-      app.config.middleware.use ActionDispatch::Flash
-    end
-
     config.to_prepare do
       RailsAdmin::MainController.class_eval do
         include RailsAdmin::Main::WithExceptions
