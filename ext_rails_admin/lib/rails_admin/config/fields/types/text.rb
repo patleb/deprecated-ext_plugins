@@ -39,7 +39,9 @@ module RailsAdmin
           end
 
           register_instance_option :render do
-            form.text_area method_name, html_attributes.reverse_merge(data: { richtext: false, options: {}.to_json }).reverse_merge({ value: form_value, class: 'form-control', required: required })
+            div(class: 'input-group') do
+              form.text_area method_name, html_attributes.reverse_merge(data: { richtext: false, options: {}.to_json }).reverse_merge({ value: form_value, class: 'form-control', required: required })
+            end
           end
         end
       end
