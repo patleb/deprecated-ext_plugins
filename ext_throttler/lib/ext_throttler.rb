@@ -9,8 +9,10 @@ module ExtThrottler
       case value
       when Symbol
         value.to_s
-      when String, Array, Hash
+      when String, Array
         value
+      when Hash
+        value.deep_stringify_keys
       else
         value.class.to_s
       end
