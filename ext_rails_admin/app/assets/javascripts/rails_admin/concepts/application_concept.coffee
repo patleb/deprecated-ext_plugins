@@ -12,7 +12,7 @@ class RailsAdmin.ApplicationConcept
 
   document_on: -> [
     'keydown', '#new_action > form, #edit_action > form, #js_bulk_form', (event) ->
-      event.preventDefault() if event.which == $.ui.keyCode.ENTER
+      event.preventDefault() if event.which == $.ui.keyCode.ENTER && !$(event.target).is("textarea")
 
     'click', '.js_application_bulk_action', (event, target) ->
       $('#bulk_action').val(target.data('action'))
