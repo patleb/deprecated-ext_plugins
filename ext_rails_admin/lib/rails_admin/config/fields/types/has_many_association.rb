@@ -11,6 +11,16 @@ module RailsAdmin
             false
           end
 
+          register_instance_option :scope do
+            nil
+          end
+
+          def value
+            result = bindings[:object].send(association.name)
+            result = result.send(scope) if scope
+            result
+          end
+
           def method_name
             nested_form ? "#{super}_attributes".to_sym : "#{super.to_s.singularize}_ids".to_sym # name_ids
           end

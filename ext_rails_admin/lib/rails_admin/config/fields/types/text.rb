@@ -24,11 +24,12 @@ module RailsAdmin
             end
           end
 
-          register_instance_option :formatted_value do
-            if value.present?
-              simple_format(value, {}, sanitize: true)
-            end
-          end
+          # TODO
+          # register_instance_option :formatted_value do
+          #   if value.present?
+          #     simple_format(value, {}, sanitize: true)
+          #   end
+          # end
 
           register_instance_option :html_attributes do
             {
