@@ -12,4 +12,8 @@ Array.class_eval do
   def except(*values)
     self - values
   end
+
+  def insert_after(anchor, value)
+    insert((index(anchor) || -1) + 1, value)
+  end
 end
