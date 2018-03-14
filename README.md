@@ -29,15 +29,15 @@
 
 * Sunzistrano
 * Capistrano
+* Rake
 
 ### Database
 
-* ActiveRecord
-* PostgreSQL
+* ActiveRecord / Sequel
 
 ### Backend
 
-* Rails
+* Rails / Roda
 * Rb++
 
 ### Frontend
