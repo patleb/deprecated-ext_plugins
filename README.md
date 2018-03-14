@@ -10,7 +10,6 @@
 ### Database
 
 * Ruby
-* SQL
 * PL/pgSQL
 
 ### Backend
@@ -30,7 +29,6 @@
 
 * Sunzistrano
 * Capistrano
-* Rake
 
 ### Database
 
@@ -46,6 +44,5 @@
 
 * ExtCoffee
 * Bootstrap
-* Sprockets
 
 This project rocks and uses MIT-LICENSE.
