@@ -7,7 +7,7 @@ module RailsAdmin
           RailsAdmin::Config::Fields::Types.register(self)
 
           register_instance_option :pretty_value do
-            a '.pjax', value, href: rails_admin.show_path(model_name: model_name, id: value)
+            a '.pjax', value, href: RailsAdmin.show_path(model_name: model_name, id: value)
           end
 
           register_instance_option :export_value do

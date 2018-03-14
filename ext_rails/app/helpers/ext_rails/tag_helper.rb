@@ -35,7 +35,7 @@ module ExtRails
       p
     ).freeze
 
-    ID_CLASSES = /^[\.#][^\.#]/
+    ID_CLASSES = /^[\.#][^\.#]/.freeze
 
     HTML_UNSCOPED_TAGS.each do |tag|
       define_method tag do |*args, &block|
