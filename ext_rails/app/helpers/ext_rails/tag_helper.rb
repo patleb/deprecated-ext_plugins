@@ -2,6 +2,7 @@ module ExtRails
   module TagHelper
     HTML_UNSCOPED_TAGS = %i(
       a
+      b
       button
       dd
       div
