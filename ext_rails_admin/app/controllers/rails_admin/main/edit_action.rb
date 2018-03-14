@@ -23,7 +23,9 @@ module RailsAdmin
               format.js do
                 if params[:inline].to_b
                   field_name, _field_value = attributes.to_h.first
-                  field = @model_config.edit.with(controller: self, object: @object).visible_fields.find{ |f| f.name == field_name.to_sym }
+                  field = @model_config.list.with(controller: self, object: @object).visible_fields.find do |f|
+                    f.inline_update? && f.name == field_name.to_sym
+                  end
                   render json: {value: field.value, label: field.pretty_value}
                 else
                   render json: {value: @object.id.to_s, label: @model_config.with(controller: self, object: @object).object_label}
