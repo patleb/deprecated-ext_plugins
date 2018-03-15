@@ -1,6 +1,65 @@
 module RailsAdmin
   module Main
     class FilterBox < Base
+      def render
+        append :contextual_tabs do
+          html(
+            if index_action?
+              bulk_menu
+            end,
+            if filterable_fields.present?
+              li '.dropdown.pull-right' do[
+                a('.dropdown-toggle', href: '#', 'data-toggle': "dropdown") do[
+                  t('admin.misc.add_filter'),
+                  b('.caret')
+                ]end,
+                ul('.dropdown-menu.position_right#js_filter_box_options') do
+                  filterable_fields.map do |field|
+                    li do
+                      a capitalize_first_letter(field.label), href: '#', 'data-js': filter_options(field)
+                    end
+                  end
+                end
+              ]end
+            end
+          )
+        end
+
+        html(
+          div('#js_filter_box_init', 'data-js': ordered_filter_string),
+          form_tag(form_path, method: :get, remote: true, class: "form-inline js_filter_box_form") do
+            div '.well.btn-group.filter_box_actions', class: ('filter_box_actions_no_query' unless query?) do[
+              div('#js_filter_box_container'),
+              if index_action? || query?
+                div '.input-group' do[
+                  if query?
+                    query_type = (query == true) ? "search" : query
+                    input '.js_filter_box_input.form-control.input-sm', name: "query", type: query_type, value: params[:query], placeholder: t("admin.misc.filter")
+                  end,
+                  if index_action?
+                    span '.input-group-btn' do[
+                      button('.btn.btn-primary.btn-sm', type: 'submit', 'data-disable-with': true) do[
+                        i('.icon-white.icon-refresh'),
+                        span(t('admin.misc.refresh'), class: ('hidden-xs' if query?))
+                      ]end,
+                      button('.js_filter_box_clear.btn.btn-info.btn-sm', title: "Reset filters") do
+                        i '.icon-white.icon-remove'
+                      end
+                    ]end
+                  else
+                    span '.input-group-btn' do
+                      button '.js_filter_box_clear.btn.btn-info.btn-sm', title: "Reset filters" do
+                        i '.icon-white.icon-remove'
+                      end
+                    end
+                  end
+                ]end
+              end
+            ]end
+          end
+        )
+      end
+
       def index_action?
         action_name == 'index'
       end
