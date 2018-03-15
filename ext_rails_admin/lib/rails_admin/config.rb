@@ -5,7 +5,6 @@ require 'rails_admin/config/has_fields'
 require 'rails_admin/config/has_groups'
 require 'rails_admin/config/hideable'
 require 'rails_admin/config/inspectable'
-require 'rails_admin/config/proxyable/proxy'
 require 'rails_admin/config/proxyable'
 
 require 'rails_admin/config/actions'
@@ -37,8 +36,8 @@ module RailsAdmin
     end
   end
 
-  # TODO replace Kaminari --> slow
-  # TODO filter_box --> slow
+  # TODO replace Kaminari view helper by inline ruby helper --> slow like filter_box (replace all partials)
+  # https://www.reddit.com/r/webdev/comments/4bf9hc/how_bad_is_ruby_on_rails_performance_really/
   def self.show_path(model_name:, id:)
     @show_path ||= begin
       path = RailsAdmin::Engine.routes.url_helpers.send(:show_path, model_name: '__MODEL_NAME__', id: '__ID__')
