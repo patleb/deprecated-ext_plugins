@@ -27,6 +27,10 @@ class SettingPolicy < ApplicationPolicy
     false
   end
 
+  def choose?
+    false
+  end
+
   class Scope < Scope
     def resolve
       scope.visible

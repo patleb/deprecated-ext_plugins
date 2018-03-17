@@ -332,7 +332,7 @@ module RailsAdmin
       def viable_models
         included_models.map(&:to_s).presence || begin
           @@system_models ||= # memoization for tests
-            ([Rails.application] + Rails::Engine.subclasses.map(&:instance)).flat_map do |app|
+            ([Rails.application] + Rails::Engine.subclasses.except(RailsAdmin::Engine).map(&:instance)).flat_map do |app|
               (app.paths['app/models'].to_a + app.paths.eager_load.select(&:end_with?.with('/models'))).map do |load_path|
                 Dir.glob(app.root.join(load_path)).map do |load_dir|
                   Dir.glob(load_dir + '/**/*.rb').map do |filename|

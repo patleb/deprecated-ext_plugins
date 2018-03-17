@@ -23,6 +23,9 @@ jQuery.define_singleton_methods
     id = id[(10 - size + 1)..10] if size? && size > 0 && size <= 10
     id
 
+  unique_index: ->
+    _.uniqueId()
+
   add_flags: (flags) ->
     for name, ajax of flags
       $.add_flag(name, ajax)
@@ -166,11 +169,21 @@ jQuery.define_methods
   to_s: ->
     this[0].outerHTML
 
-  each_with_object: (f_item_memo_index_self, accumulator) ->
+  each_with_object: (accumulator, f_item_memo_index_self) ->
     f = (memo, item, index, self) ->
       f_item_memo_index_self($(item), memo, index, self)
       accumulator
     _.reduce(this, f, accumulator)
+
+  a_map: (f_item_index_self) ->
+    f = (item, index, self) ->
+      f_item_index_self($(item), index, self)
+    this.to_a().map(f)
+
+  a_each: (f_item_index_self) ->
+    f = (item, index, self) ->
+      f_item_index_self($(item), index, self)
+    this.to_a().each(f)
 
   clone_template: (handler = null) ->
     clone = this.children().first().clone()

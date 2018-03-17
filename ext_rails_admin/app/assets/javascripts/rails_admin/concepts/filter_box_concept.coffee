@@ -58,11 +58,7 @@ class RailsAdmin.FilterBoxConcept
 
   ready: =>
     $("#{@LINK} > a").on 'pjax:click', (event, options) =>
-      url = $.parse_location(options.url)
-      params = $.flat_params(url.search)
-      params = $.merge_params(params, $(@FORM).serialize())
-      url.search = $.param(params)
-      options.url = url.href
+      @merge_params(options)
 
     $(@FILTERS).remove()
     if (filters = $(@INIT).data('js'))?
@@ -80,6 +76,13 @@ class RailsAdmin.FilterBoxConcept
 
   leave: =>
     $("#{@LINK} > a").off 'pjax:click'
+
+  merge_params: (options, hash = null) =>
+    url = $.parse_location(options.url, hash: hash)
+    params = $.flat_params(url.search)
+    params = $.merge_params(params, $(@FORM).serialize())
+    url.search = $.param(params)
+    options.url = url.href
 
   #### PRIVATE ####
 

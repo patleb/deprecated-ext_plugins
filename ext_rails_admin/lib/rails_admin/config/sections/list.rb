@@ -25,7 +25,7 @@ module RailsAdmin
         end
 
         register_instance_option :from_first? do
-          true # Paginate from the first item of the first request before loading more items
+          false # Paginate from the first item of the first request before loading more items
         end
 
         register_instance_option :scopes do

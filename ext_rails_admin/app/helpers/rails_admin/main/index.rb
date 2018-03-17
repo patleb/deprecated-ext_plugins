@@ -1,10 +1,6 @@
 module RailsAdmin
   module Main
     class Index < Base[:@objects]
-      def filter_box
-        @_filter_box ||= FilterBox.new(view)
-      end
-
       def sortable_options(property)
         selected = (@sort == property.name.to_s)
         if property.sortable

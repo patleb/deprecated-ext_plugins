@@ -119,6 +119,7 @@ PATH
   remote: ext_minitest
   specs:
     ext_minitest (5.1.0.1)
+      bootsnap
       chronic
       connection_pool
       ext_ruby (= 5.1.0.1)
@@ -161,6 +162,7 @@ PATH
       ext_bootstrap (= 5.1.0.1)
       ext_chartkick (= 5.1.0.1)
       ext_coffee (= 5.1.0.1)
+      ext_globals (= 5.1.0.1)
       ext_rails (= 5.1.0.1)
       kaminari (>= 0.14, < 2.0)
       rails_admin-i18n (~> 1.11)
@@ -522,7 +524,7 @@ GEM
       mini_mime (>= 0.1.1)
     mail_interceptor (0.0.7)
       activesupport
-    maxitest (2.5.0)
+    maxitest (2.6.0)
       minitest (>= 5.0.0, < 5.12.0)
     metaclass (0.0.4)
     method_source (0.9.0)

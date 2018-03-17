@@ -38,9 +38,8 @@ class RailsAdmin.InlineCreateConcept
   #### PRIVATE ####
 
   send_form: =>
-    inputs = @inputs.each_with_object (input, result) =>
+    inputs = @inputs.each_with_object {}, (input, result) =>
       result[input.attr('name')] = input.get_value()
-    , {}
     form = $.form_for(inputs)
     url = Routes.url_for('new', model_name: @abstract_model(), inline: true)
     $.pjax(
@@ -52,7 +51,7 @@ class RailsAdmin.InlineCreateConcept
       content_error: @CONTENT_STATE
       content_success: @CONTENT_STATE
       error: (xhr, status, error) ->
-        Flash.render('error', xhr.responseJSON.flash.error)
+        Flash.error(xhr.responseJSON.flash.error)
     )
 
   show_inputs: =>

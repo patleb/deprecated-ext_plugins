@@ -3,8 +3,17 @@ module RailsAdmin
     class Chart < Base
       delegate :refresh_rate, to: :chart_config
 
-      def filter_box
-        @_filter_box ||= FilterBox.new(view)
+      def render
+        options = {}
+        source = if params[:chart_data]
+          if chart_form[:auto_refresh].to_b
+            options[:refresh] = refresh_rate
+          end
+          chart_path(params.slice(:model_name, :scope, :query, :f, :c).merge(all: true, chart_data: true, chart_form: chart_form_defaults))
+        else
+          []
+        end
+        chartkick chart_config.type, source, chart_config.options.merge(options)
       end
 
       def field_options
@@ -56,19 +65,6 @@ module RailsAdmin
 
       def auto_refresh_default
         chart_form[:auto_refresh].to_b
-      end
-
-      def render_chart
-        options = {}
-        source = if params[:chart_data]
-          if chart_form[:auto_refresh].to_b
-            options[:refresh] = refresh_rate
-          end
-          chart_path(params.slice(:model_name, :scope, :query, :f, :c).merge(all: true, chart_data: true, chart_form: chart_form_defaults))
-        else
-          []
-        end
-        chartkick chart_config.type, source, chart_config.options.merge(options)
       end
 
       def form_path

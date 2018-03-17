@@ -1,6 +1,7 @@
 class Js.Tags
   @HTML_TAGS: [
     'a'
+    'b'
     'button'
     'dd'
     'div'

@@ -15,6 +15,9 @@ class Js.FlashConcept
     messages.data(js: [])
     @auto_dismiss()
 
+  error: (message) =>
+    $(@MESSAGES).data(js: [['error', message]])
+
   render: (type, message, clear = true) =>
     @clear() if clear
     $(Js.Pjax.CONTAINER).prepend(

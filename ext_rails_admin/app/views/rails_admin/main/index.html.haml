@@ -1,4 +1,4 @@
-= render 'rails_admin/main/filter_box', filter_box: @h.filter_box
+= @h.filter_box.render
 
 - unless @scopes.empty?
   %ul.nav.nav-tabs#scope_selector

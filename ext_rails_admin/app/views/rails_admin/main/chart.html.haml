@@ -1,12 +1,12 @@
 #js_chart_init{ data: { js: @h.ordered_chart_string } }
 
-= render 'rails_admin/main/filter_box', filter_box: @h.filter_box
+= @h.filter_box.render
 
 = form_tag @h.form_path, method: :post, class: 'form-horizontal js_chart_form', remote: true do
 
   %input{name: "chart_data", type: "hidden", value: "true"}
 
-  = @h.render_chart
+  = @h.render
 
   %fieldset
     .form-group.control-group
@@ -27,12 +27,16 @@
             %label.chart_form_auto_refresh_label
               = check_box_tag 'chart_form[auto_refresh]', 'true', @h.auto_refresh_default
 
-  .well.js_chart_added_list
+  %fieldset
+    .well.js_chart_added_list
+
+  %fieldset
+    = @h.choose.render
 
   .form-group.form-actions
     .col-sm-offset-2.col-sm-10
       %input{type: :hidden, name: 'return_to', value: return_to}
-      %button.btn.btn-primary.js_chart_submit_button{class: bs_form_row, type: "submit", name: 'chart'}
+      %button.btn.btn-primary.js_chart_submit_button{class: bs_form_row, type: "submit", name: 'chart', formnovalidate: true}
         %i.icon-white.icon-refresh
         = t('admin.misc.refresh')
       %button.btn.btn-info.js_chart_add_link{class: bs_form_row, type: 'button'}

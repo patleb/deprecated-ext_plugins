@@ -13,6 +13,9 @@ String.define_methods
   to_s: ->
     this.toString()
 
+  to_json: ->
+    JSON.safe_parse(this)
+
   blank: ->
     _.isEmpty(_.trim(this))
 

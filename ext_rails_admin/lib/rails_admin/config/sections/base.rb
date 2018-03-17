@@ -23,8 +23,13 @@ module RailsAdmin
           @abstract_model = root.abstract_model
         end
 
+        # TODO show time zone in list view if specified
         register_instance_option :time_zone do
           nil
+        end
+
+        register_instance_option :choose? do
+          false
         end
       end
     end

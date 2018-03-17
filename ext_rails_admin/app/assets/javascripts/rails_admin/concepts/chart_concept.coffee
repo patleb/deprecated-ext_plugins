@@ -16,18 +16,12 @@ class RailsAdmin.ChartConcept
 
   document_on: => [
     'click', @ADD_LINK, (event) =>
-      key = @uniq_key()
-      unless @uniq_charts[key]
-        @uniq_charts[key] = true
-        @append_chart()
-        @toggle_list()
+      options = @current_item()
+      @append_item(options)
 
     'click', "#{@ADDED_ITEM} .delete", (event, target) =>
-      wrapper = target.closest(@ADDED_ITEM)
-      key = wrapper.data('key')
-      wrapper.remove()
-      @uniq_charts[key] = false
-      @toggle_list()
+      item = target.closest(@ADDED_ITEM)
+      @remove_item(item)
 
     'keydown', '#chart_action > form', (event) =>
       if event.which == $.ui.keyCode.ENTER
@@ -41,97 +35,125 @@ class RailsAdmin.ChartConcept
       $('.index_collection_link').removeClass('active')
       $('.chart_collection_link').addClass('active')
 
-    @charts = $(@CONFIG).each_with_object (chart, result) ->
+    @charts = $(@CONFIG).each_with_object {}, (chart, result) ->
       config = chart.data('js')
       result[config.id] = new Chartkick[config.type](config.id, config.source, config.options)
-    , {}
 
     ordered_charts = $(@INIT)
     unless ordered_charts.has_once()
-      ordered_charts.data('js')?.each (i, options) =>
-        @append_chart(options)
+      if (list = ordered_charts.data('js'))
+        @render_list(list)
       ordered_charts.add_once()
-
-    @uniq_charts = {}
-    $(@ADDED_ITEM).each (i, chart) =>
-      chart = $(chart)
-      key = chart.data('key')
-      if @uniq_charts[key]
-        chart.remove()
-      else
-        @uniq_charts[key] = true
+    @toggle_list()
 
     $(@FORM).on 'pjax:submit', (event, options) =>
-      url = $.parse_location(options.url, hash: @CHART_ID)
-      params = $.flat_params(url.search)
-      params = $.merge_params(params, $(@FILTER_BOX_FORM).serialize())
-      url.search = $.param(params)
-      options.url = url.href
-
-    @toggle_list()
+      RailsAdmin.FilterBoxConcept.merge_params(options, @CHART_ID)
 
   leave: =>
     (@charts || {}).each (id, chart) ->
       chart.stopRefresh()
     $(@FORM).off 'pjax:submit'
 
-  #### PRIVATE ####
+  ### list = {
+        uid_0: [
+          { index: uid_0, input: {name: 'field', value: 'field_value'},   label: {name: 'Field', value: 'FieldValue'} },
+          { index: uid_0, input: {name: 'calculation', value: 'average'}, label: {name: 'Calculation', value: 'average'} }
+        ],
+        uid_1: [...]
+      }
+  ###
+  render_list: (list) =>
+    return unless list.present()
 
-  # TODO add additional inputs instead of using filters
-  append_chart: (options = null) =>
-    $(@ADDED_LIST).append(
-      p @ADDED_ITEM, data: { key: @uniq_key(options) }, => [
-        a '.delete', i('.fa.fa-trash-o.fa-fw'), href: '#'
-        @chart_label(options)
-        @chart_input(options)
-      ]
-    )
+    list = @json_to_list(list.to_json()) if list.is_a String
+    $(@ADDED_LIST).html list.html_map (uid, options) =>
+      @render_item(options)
+    @toggle_list()
 
-  chart_label: (options) =>
-    label = if options?
-      options.map (option) => @label(option.label.name, option.label.value)
-    else
-      @options().map (option) => @label(option[0].text, option[1].text)
-    label.join(' ').html_safe(true)
+  append_item: (options) =>
+    unless $("#{@ADDED_ITEM}[data-key='#{@uniq_key(options)}']").length
+      $(@ADDED_LIST).append @render_item(options)
+      @toggle_list()
+      RailsAdmin.InlineChooseConcept.clear()
 
-  chart_input: (options) =>
-    input = if options?
-      options.map (option) => @input(option.index, option.input.name, option.input.value)
-    else
-      index = $.unique_id(5)
-      @options().map (option) => @input(index, option[0].value, option[1].value)
-    input.join('').html_safe(true)
+  remove_item: (item) =>
+    item.remove()
+    @toggle_list()
+    RailsAdmin.InlineChooseConcept.clear()
 
-  uniq_key: (options) ->
-    key = if options?
-      options.map (option) => option.input.value
-    else
-      @options().map (option) => option[1].value
-    key.join('-')
-
-  options: =>
-    $(@INPUTS).to_a().map (input) ->
-      input = $(input)
-      name = { value: input.attr('name'), text: $("label[for='#{input.attr('id')}']").html() }
-      value = input.find(':selected')[0]
-      [name, value]
-
-  label: (name, value) ->
-    span -> [
-      span '.label.label-info', name
-      '&nbsp;'.html_safe(true)
-      span -> value
+  render_item: (options) =>
+    p @ADDED_ITEM, data: { key: @uniq_key(options) }, => [
+      a '.delete', i('.fa.fa-trash-o.fa-fw'), href: '#'
+      options.html_map (option) =>
+        span -> [
+          span '.label.label-info', option.label.name
+          '&nbsp;'.html_safe(true)
+          span -> option.label.value
+          '&nbsp;'.html_safe(true)
+        ]
+      options.html_map (option) =>
+        input type: 'hidden', name: "c[#{option.index}][#{option.input.name}]", value: option.input.value
     ]
 
-  input: (index, name, value) ->
-    if name.starts_with 'chart_form['
-      name = name.sub(/^\w+\[(\w+)\]/, "c[#{index}][$1]")
-    else
-      name = "c[#{index}][#{name}]"
-    input type: 'hidden', name: name, value: value
+  current_item: =>
+    index = $.unique_id(5)
+    $(@INPUTS).each_with_object [], (input, memo) =>
+      category = { value: @category_name(input), text: @category_label(input) }
+      option = input.find(':selected')[0]
+      memo.push {
+        index: index,
+        input: { name: category.value, value: option.value },
+        label: { name: category.text, value: option.text }
+      }
+
+  ### return = [
+    {field: 'field_0', calculation: 'average'},
+    {field: 'field_1', calculation: 'minimum'},
+    {...}
+  ]
+  ###
+  current_fields: =>
+    $(@ADDED_ITEM).each_with_object [], (wrapper, fields) =>
+      inputs = wrapper.find('input')
+      fields.push @categories().each_with_object {}, (category, memo) ->
+        memo[category] = inputs.filter("[name$='[#{category}]']").first().val()
+
+  #### PRIVATE ####
+
+  json_to_list: (json) =>
+    json.each_with_object {}, (options, list) =>
+      index = $.unique_index()
+      list[index] = options.each_with_object [], (category, value, memo) =>
+        return unless (fields = @available_fields()[category])?[value]
+        memo.push {
+          index: index,
+          input: { name: category, value: value },
+          label: { name: fields._label, value: fields[value] }
+        }
+
+  available_fields: =>
+    @_available_fields ||= $(@INPUTS).each_with_object {}, (select, categories) =>
+      fields = select.find('option').each_with_object {}, (option, memo) ->
+        memo[option.val()] = option.text()
+      fields._label = @category_label(select)
+      categories[@category_name(select)] = fields
+
+  categories: =>
+    @available_fields().keys()
+
+  category_name: (select) ->
+    select.attr('name').match(/\[(\w+)\]$/)[1]
+
+  category_label: (select) ->
+    $("label[for='#{select.attr('id')}']").html()
+
+  uniq_key: (options) ->
+    options.map((option) =>
+      option.input.value
+    ).join('-')
 
   toggle_list: =>
-    if @uniq_charts.values().except(false).length
+    if $(@ADDED_ITEM).length
       $(@ADDED_LIST).show()
     else
       $(@ADDED_LIST).hide()

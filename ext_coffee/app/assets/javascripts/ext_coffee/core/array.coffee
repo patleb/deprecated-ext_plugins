@@ -42,7 +42,7 @@ Array.define_methods
   each: (f_item_index_self) ->
     _.forEach this, f_item_index_self
 
-  each_with_object: (f_item_memo_index_self, accumulator) ->
+  each_with_object: (accumulator, f_item_memo_index_self) ->
     f = (memo, item, index, self) ->
       f_item_memo_index_self(item, memo, index, self)
       accumulator

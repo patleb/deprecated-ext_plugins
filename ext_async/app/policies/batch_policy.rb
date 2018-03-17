@@ -38,4 +38,8 @@ class BatchPolicy < ApplicationPolicy
   def destroy?
     false
   end
+
+  def choose?
+    false
+  end
 end

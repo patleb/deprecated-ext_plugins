@@ -178,10 +178,9 @@ class RailsAdmin.FieldConcept::SelectRemoteElement extends RailsAdmin.FieldConce
     @filtered_values(query)
 
   filtered_values: (query) ->
-    values = @cached_values.each_with_object (value, label, memo) ->
+    values = @cached_values.each_with_object [], (value, label, memo) ->
       unless value.blank() || label.downcase().excludes(query)
         memo.push { value, label }
-    , []
     values.sort_by('label')
 
   append_item: (list, query, { value, label }) =>

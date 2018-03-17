@@ -22,12 +22,25 @@ Object.define_methods
     delete this[key]
     value
 
+  any: (f_key_item_self) ->
+    if f_key_item_self?
+      f = (item, key, self) ->
+        f_key_item_self(key, item, self)
+      _.some this, f
+    else
+      this.keys().length > 0
+
+  all: (f_key_item_self) ->
+    f = (item, key, self) ->
+      f_key_item_self(key, item, self)
+    _.every this, f
+
   each: (f_key_item_self) ->
     f = (item, key, self) ->
       f_key_item_self(key, item, self)
     _.forEach this, f
 
-  each_with_object: (f_key_item_memo_self, accumulator) ->
+  each_with_object: (accumulator, f_key_item_memo_self) ->
     f = (memo, item, key, self) ->
       f_key_item_memo_self(key, item, memo, self)
       accumulator
@@ -47,7 +60,7 @@ Object.define_methods
     html(this.map(f_key_item_self))
 
   flatten: (separator = '_', prefix = null) ->
-    this.each_with_object (key, item, memo) ->
+    this.each_with_object {}, (key, item, memo) ->
       if prefix?
         key = [prefix, key].join(separator)
       if item?.is_a(Object)
@@ -55,7 +68,6 @@ Object.define_methods
           memo[nested_key] = nested_item
       else
         memo[key] = item
-    , {}
 
   find: (f_key_item_self) ->
     f = (item, key, self) ->

@@ -109,14 +109,14 @@ module RailsAdmin
       {sort: column, sort_reverse: (params[:sort_reverse] == reversed_sort.to_s)}
     end
 
-    def redirect_to_on_success
-      notice = I18n.t('admin.flash.successful', name: @model_config.label, action: I18n.t("admin.actions.#{@action.key}.done"))
+    def redirect_to_on_success(name = @model_config.label, options = {})
+      notice = I18n.t('admin.flash.successful', name: name, action: I18n.t("admin.actions.#{@action.key}.done"))
       if params[:_add_another]
-        redirect_to new_path(return_to: params[:return_to]), flash: {success: notice}
+        redirect_to new_path(return_to: params[:return_to]), options.merge(flash: {success: notice})
       elsif params[:_add_edit]
-        redirect_to edit_path(id: @object.id, return_to: params[:return_to]), flash: {success: notice}
+        redirect_to edit_path(id: @object.id, return_to: params[:return_to]), options.merge(flash: {success: notice})
       else
-        redirect_to back_or_index, flash: {success: notice}
+        redirect_to back_or_index, options.merge(flash: {success: notice})
       end
     end
 
@@ -139,8 +139,8 @@ module RailsAdmin
       end
     end
 
-    def handle_save_error(whereto)
-      flash.now[:error] = I18n.t('admin.flash.error', name: @model_config.label, action: I18n.t("admin.actions.#{@action.key}.done").html_safe).html_safe
+    def handle_save_error(whereto, name = @model_config.label)
+      flash.now[:error] = I18n.t('admin.flash.error', name: name, action: I18n.t("admin.actions.#{@action.key}.done").html_safe).html_safe
       flash.now[:error] += %(<br>- #{@object.errors.full_messages.join('<br>- ')}).html_safe
 
       if params[:inline].to_b
@@ -175,8 +175,8 @@ module RailsAdmin
       options.merge!(left_joins: left_joins) unless left_joins.blank?
       options.merge!(distinct: true) if fields.any?{ |f| f.try(:distinct?) }
       options.merge!(get_sort_hash(model_config))
-      # TODO convert to keyset pagination
-      # http://mysql.rjweb.org/doc.php/pagination#implementation_getting_rid_of_offset
+      # TODO convert to keyset pagination --> still a bug when :first isn't unique
+      # https://github.com/glebm/order_query
       if pagination
         page = (params[:page] || 1).to_i
         if page > 1 && (first_item = params[:first]).present?

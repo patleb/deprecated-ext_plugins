@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'ext_coffee', version
   s.add_dependency 'ext_chartkick', version
   s.add_dependency 'ext_bootstrap', version
+  s.add_dependency 'ext_globals', version
   s.add_dependency 'kaminari', '>= 0.14', '< 2.0'
   s.add_dependency 'amoeba', '~> 3.0'
   s.add_dependency 'wicked_pdf', '~> 1.1'

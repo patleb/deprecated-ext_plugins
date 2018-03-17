@@ -4,7 +4,8 @@
   #js_i18n_translations{'data-js': I18n.t("admin.js").to_json}
   #js_routes_paths{'data-js': { edit: edit_path(model_name: '__MODEL_NAME__', id: '__ID__'),
                                 new: new_path(model_name: '__MODEL_NAME__'),
-                                index: index_path(model_name: '__MODEL_NAME__') }.to_json}
+                                index: index_path(model_name: '__MODEL_NAME__'),
+                                choose: choose_path(model_name: '__MODEL_NAME__') }.to_json}
   #js_user_profile{'data-js': { id: current_user.try(:id),
                                 model_name: current_user ? RailsAdmin.config(current_user.class).abstract_model.to_param : nil }.to_json}
   = bootswatch_fonts_prefetch

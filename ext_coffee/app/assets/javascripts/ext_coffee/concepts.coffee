@@ -67,9 +67,8 @@ class Js.Concepts
     concept_class::module_name = module_name
     concept_class::class_name = class_name
 
-    constants = concept_class::constants?().each_with_object (name, value, constants) =>
+    constants = concept_class::constants?().each_with_object {}, (name, value, constants) =>
       @define_constant(concept_class, name, value, constants)
-    , {}
     concept_class::constants = constants || {}
 
     module_class = module_name.constantize()
@@ -100,19 +99,17 @@ class Js.Concepts
 
     concept.constants.each (name, value) ->
       element_class::[name] = value
-    constants = element_class::constants?().each_with_object (name, value, constants) =>
+    constants = element_class::constants?().each_with_object {}, (name, value, constants) =>
       @define_constant(element_class, name, value, constants)
-    , {}
     element_class::constants = constants || {}
 
     if element_class::document_on? && uniq_methods.excludes(element_class::document_on)
       uniq_methods.push(element_class::document_on)
       @define_document_on(element_class::)
 
-    accessors = element_class::accessors?().each_with_object (name, value, accessors) =>
+    accessors = element_class::accessors?().each_with_object [], (name, value, accessors) =>
       element_class::[name] = -> this["__#{name}"] ?= value.apply(this, arguments)
       accessors.push(name)
-    , []
     element_class::accessors = accessors || []
 
   @define_constant: (klass, name, value, constants) =>

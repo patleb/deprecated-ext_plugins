@@ -321,6 +321,7 @@ class Js.Pjax
     else if @options.pjax
       if (json = JSON.safe_parse(xhr.responseText))
         xhr.responseJSON = json
+        @scroll()
       else
         @on_success(xhr.responseText, status, xhr)
 

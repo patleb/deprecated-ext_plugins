@@ -88,20 +88,18 @@ class RailsAdmin.FieldConcept::SelectMultiElement extends RailsAdmin.FieldConcep
 
   reset_tokens: =>
     @remove_all_tokens()
-    values = @values.select(initial: true).each_with_object (option, memo) =>
+    values = @values.select(initial: true).each_with_object [], (option, memo) =>
       memo.push(option.value)
       option.selected = true
       @append_token(option.merge(skip_refresh: true))
-    , []
     @append_token_refresh()
     @input.val(values)
 
   chose_all_options: =>
-    values = @values.select(selected: false).each_with_object (option, memo) =>
+    values = @values.select(selected: false).each_with_object @input.val(), (option, memo) =>
       memo.push(option.value)
       option.selected = true
       @append_token(option.merge(skip_refresh: true))
-    , @input.val()
     @append_token_refresh()
     @input.val(values)
 
@@ -207,8 +205,8 @@ class RailsAdmin.FieldConcept::SelectMultiElement extends RailsAdmin.FieldConcep
   reorder_select: =>
     values = @input.val()
     unneeded_values = @values.dup()
-    selected_values = @token_list.find(@TOKEN_ITEM).to_a().map (token) ->
-      { value, label } = unneeded_values.delete_if((option) -> option.value == $(token).data('value').to_s())[0]
+    selected_values = @token_list.find(@TOKEN_ITEM).a_map (token) ->
+      { value, label } = unneeded_values.delete_if((option) -> option.value == token.data('value').to_s())[0]
     @input.find("option[value!='']").remove()
     [selected_values, unneeded_values].each (options) =>
       options.each ({ value, label }) =>
