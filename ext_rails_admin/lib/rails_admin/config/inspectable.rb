@@ -14,6 +14,10 @@ module RailsAdmin
         "#<#{self.class.name}#{instance_name} #{instance_vars}>"
       end
 
+      def list_scopes
+        @_list_scopes ||= @root.instance_variable_get(:@sections)[:list].instance_variable_get(:@scopes_registered)
+      end
+
     private
 
       def instance_variable_name(variable)

@@ -321,10 +321,6 @@ module RailsAdmin
           scope.blank? || scope == '_all'
         end
 
-        def list_scopes
-          @_list_scopes ||= @root.instance_variable_get(:@sections)[:list].instance_variable_get(:@scopes_registered)
-        end
-
         register_instance_option :inline_update? do
           false
         end

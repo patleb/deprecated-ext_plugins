@@ -1,8 +1,10 @@
 module RailsAdmin
   module Main
     class Choose < Base
+      delegate :section_name, :section_model_config, to: :controller
+
       def render
-        return unless model_config.choose?
+        return unless section_model_config.choose?
 
         html(
           div('.form-group.control-group') do[
@@ -45,15 +47,11 @@ module RailsAdmin
       end
 
       def chooses
-        @_chooses ||= RailsAdmin::Choose.group_by_label(section: section_name, model: @abstract_model.to_param)
-      end
-
-      def model_config
-        @_model_config ||= @model_config.send(section_name).with(controller: controller, view: view)
-      end
-
-      def section_name
-        action_name == 'index' ? 'list' : action_name
+        @_chooses ||= RailsAdmin::Choose.group_by_label(
+          section: section_name,
+          model: @abstract_model.to_param,
+          prefix: section_model_config.choose_prefix
+        )
       end
     end
   end

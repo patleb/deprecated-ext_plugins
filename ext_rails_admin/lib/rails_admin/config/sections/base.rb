@@ -31,6 +31,10 @@ module RailsAdmin
         register_instance_option :choose? do
           false
         end
+
+        register_instance_option :choose_prefix do
+          nil
+        end
       end
     end
   end

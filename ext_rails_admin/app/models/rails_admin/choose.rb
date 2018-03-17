@@ -2,6 +2,7 @@ module RailsAdmin
   class Choose < ActiveType::Object
     attribute :section
     attribute :model
+    attribute :prefix
     attribute :label
     attribute :chosen, :hash
     attribute :fields, :array
@@ -15,23 +16,23 @@ module RailsAdmin
 
     before_save :save_now
 
-    def self.global_key(section, model, label)
-      ['rails_admin:choose', section, model, label.parameterize].join(':')
+    def self.global_key(section, model, prefix, label)
+      ['rails_admin:choose', section, model, prefix, label.parameterize].compact.join(':')
     end
 
-    def self.delete_by(section:, model:, label:)
-      Global.delete(global_key(section, model, label))
+    def self.delete_by(section:, model:, prefix:, label:)
+      Global.delete(global_key(section, model, prefix, label))
     end
 
-    def self.group_by_label(section:, model:)
-      Global.read_multi(/^#{global_key(section, model, '')}/).transform_keys! do |key|
+    def self.group_by_label(section:, model:, prefix:)
+      Global.read_multi(/^#{global_key(section, model, prefix, '')}/).transform_keys! do |key|
         key.match(/:([^:]+)$/)[1]
       end
     end
 
     def save_now
       if chosen_label.present?
-        old_key = self.class.global_key(section, model, chosen_label)
+        old_key = self.class.global_key(section, model, prefix, chosen_label)
         if (old_record = Global.where(id: old_key).take)
           if fields == old_record.data
             old_record.delete
@@ -53,7 +54,7 @@ module RailsAdmin
     end
 
     def global_key
-      self.class.global_key(section, model, label)
+      self.class.global_key(section, model, prefix, label)
     end
   end
 end
