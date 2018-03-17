@@ -62,12 +62,10 @@ class RailsAdmin.TableConcept
     @sticky_head.css(width: "#{@table_wrapper.outerWidth()}px")
     sticky_head_row = @sticky_head.find('.table > thead > tr:first > th')
     @table_head.find('tr:first > th').each (index) ->
-      width = $(this).outerWidth()
-      width = switch index
-        when 0 then width - 1
-        when 2 then width + 1
-        else        width
-      $(sticky_head_row[index]).css(width: width)
+      column = $(sticky_head_row[index])
+      column.css(width: "#{$(this).outerWidth()}px")
+      if $(this).classes().includes('header')
+        column.addClass('table_sticky_header')
     @toggle_sticky_head()
 
   toggle_sticky_head: =>

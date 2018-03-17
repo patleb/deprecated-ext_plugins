@@ -95,6 +95,19 @@
     }
   }
 
+  .table_sticky_header {
+    margin-left: 1em;
+    text-indent: -0.85rem;
+    &:before {
+      content: "";
+      margin-top: 7px;
+      border-width: 0 4px 4px;
+      border-style: solid;
+      border-color: $text-color transparent;
+      visibility: hidden;
+    }
+  }
+
   .js_table_scroll_up {
     cursor: pointer;
   }
