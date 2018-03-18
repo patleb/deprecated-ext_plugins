@@ -1,4 +1,5 @@
 = @h.filter_box.render
+#js_table_removed_columns{'data-js': @h.removed_columns.to_json}
 
 - unless @scopes.empty?
   %ul.nav.nav-tabs#scope_selector
@@ -47,9 +48,18 @@
                 %td{class: [property.css_class, property.type_css_class]}= property.pretty_value.to_s
             %td.last.links
               %ul.list-inline= menu_for :member, @abstract_model, object, true
+        - if @h.choose?
+          %tr.js_table_choose
+            %td
+              .js_table_restore_columns.fa.fa-undo
+            - @h.properties.each do |property|
+              %td{class: "#{property.name}_field"}
+                - if property.choose?
+                  .js_table_remove_column.fa.fa-remove{'data-js': property.name}
+            %td
 
   - if @objects.respond_to?(:total_count)
-    .row
+    .row.paginate
       .col-md-6
         = paginate @objects, theme: 'rails_admin', **@h.paginate_options
     .row

@@ -20,6 +20,10 @@ module RailsAdmin
       ['rails_admin:choose', section, model, prefix, label.parameterize].compact.join(':')
     end
 
+    def self.exist?(section:, model:, prefix:, label:)
+      Global.exist?(global_key(section, model, prefix, label))
+    end
+
     def self.delete_by(section:, model:, prefix:, label:)
       Global.delete(global_key(section, model, prefix, label))
     end

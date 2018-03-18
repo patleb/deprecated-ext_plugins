@@ -15,9 +15,12 @@ module RailsAdmin
           end
         elsif request.delete? # DESTROY
           attributes = attributes.slice!(:section, :model, :prefix, :label).to_unsafe_h.symbolize_keys
-          RailsAdmin::Choose.delete_by(attributes)
-
-          redirect_to_on_success notice_name, status: :see_other
+          if RailsAdmin::Choose.exist? attributes
+            RailsAdmin::Choose.delete_by(attributes)
+            redirect_to_on_success notice_name, status: :see_other
+          else
+            redirect_to(back_or_index, notice: I18n.t('admin.flash.noaction'), status: :see_other)
+          end
         end
       end
 

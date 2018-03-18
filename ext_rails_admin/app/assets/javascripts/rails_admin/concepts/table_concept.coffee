@@ -5,9 +5,14 @@ class RailsAdmin.TableConcept
 
   constants: ->
     WRAPPER: 'CLASS'
+    HEADER: 'CLASS'
     STICKY_HEAD: 'CLASS'
     SCROLL_UP: 'CLASS'
     SCROLL_X: 'CLASS'
+    CHOOSE: 'CLASS'
+    REMOVE_COLUMN: 'CLASS'
+    RESTORE_COLUMNS: 'CLASS'
+    REMOVED_COLUMNS: 'ID'
     APPLICATION_WINDOW: RailsAdmin.ApplicationConcept
 
   document_on: => [
@@ -21,6 +26,16 @@ class RailsAdmin.TableConcept
         @table_wrapper.animate(scrollLeft: scroll_width)
       else
         @table_wrapper.animate(scrollLeft: 0)
+
+    'click', @REMOVE_COLUMN, (event, target) =>
+      name = target.data('js')
+      $(".#{name}_field").remove()
+      @update_sticky_head()
+      @save_column(name)
+
+    'click', @RESTORE_COLUMNS, =>
+      Cookie.remove(@cookie_key())
+      $.pjax.reload()
   ]
 
   ready: =>
@@ -61,11 +76,11 @@ class RailsAdmin.TableConcept
   update_sticky_head: =>
     @sticky_head.css(width: "#{@table_wrapper.outerWidth()}px")
     sticky_head_row = @sticky_head.find('.table > thead > tr:first > th')
-    @table_head.find('tr:first > th').each (index) ->
-      column = $(sticky_head_row[index])
-      column.css(width: "#{$(this).outerWidth()}px")
-      if $(this).classes().includes('header')
-        column.addClass('table_sticky_header')
+    @table_head.find('tr:first > th').a_each (th, i) =>
+      column = $(sticky_head_row[i])
+      column.css(width: "#{th.outerWidth()}px")
+      if th.classes().includes('header')
+        column.addClass(@HEADER_CLASS)
     @toggle_sticky_head()
 
   toggle_sticky_head: =>
@@ -86,3 +101,12 @@ class RailsAdmin.TableConcept
     table_bottom = @table_wrapper.offset().top + @table_wrapper.height()
     scroll_x_bottom = @scroll_x.offset().top + @scroll_x.height()
     table_bottom >= scroll_x_bottom + 34
+
+  save_column: (name) =>
+    key = @cookie_key()
+    list = (Cookie.get(key) || '{}').to_json()
+    list[name] = 1
+    Cookie.set(key, list)
+
+  cookie_key: =>
+    "#{@abstract_model()}.list"

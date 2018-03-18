@@ -95,7 +95,7 @@
     }
   }
 
-  .table_sticky_header {
+  .js_table_header {
     margin-left: 1em;
     text-indent: -0.85rem;
     &:before {
@@ -128,6 +128,12 @@
     font-size: 20px;
     opacity: 0.5;
     z-index: $zindex-navbar-fixed - 5;
+  }
+
+  .js_table_remove_column,
+  .js_table_restore_columns {
+    cursor: pointer;
+    padding: 8px;
   }
 
   .js_menu_overlay {

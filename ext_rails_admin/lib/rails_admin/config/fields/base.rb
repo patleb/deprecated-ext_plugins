@@ -324,6 +324,10 @@ module RailsAdmin
         register_instance_option :inline_update? do
           false
         end
+
+        register_instance_option :choose? do
+          true
+        end
       end
     end
   end

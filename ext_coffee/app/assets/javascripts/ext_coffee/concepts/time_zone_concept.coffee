@@ -13,7 +13,7 @@ class Js.TimeZoneConcept
         # sometimes (on android) you can't override intl
         jstz.determine().name()
 
-    Cookies.set("js.time_zone", @timezone, secure: (window.location.protocol == 'https:'))
+    Cookie.set('time_zone', @timezone)
 
   name: =>
     @timezone

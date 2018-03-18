@@ -23,11 +23,11 @@ module RailsAdmin
                   required: true
               end,
               span('.btn.btn-sm.btn-primary.js_inline_choose_save') do[
-                i('.icon-ok'),
+                i('.icon-ok'), ' ',
                 t('admin.form.save')
               ]end,
               span('.btn.btn-sm.btn-default.js_inline_choose_delete') do[
-                i('.icon-trash'),
+                i('.icon-trash'), ' ',
                 t("admin.form.delete")
               ]end,
               # TODO set as default --> user preferences

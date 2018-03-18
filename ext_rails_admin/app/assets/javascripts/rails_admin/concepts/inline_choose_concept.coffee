@@ -22,7 +22,7 @@ class RailsAdmin.InlineChooseConcept
     return unless (@list = $(@LIST)).length
 
     # TODO use inheritance for each type
-    @section = if $('#chart_action').length then 'chart' else 'list'
+    @section = if $('#chart_action').length then 'chart' else 'export'
     @view_concept = "#{@section.camelize()}Concept"
 
   clear: =>

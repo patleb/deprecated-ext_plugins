@@ -1,6 +1,12 @@
 module RailsAdmin
   module Main
     class Index < Base[:@objects]
+      delegate :choose?, to: :list_config
+
+      def removed_columns
+        @_removed_columns ||= JSON.parse(cookies['js.chip.list'] || '{}').keys.map(&:to_sym)
+      end
+
       def sortable_options(property)
         selected = (@sort == property.name.to_s)
         if property.sortable
@@ -70,7 +76,7 @@ module RailsAdmin
       end
 
       def properties
-        @_properties ||= list_config.visible_fields
+        @_properties ||= list_config.visible_fields.reject{ |property| removed_columns.include? property.name }
       end
 
       def params
