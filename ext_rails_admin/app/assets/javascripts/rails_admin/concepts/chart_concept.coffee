@@ -148,9 +148,7 @@ class RailsAdmin.ChartConcept
     $("label[for='#{select.attr('id')}']").html()
 
   uniq_key: (options) ->
-    options.map((option) =>
-      option.input.value
-    ).join('-')
+    options.map((option) => option.input.value).join('-')
 
   toggle_list: =>
     if $(@ADDED_ITEM).length

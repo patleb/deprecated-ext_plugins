@@ -46,11 +46,6 @@ Object.define_methods
       accumulator
     _.reduce(this, f, accumulator)
 
-  reduce: (f_key_item_memo_self, accumulator) ->
-    f = (memo, item, key, self) ->
-      f_key_item_memo_self(key, item, memo, self)
-    _.reduce(this, f, accumulator)
-
   map: (f_key_item_self) ->
     f = (item, key, self) ->
       f_key_item_self(key, item, self)
