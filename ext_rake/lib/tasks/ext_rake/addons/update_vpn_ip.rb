@@ -54,7 +54,7 @@ module ExtRake
 
     def dns
       @_dns ||= Aws::Route53::Resource.new(
-        aws_region: SettingsYml[:aws_region],
+        region: SettingsYml[:aws_region],
         access_key_id: SettingsYml[:aws_access_key_id],
         secret_access_key: SettingsYml[:aws_secret_access_key],
       ).client
