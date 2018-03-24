@@ -123,7 +123,7 @@ module ActiveTask
         end.join("\n"))
 
         exit EXIT_CODE_HELP
-      end
+      end if task.full_comment.present?
       # ... for some unknown reason
       parser.on("--"){}
 
