@@ -32,9 +32,12 @@ namespace :monit do
   desc 'Check mail users'
   task :check_mail_users do
     on release_roles :all do
-      unless test :sudo, "cat /etc/monit/monitrc | grep 'set alert #{SettingsYml[:mail_to].join(',')} not on'"
-        invoke 'monit:push'
-        invoke 'monit:reload'
+      SettingsYml[:mail_to].each do |mail_to|
+        unless test :sudo, "cat /etc/monit/monitrc | grep 'set alert #{mail_to} not on'"
+          invoke 'monit:push'
+          invoke 'monit:reload'
+          break
+        end
       end
     end
   end
