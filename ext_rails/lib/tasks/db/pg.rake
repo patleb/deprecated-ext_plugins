@@ -1,7 +1,7 @@
 namespace :db do
   namespace :pg do
     desc "Dump the database to db/dump.pg"
-    task :dump => :environment do
+    task :dump, [:name] => :environment do |t, args|
       with_config do |host, db, user, pwd|
         if ENV['ONLY'].present?
           only = ENV['ONLY'].split(',').reject(&:blank?).map{ |table| "--table='#{table}'" }.join(' ')
@@ -9,22 +9,24 @@ namespace :db do
         if ENV['SKIP'].present?
           skip = ENV['SKIP'].split(',').reject(&:blank?).map{ |table| "--exclude-table='#{table}'" }.join(' ')
         end
+        name = args[:name].presence || 'dump'
         sh <<~CMD, verbose: false
           export PGPASSWORD=#{pwd};
-          pg_dump --host #{host} --username #{user} #{ENV['PG_OPTIONS']} --verbose --no-owner --no-acl --clean --format=c #{only} #{skip} #{db} > #{Rails.root}/db/dump.pg
+          pg_dump --host #{host} --username #{user} #{ENV['PG_OPTIONS']} --verbose --no-owner --no-acl --clean --format=c #{only} #{skip} #{db} > #{Rails.root}/db/#{name}.pg
         CMD
       end
     end
 
     desc "Restore the database from db/dump.pg"''
-    task :restore => :environment do
+    task :restore, [:name] => :environment do |t, args|
       with_config do |host, db, user, pwd|
         if ENV['ONLY'].present?
           only = ENV['ONLY'].split(',').reject(&:blank?).map{ |table| "--table='#{table}'" }.join(' ')
         end
+        name = args[:name].presence || 'dump'
         sh <<~CMD, verbose: false
           export PGPASSWORD=#{pwd};
-          pg_restore --verbose --host #{host} --username #{user} #{ENV['PG_OPTIONS']} --no-owner --no-acl #{only} --dbname #{db} #{Rails.root}/db/dump.pg
+          pg_restore --verbose --host #{host} --username #{user} #{ENV['PG_OPTIONS']} --no-owner --no-acl #{only} --dbname #{db} #{Rails.root}/db/#{name}.pg
         CMD
       end
     end
