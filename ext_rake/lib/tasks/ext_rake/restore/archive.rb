@@ -1,5 +1,5 @@
 module ExtRake
-  class ArchiveRestore < Restore
+  class RestoreArchive < Restore
     def self.args
       {
         model:   ['--model=MODEL',     'Backup model'],

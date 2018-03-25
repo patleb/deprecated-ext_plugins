@@ -17,15 +17,22 @@ module ExtRake
   autoload :Backup,    'tasks/ext_rake/backup'
   autoload :Openvpn,   'tasks/ext_rake/openvpn'
   autoload :Partition, 'tasks/ext_rake/partition'
+  autoload :Pg,        'tasks/ext_rake/pg'
   autoload :Pgslice,   'tasks/ext_rake/pgslice'
   autoload :Psql,      'tasks/ext_rake/psql'
   autoload :Restore,   'tasks/ext_rake/restore'
 
-  autoload :PartitionBackup,  'tasks/ext_rake/backups/partition'
+  autoload :BackupPartition,  'tasks/ext_rake/backup/partition'
 
-  autoload :ArchiveRestore,   'tasks/ext_rake/restores/archive'
-  autoload :PostgresRestore,  'tasks/ext_rake/restores/postgres'
-  autoload :SyncRestore,      'tasks/ext_rake/restores/sync'
+  autoload :PgDropAll,  'tasks/ext_rake/pg/drop_all'
+  autoload :PgDump,     'tasks/ext_rake/pg/dump'
+  autoload :PgRestore,  'tasks/ext_rake/pg/restore'
+  autoload :PgSqlite,   'tasks/ext_rake/pg/sqlite'
+  autoload :PgTruncate, 'tasks/ext_rake/pg/truncate'
+
+  autoload :RestoreArchive,   'tasks/ext_rake/restore/archive'
+  autoload :RestorePostgres,  'tasks/ext_rake/restore/postgres'
+  autoload :RestoreSync,      'tasks/ext_rake/restore/sync'
 
   autoload :BackupGit,          'tasks/ext_rake/addons/backup_git'
   autoload :CleanUpApplication, 'tasks/ext_rake/addons/clean_up_application'

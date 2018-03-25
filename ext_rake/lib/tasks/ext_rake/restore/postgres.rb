@@ -1,5 +1,5 @@
 module ExtRake
-  class PostgresRestore < Restore
+  class RestorePostgres < Restore
     include Psql
 
     def self.args

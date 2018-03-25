@@ -1,5 +1,5 @@
 module ExtRake
-  class PartitionBackup < Backup
+  class BackupPartition < Backup
     include Pgslice
 
     def self.steps

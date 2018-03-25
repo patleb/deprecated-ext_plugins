@@ -1,5 +1,5 @@
 module ExtRake
-  class SyncRestore < Restore
+  class RestoreSync < Restore
     def self.steps
       super + [:restore_permissions, :restore_owner]
     end
