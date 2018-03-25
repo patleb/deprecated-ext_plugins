@@ -17,7 +17,7 @@ namespace :db do
       end
     end
 
-    desc "Restore the database from db/dump.pg"''
+    desc "Restore the database from db/dump.pg"
     task :restore, [:name] => :environment do |t, args|
       with_config do |host, db, user, pwd|
         if ENV['ONLY'].present?
@@ -27,6 +27,16 @@ namespace :db do
         sh <<~CMD, verbose: false
           export PGPASSWORD=#{pwd};
           pg_restore --verbose --host #{host} --username #{user} #{ENV['PG_OPTIONS']} --no-owner --no-acl #{only} --dbname #{db} #{Rails.root}/db/#{name}.pg
+        CMD
+      end
+    end
+
+    desc "Drop all tables"
+    task :drop_all => :environment do
+      with_config do |host, db, user, pwd|
+        psql_url = "postgresql://#{user}:#{pwd}@#{host}:5432/#{db}"
+        sh <<~CMD, verbose: false
+          psql --quiet -c "DROP OWNED BY CURRENT_USER;" "#{psql_url}"
         CMD
       end
     end
