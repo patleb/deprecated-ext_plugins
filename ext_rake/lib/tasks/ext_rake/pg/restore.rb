@@ -1,7 +1,7 @@
 module ExtRake
   class PgRestore < Pg
     def self.steps
-      [:pg_restore]
+      super + [:pg_restore]
     end
 
     def self.args

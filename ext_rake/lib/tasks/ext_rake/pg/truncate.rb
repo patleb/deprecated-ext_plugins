@@ -1,7 +1,7 @@
 module ExtRake
   class PgTruncate < Pg
     def self.steps
-      [:psql_truncate]
+      super + [:psql_truncate]
     end
 
     def self.args

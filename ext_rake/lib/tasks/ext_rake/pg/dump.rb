@@ -1,7 +1,7 @@
 module ExtRake
   class PgDump < Pg
     def self.steps
-      [:pg_dump]
+      super + [:pg_dump]
     end
 
     def self.args

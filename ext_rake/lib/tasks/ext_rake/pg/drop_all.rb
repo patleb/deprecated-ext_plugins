@@ -1,7 +1,7 @@
 module ExtRake
   class PgDropAll < Pg
     def self.steps
-      [:psql_drop_all]
+      super + [:psql_drop_all]
     end
 
     def psql_drop_all
