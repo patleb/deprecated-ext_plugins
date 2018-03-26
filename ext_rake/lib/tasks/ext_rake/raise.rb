@@ -32,6 +32,16 @@ module ExtRake
       cmd = self.class.sanitized_lines.each_with_object(cmd) do |(id, match), memo|
         memo.gsub! match, "[#{id}]"
       end
+      stderr = stderr.strip.split("\n").map(&:strip).select do |line|
+        line.present? && self.class.ignored_errors.none? do |ignored_error|
+          if ignored_error.is_a? Regexp
+            line.match ignored_error
+          else
+            line == ignored_error
+          end
+        end
+      end.join("\n")
+
       raise Failed, "[#{cmd}]\n\n#{stderr}"
     end
   end
