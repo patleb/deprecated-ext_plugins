@@ -13,14 +13,12 @@ module ExtRake
 
     def self.ignored_errors
       [
-        'pg_restore: connecting',
-        'pg_restore: creating',
-        'pg_restore: executing',
-        'pg_restore: processing',
-        'Error while PROCESSING TO',
-        'Error from TOC',
-        'ERROR:  must be owner of extension plpgsql',
-        'WARNING: errors ignored',
+        /pg_restore: (connecting|creating|executing|processing)/,
+        /Error while PROCESSING TOC/,
+        /Error from TOC entry/,
+        /ERROR:  must be owner of extension plpgsql/,
+        /COMMENT ON EXTENSION plpgsql/,
+        /WARNING: errors ignored/,
       ]
     end
 
