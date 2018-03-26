@@ -40,10 +40,11 @@ class SettingsYml
   def self.with_clean_env(env: ENV['RAILS_ENV'], app: ENV['RAILS_APP'], root: ENV['RAILS_ROOT'] || '', force: false)
     if force
       @all_was, @env_was, @app_was, @root_was, @encryptor_was = @all, @env, @app, @root, @encryptor
-      @all = @env = @app = @root = @encryptor = nil
-      with(clean_env: true)
+      @all = @env = @app = @root = nil
+      remove_instance_variable :@encryptor
+      with(env: env, app: app, root: root, clean_env: true)
     else
-      @all || with(env: env, root: root, app: app, clean_env: true)
+      @all || with(env: env, app: app, root: root, clean_env: true)
     end
   end
   singleton_class.send :alias_method, :clean, :with_clean_env
