@@ -5,10 +5,14 @@ options = {
         def self.flatten
           Class.new do
             def self.uniq
-              if Setting.has_key? :mail_interceptors
-                Setting[:mail_interceptors]
+              if defined?(Setting)
+                if Setting.has_key? :mail_interceptors
+                  Setting[:mail_interceptors]
+                else
+                  Setting[:mail_to]
+                end
               else
-                Setting[:mail_to]
+                SettingsYml[:mail_to]
               end
             end
           end
