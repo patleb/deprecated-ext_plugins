@@ -1,4 +1,35 @@
 PATH
+  remote: .
+  specs:
+    ext_plugins (5.1.0.1)
+      ext_async (= 5.1.0.1)
+      ext_aws_sdk (= 5.1.0.1)
+      ext_bootstrap (= 5.1.0.1)
+      ext_capistrano (= 5.1.0.1)
+      ext_chartkick (= 5.1.0.1)
+      ext_coffee (= 5.1.0.1)
+      ext_devise (= 5.1.0.1)
+      ext_globals (= 5.1.0.1)
+      ext_mail (= 5.1.0.1)
+      ext_minitest (= 5.1.0.1)
+      ext_mobility (= 5.1.0.1)
+      ext_pages (= 5.1.0.1)
+      ext_pundit (= 5.1.0.1)
+      ext_rails (= 5.1.0.1)
+      ext_rails_admin (= 5.1.0.1)
+      ext_rake
+      ext_ruby (= 5.1.0.1)
+      ext_settings (= 5.1.0.1)
+      ext_shell (= 5.1.0.1)
+      ext_tasks (= 5.1.0.1)
+      ext_throttler (= 5.1.0.1)
+      ext_whenever (= 5.1.0.1)
+      rails (~> 5.1)
+      settings_yml
+      sun_cap (= 5.1.0.1)
+      sunzistrano
+
+PATH
   remote: ext_async
   specs:
     ext_async (5.1.0.1)
@@ -240,7 +271,7 @@ PATH
 PATH
   remote: settings_yml
   specs:
-    settings_yml (2.6.5)
+    settings_yml (2.6.6)
       activesupport (~> 5.0)
       chronic_duration (~> 0.10.6)
       ext_ruby
@@ -262,37 +293,6 @@ PATH
       rainbow
       sshkit
       sun_cap (= 5.1.0.1)
-
-PATH
-  remote: .
-  specs:
-    ext_plugins (5.1.0.1)
-      ext_async (= 5.1.0.1)
-      ext_aws_sdk (= 5.1.0.1)
-      ext_bootstrap (= 5.1.0.1)
-      ext_capistrano (= 5.1.0.1)
-      ext_chartkick (= 5.1.0.1)
-      ext_coffee (= 5.1.0.1)
-      ext_devise (= 5.1.0.1)
-      ext_globals (= 5.1.0.1)
-      ext_mail (= 5.1.0.1)
-      ext_minitest (= 5.1.0.1)
-      ext_mobility (= 5.1.0.1)
-      ext_pages (= 5.1.0.1)
-      ext_pundit (= 5.1.0.1)
-      ext_rails (= 5.1.0.1)
-      ext_rails_admin (= 5.1.0.1)
-      ext_rake
-      ext_ruby (= 5.1.0.1)
-      ext_settings (= 5.1.0.1)
-      ext_shell (= 5.1.0.1)
-      ext_tasks (= 5.1.0.1)
-      ext_throttler (= 5.1.0.1)
-      ext_whenever (= 5.1.0.1)
-      rails (~> 5.1)
-      settings_yml
-      sun_cap (= 5.1.0.1)
-      sunzistrano
 
 GEM
   remote: https://rubygems.org/

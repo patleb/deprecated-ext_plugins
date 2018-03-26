@@ -49,7 +49,7 @@ module ExtRake
     def restore_owner
       return unless options.owner.present?
 
-      sh "#{sudo} sudo chown -R #{options.owner} '#{options.sync_path}'"
+      sh "#{sudo} chown -R #{options.owner} '#{options.sync_path}'"
     end
   end
 end
