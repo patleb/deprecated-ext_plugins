@@ -1,7 +1,7 @@
 module ExtRake
   class PgSqlite < Pg
     def self.steps
-      super + [:convert]
+      [:convert]
     end
 
     # TODO http://manuelvanrijn.nl/blog/2012/01/18/convert-postgresql-to-sqlite/

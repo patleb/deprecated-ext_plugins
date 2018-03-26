@@ -1,20 +1,13 @@
 module ExtRake
   class Restore < ExtRake.config.parent_task.constantize
-    class Failed < ::StandardError; end
+    include Raise
+
     class NoTarFile < ::StandardError; end
     class NoWindowsSupport < ::StandardError; end
     class RootPath < ::StandardError; end
 
     def self.steps
       [:run_restore]
-    end
-
-    def self.ignored_errors
-      []
-    end
-
-    def self.sanitized_lines
-      {}
     end
 
     def self.backup_type
@@ -73,25 +66,6 @@ module ExtRake
 
     def restore_cmd
       raise NotImplementedError
-    end
-
-    def notify?(stderr)
-      stderr.strip.split("\n").lazy.map(&:strip).any? do |line|
-        line.present? && self.class.ignored_errors.none? do |ignored_error|
-          if ignored_error.is_a? Regexp
-            line.match ignored_error
-          else
-            line == ignored_error
-          end
-        end
-      end
-    end
-
-    def notify!(cmd, stderr)
-      cmd = self.class.sanitized_lines.each_with_object(cmd) do |(id, match), memo|
-        memo.gsub! match, "[#{id}]"
-      end
-      raise Failed, "[#{cmd}]\n\n#{stderr}"
     end
 
     def fetch_s3
