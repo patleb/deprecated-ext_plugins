@@ -18,10 +18,7 @@ module ExtRake
     end
 
     def self.sanitized_lines
-      {
-        pg_password: /PGPASSWORD=\w+;/,
-        pg_restore: /pg_restore.+\//,
-      }
+      { pg_password: /PGPASSWORD=\w+;/ }
     end
 
     def pg_restore
