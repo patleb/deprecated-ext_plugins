@@ -81,6 +81,18 @@ module ActiveTask
       end
     end
 
+    def cap(command_or_directory)
+      command = block_given? ? yield : command_or_directory
+      command = "eval $(ssh-agent) && ssh-add 2> /dev/null && RAILS_ENV=development bundle exec cap #{command}"
+      if block_given?
+        Dir.chdir command_or_directory do
+          sh_clean command
+        end
+      else
+        sh_clean command
+      end
+    end
+
     def method_missing(name, *args, &block)
       rake.__send__(name, *args, &block)
     end
