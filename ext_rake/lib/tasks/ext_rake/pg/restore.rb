@@ -17,6 +17,13 @@ module ExtRake
       ]
     end
 
+    def self.sanitized_lines
+      {
+        pg_password: /PGPASSWORD=\w+;/,
+        pg_restore: /pg_restore.+\//,
+      }
+    end
+
     def pg_restore
       with_config do |host, db, user, pwd|
         if options.includes.present?
