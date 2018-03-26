@@ -11,8 +11,10 @@ module ExtRake
       }
     end
 
-    def pg_cmd
-      raise NotImplementedError
+    def self.ignored_errors
+      [
+        'ERROR:  must be owner of extension plpgsql',
+      ]
     end
 
     def pg_restore
