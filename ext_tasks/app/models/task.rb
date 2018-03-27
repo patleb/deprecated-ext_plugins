@@ -32,7 +32,8 @@ class Task < ExtTasks.config.parent_model.constantize
   attribute :description
   attribute :output
   attribute :arguments
-  attribute :status, :boolean
+  attribute :completed, :boolean
+  attribute :updated_at, :datetime
   attribute :_later, :boolean
   attribute :_skip_lock, :boolean
 
@@ -47,6 +48,7 @@ class Task < ExtTasks.config.parent_model.constantize
   end
 
   def self.all
+    # TODO doesn't work when only 1 entry
     outputs = ::Global.fetch_multi(*ExtTasks.config.tasks_visible.keys.map{ |id| global_key(id) }){ '' }
     list = ExtTasks.config.tasks_visible.map do |name, task|
       new(
@@ -66,9 +68,15 @@ class Task < ExtTasks.config.parent_model.constantize
 
   def persisted?; true end
 
-  def status
+  def completed
     if output.present? && output.exclude?(RUNNING)
       output.include? ExtRake::TASK_COMPLETED
+    end
+  end
+
+  def updated_at
+    if output.present? && output.include?(ExtRake::TASK_DONE)
+      Time.zone.parse output.match(/\[(.+)\]#{ExtRake::TASK_DONE.escape_regex}/)[1]
     end
   end
 
@@ -95,7 +103,7 @@ class Task < ExtTasks.config.parent_model.constantize
     result = Rake::Task[id].invoke(*args)
   ensure
     if result.include? ExtRake::TASK_FAILED
-      errors.add :base, to_failed_task(result)
+      errors.add :base, to_failed_task(result) # TODO still show success
     end
     String.try :disable_colorization=, false
     Rake::Task[id].reenable

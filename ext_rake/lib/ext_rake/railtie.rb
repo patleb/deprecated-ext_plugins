@@ -2,6 +2,7 @@ module ExtRake
   TASK_STARTED = '[STARTED]'.freeze
   TASK_COMPLETED = '[COMPLETED]'.freeze
   TASK_FAILED = '[FAILED]'.freeze
+  TASK_DONE = '[done]'.freeze
 end
 
 class ExtRake::Railtie < Rails::Railtie
@@ -45,15 +46,15 @@ class ExtRake::Railtie < Rails::Railtie
                 puts "#{ExtRake::TASK_STARTED} #{name}".blue
                 super
               rescue StandardError, Exception => exception
+                # TODO mail only if not from TaskController#perform_now
                 ExtMail::Mailer.new.deliver! exception, subject: name do |message|
                   puts message
                   Rails.logger.error message
                 end
               ensure
+                puts "[#{time}][task]" if output.exclude? '[step]'
                 total = Time.current.utc - time
-                if output.exclude? '[step]'
-                  puts "[#{time}][task]"
-                end
+                puts "[#{time}]#{ExtRake::TASK_DONE}"
                 if exception
                   puts "#{ExtRake::TASK_FAILED} after #{distance_of_time total.seconds}".red
                 else

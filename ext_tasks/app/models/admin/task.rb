@@ -20,7 +20,8 @@ module Admin::Task
         configure :output do
           pretty_value{ simple_format(truncate(value, length: ExtTasks.config.output_length)) }
         end
-        configure :status, :boolean
+        configure :updated_at, :datetime
+        configure :completed, :boolean
       end
 
       edit do
