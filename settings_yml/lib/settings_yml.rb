@@ -24,6 +24,12 @@ class SettingsYml
   end
   singleton_class.send :alias_method, :key?, :has_key?
 
+  def self.slice(*names)
+    names.each_with_object({}.with_indifferent_access) do |name, memo|
+      memo[name] = self[name]
+    end
+  end
+
   def self.type_of(name)
     with unless @all
     (@types[name] || :text).to_sym
