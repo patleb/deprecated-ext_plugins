@@ -38,6 +38,8 @@ module ActiveTask
       {}
     end
 
+    def self.cap_working_dir; end
+
     def initialize(rake, task, args = {}, **defaults)
       @debug = ENV['DEBUG'].to_b
       @rake, @task = rake, task
@@ -81,11 +83,10 @@ module ActiveTask
       end
     end
 
-    def cap(command_or_directory)
-      command = block_given? ? yield : command_or_directory
+    def cap(command)
       command = "eval $(ssh-agent) && ssh-add 2> /dev/null && RAILS_ENV=development bundle exec cap #{command}"
-      if block_given?
-        Dir.chdir command_or_directory do
+      if (working_dir = self.class.cap_working_dir).present?
+        Dir.chdir(working_dir) do
           sh_clean command
         end
       else
