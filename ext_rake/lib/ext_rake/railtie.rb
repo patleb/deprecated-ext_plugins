@@ -53,8 +53,9 @@ class ExtRake::Railtie < Rails::Railtie
                 end
               ensure
                 puts "[#{time}][task]" if output.exclude? '[step]'
-                total = Time.current.utc - time
-                puts "[#{time}]#{ExtRake::TASK_DONE}"
+                now = Time.current.utc
+                puts "[#{now}]#{ExtRake::TASK_DONE}"
+                total = now - time
                 if exception
                   puts "#{ExtRake::TASK_FAILED} after #{distance_of_time total.seconds}".red
                 else
