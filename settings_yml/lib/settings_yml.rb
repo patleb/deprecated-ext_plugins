@@ -43,7 +43,8 @@ class SettingsYml
     @all
   end
 
-  def self.with_clean_env(env: ENV['RAILS_ENV'], app: ENV['RAILS_APP'], root: ENV['RAILS_ROOT'] || '', force: false)
+  # TODO clean-up args usage/defaults
+  def self.with_clean_env(env: ENV['RAILS_ENV'] || 'development', app: ENV['RAILS_APP'], root: ENV['RAILS_ROOT'] || '', force: false)
     if force
       @all_was, @env_was, @app_was, @root_was, @encryptor_was = @all, @env, @app, @root, @encryptor
       @all = @env = @app = @root = nil
