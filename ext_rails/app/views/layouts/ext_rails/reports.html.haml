@@ -1,0 +1,13 @@
+!!! 5
+%html.no-js{lang: I18n.locale}
+  %head
+    = wicked_pdf_javascript_include_tag current_layout
+    = wicked_pdf_stylesheet_link_tag current_layout
+    = area :head
+    %meta{"http-equiv": "content-type", content: "text/html; charset=utf-8", }
+    %meta{name: "description", content: @description || application_name}
+    %title= @title || application_name
+  %body{id: body_id}
+    = area :header
+    = yield
+    = area :footer

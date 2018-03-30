@@ -20,7 +20,9 @@ module RailsAdmin
 
         register_instance_option :report_options do
           {
-            # show_as_html: false,
+            # show_as_html: true,
+            # javascript_delay: 2000,
+            # window_status: 'done',
             # ~792px
             page_size: 'Letter',
             margin: {
