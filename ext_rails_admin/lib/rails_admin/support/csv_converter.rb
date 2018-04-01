@@ -5,6 +5,7 @@ module RailsAdmin
   class CSVConverter
     attr_accessor :controller
 
+    # TODO check to limit like in chart_extractor
     def initialize(controller, abstract_model, objects, schema)
       @fields = []
       @associations = []
@@ -31,6 +32,7 @@ module RailsAdmin
       end
     end
 
+    # https://medium.com/table-xi/stream-csv-files-in-rails-because-you-can-46c212159ab7
     def to_csv(options = {})
       options = HashWithIndifferentAccess.new(options)
       encoding_to = Encoding.find(options[:encoding_to]) if options[:encoding_to].present?

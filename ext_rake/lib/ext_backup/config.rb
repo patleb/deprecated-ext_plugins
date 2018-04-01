@@ -103,6 +103,7 @@ Model.new(:meta, 'Backup meta directory') do
 
     syncer.directories do |directory|
       directory.add ExtRake.config.backup_meta_dir
+      # TODO doesn't seem to work
       directory.exclude /\/(?!#{ExtRake.config.backup_model})\//
     end
   end

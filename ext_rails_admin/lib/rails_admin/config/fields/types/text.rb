@@ -6,6 +6,7 @@ module RailsAdmin
           # Register field type for the type loader
           RailsAdmin::Config::Fields::Types.register(self)
 
+          # TODO https://github.com/jaredreich/pell
           [:ckeditor, :ckeditor_base_location, :ckeditor_config_js, :ckeditor_location].each do |key|
             register_deprecated_instance_option key do
               raise("The 'field(:foo){ ckeditor true }' style DSL is deprecated. Please use 'field :foo, :ck_editor' instead.")

@@ -45,6 +45,7 @@ class Global < ExtGlobals.config.parent_model.constantize
   end
 
   def self.[](*names)
+    # TODO correct when input is an array of 1
     if names.size == 1
       name = names.first
       if name.is_a? Regexp

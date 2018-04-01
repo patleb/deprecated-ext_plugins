@@ -16,6 +16,7 @@ module ExtAsync
     private
 
     def local_request!
+      # TODO use nginx allow/deny
       unless ExtAsync.config.allowed_ips.include? request.remote_ip
         exception = ForbiddenRemoteIp.new "[#{request.remote_ip}]"
         log exception, subject: :forbidden

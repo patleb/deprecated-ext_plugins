@@ -18,6 +18,7 @@ module RailsAdmin
 
         as_chart, as_file = params[:chart_data], params[:send_data]
         unless as_chart || as_file
+          # TODO allow both exclude/include
           if (columns = @model_config.list.exclude_columns)
             @objects = @objects.select_without(*columns)
           elsif (columns = @model_config.list.include_columns)

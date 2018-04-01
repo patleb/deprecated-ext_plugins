@@ -18,6 +18,7 @@ module ExtAsync
         query = uri.query.present? ? "?#{uri.query}" : ''
         fragment = uri.fragment.present? ? "##{uri.fragment}" : ''
 
+        # TODO extract into a method and add $pipe $request_time
         log_line = {
           remote_addr:            '127.0.0.1 -',
           remote_user:            '-',

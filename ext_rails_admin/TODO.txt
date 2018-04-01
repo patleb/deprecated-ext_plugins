@@ -1,3 +1,5 @@
+- honeypot https://solidfoundationwebdev.com/blog/posts/how-to-check-if-javascript-event-was-triggered-by-human
+- check presence of data with Exists? on big tables, before fetching
 - https://github.com/prograils/wisepdf
 - https://gist.github.com/javan/5538692cb37a683db15792be8d05761e
 - refactor to use pundit permitted_attributes

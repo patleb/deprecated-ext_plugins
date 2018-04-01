@@ -25,6 +25,7 @@ module Admin::Global
       end
 
       list do
+        # TODO bug cannot sort_reverse id
         sort_by :updated_at
         include_fields :id, :expires, :type, :data, :updated_at
       end

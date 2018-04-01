@@ -8,6 +8,7 @@ module ExtMail
     BODY_START = '[NOTIFICATION]'.freeze
     BODY_END = '[END]'.freeze
 
+    # TODO do not raise in test if no deliveries
     def deliver!(exception, subject:, before_body: nil, after_body: nil)
       require "mail"
 

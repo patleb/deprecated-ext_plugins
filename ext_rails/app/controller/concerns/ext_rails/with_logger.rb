@@ -3,6 +3,7 @@ module ExtRails
     def log(exception, subject:, throttle_key: 'ext_rails', throttle_duration: nil)
       return if Current[:log_throttled]
 
+      # TODO message with id/numbers/uuid should be ignored... or just truncate at maybe 32 chars or until digit?
       throttle_value = { type: exception.class.to_s, message: exception.message }
       status = ExtThrottler.status(key: throttle_key, value: throttle_value, duration: throttle_duration)
       return if status[:throttled]

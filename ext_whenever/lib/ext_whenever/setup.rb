@@ -1,3 +1,5 @@
+# TODO https://medium.com/@zek/automated-backups-with-the-ruby-backup-gem-and-amazon-s3-f0f2f986876e
+
 SettingsYml.clean(env: @environment)
 
 deployer = Dir.pwd.match(/home\/(\w+)\//)[1]

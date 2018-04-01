@@ -22,6 +22,7 @@ module ExtRails
     protected
 
     def set_current
+      # TODO ip, user_agent
       Current.session_id ||= session.try(:id)
       Current.request_id ||= request.uuid
       set_current_value(:locale)

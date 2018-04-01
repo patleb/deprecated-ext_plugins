@@ -1,0 +1,9 @@
+// TODO
+.setting_list {
+  .value_field {
+    @include hard_break;
+  }
+  td.description_field {
+    @include hard_ellipsis;
+  }
+}

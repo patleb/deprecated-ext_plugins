@@ -23,6 +23,10 @@ module RailsAdmin
           :created_at
         end
 
+        register_instance_option :max_range do
+          nil # TODO 1.week
+        end
+
         register_instance_option :max_size do
           288
         end

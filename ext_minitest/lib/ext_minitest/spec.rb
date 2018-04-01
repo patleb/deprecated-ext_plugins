@@ -9,6 +9,7 @@ require "maxitest/pending"
 require "maxitest/xit"
 require "maxitest/static_class_order"
 require 'sql_query'
+require 'ext_ruby'
 
 Minitest::Spec::DSL.send(:alias_method, :context, :describe)
 
@@ -33,3 +34,6 @@ module Kernel
   end
   private :describe_for
 end
+
+# TODO https://gist.github.com/ordinaryzelig/2032303
+# https://jkotests.wordpress.com/2013/12/02/comparing-arrays-in-an-order-independent-manner-using-minitest/
