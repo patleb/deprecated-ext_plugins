@@ -22,6 +22,6 @@ class CreateGlobals < ActiveRecord::Migration[5.1]
       t.timestamps null: false
     end
 
-    add_index :globals, [:expires, :updated_at], name: "index_globals_on_expires_updated_at", where: "(expires = 't')", order: { expires: :desc }
+    add_index :globals, [:expires, :updated_at], name: "index_globals_on_expires_updated_at", order: { expires: :desc }
   end
 end
