@@ -43,7 +43,7 @@ module ExtThrottler
       # https://github.com/zendesk/prop
       # https://github.com/fredwu/action_throttler
 
-      if block_given? && yield(old_time, count)
+      if block_given? && !yield(old_time, count)
         return update(record, old_value, old_value, new_time, count)
       end
 
