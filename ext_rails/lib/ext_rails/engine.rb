@@ -17,6 +17,10 @@ module ExtRails
       require 'active_record_query_trace' if Rails.env.development?
       require 'ext_rails/active_support/current_attributes_rails_5_1'
     end
+    # TODO useful for counters
+    # --> http://lucumr.pocoo.org/2014/2/16/a-case-for-upserts/
+    # --> https://github.com/seamusabshere/upsert
+    # --> https://github.com/rails/rails/pull/31989
     require 'active_record_upsert'
     require 'active_type'
     require 'activerecord-rescue_from_duplicate'
@@ -79,7 +83,12 @@ module ExtRails
 
       Rails.application.send :define_singleton_method, :web_workers do
         @_web_workers_dir ||= Dir.pwd.sub /\/releases\/\d{14}/, '/current/public'
-        `pgrep -lf 'Passenger RubyApp: #{@_web_workers_dir}' | grep ruby | cut -d' ' -f1`.split("\n")
+        `pgrep -lf 'Passenger RubyApp: #{@_web_workers_dir}' | grep ruby | cut -d' ' -f1`.split("\n").map(&:to_i)
+      end
+
+      Rails.application.send :define_singleton_method, :worker do
+        pid, rss = `ps ax -o pid,rss | grep -E "^[[:space:]]*#{$$}"`.strip.split.map(&:to_i)
+        { pid: pid, rss: rss }
       end
 
       # app.config.i18n.fallbacks = true
