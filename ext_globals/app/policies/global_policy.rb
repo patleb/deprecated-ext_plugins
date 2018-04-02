@@ -27,10 +27,6 @@ class GlobalPolicy < ApplicationPolicy
     false
   end
 
-  def destroy?
-    true
-  end
-
   def choose?
     false
   end
