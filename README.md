@@ -33,11 +33,11 @@
 
 ### Database
 
-* ActiveRecord / Sequel
+* ActiveRecord
 
 ### Backend
 
-* Rails / Roda
+* Rails
 * Rb++
 
 ### Frontend
