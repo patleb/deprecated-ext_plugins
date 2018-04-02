@@ -1,9 +1,17 @@
 class SettingPolicy < ApplicationPolicy
+  def dashboard?
+    false
+  end
+
   def export?
     false
   end
 
   def chart?
+    false
+  end
+
+  def history?
     false
   end
 
