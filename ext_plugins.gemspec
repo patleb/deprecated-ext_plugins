@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency "ext_mail",        version
   s.add_dependency "ext_minitest",    version
   s.add_dependency "ext_mobility",    version
+  s.add_dependency "ext_multiverse",  version
   s.add_dependency "ext_pages",       version
   s.add_dependency "ext_pundit",      version
   s.add_dependency "ext_rails",       version

@@ -13,6 +13,7 @@ PATH
       ext_mail (= 5.1.0.1)
       ext_minitest (= 5.1.0.1)
       ext_mobility (= 5.1.0.1)
+      ext_multiverse (= 5.1.0.1)
       ext_pages (= 5.1.0.1)
       ext_pundit (= 5.1.0.1)
       ext_rails (= 5.1.0.1)
@@ -140,6 +141,13 @@ PATH
     ext_mobility (5.1.0.1)
       ext_rails (= 5.1.0.1)
       mobility (~> 0.3)
+
+PATH
+  remote: ext_multiverse
+  specs:
+    ext_multiverse (5.1.0.1)
+      ext_rails (= 5.1.0.1)
+      multiverse
 
 PATH
   remote: ext_pages
@@ -557,6 +565,10 @@ GEM
     monogamy (0.0.2)
       activerecord (>= 3.2)
     msgpack (1.2.4)
+    multiverse (0.2.0)
+      activerecord (>= 4.2)
+      activesupport (>= 4.2)
+      railties (>= 4.2)
     nestive (0.6.0)
       rails (>= 3.0.0)
     net-scp (1.2.1)
@@ -721,6 +733,7 @@ DEPENDENCIES
   ext_mail!
   ext_minitest!
   ext_mobility!
+  ext_multiverse!
   ext_pages!
   ext_plugins!
   ext_pundit!
