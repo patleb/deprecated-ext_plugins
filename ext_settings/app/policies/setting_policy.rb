@@ -15,6 +15,10 @@ class SettingPolicy < ApplicationPolicy
     false
   end
 
+  def show?
+    false
+  end
+
   def show_in_app?
     false
   end
