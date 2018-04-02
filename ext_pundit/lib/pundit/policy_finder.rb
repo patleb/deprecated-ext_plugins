@@ -71,7 +71,7 @@ module Pundit
       elsif object.class.respond_to?(:policy_class)
         object.class.policy_class
       else
-        klass = if object.is_a?(Array)
+        klass = if object.instance_of?(Array)
           object.map { |x| find_class_name(x) }.join("::")
         else
           find_class_name(object)
@@ -81,8 +81,14 @@ module Pundit
     end
 
     def find_class_name(subject)
-      if subject.respond_to?(:extended_record_base_class)
-        subject
+      if subject.respond_to?(:extended_record_base_class) # ActiveType
+        if subject.respond_to?(:model)
+          subject.model.name
+        elsif subject.respond_to?(:name)
+          subject.name
+        else
+          subject.class.name
+        end
       elsif subject.respond_to?(:model_name)
         subject.model_name
       elsif subject.class.respond_to?(:model_name)
