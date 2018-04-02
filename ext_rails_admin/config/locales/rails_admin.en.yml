@@ -183,4 +183,5 @@ en:
         clear_all: Clear
         reset: Reset
     navigation:
+      server: Server
       system: System
