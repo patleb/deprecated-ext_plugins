@@ -38,6 +38,19 @@ namespace :deploy do
     end
   end
 
+  desc 'Runs rake db:migrate DB=server'
+  task :server_migrate => [:set_rails_env] do
+    on release_roles fetch(:db_server_roles) do
+      info '[deploy:migrate] Run `rake db:migrate DB=server`'
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'db:migrate', 'DB=server'
+        end
+      end
+    end
+  end
+  after 'deploy:migrate', 'deploy:server_migrate'
+
   # TODO https://superuser.com/questions/19563/how-do-i-skip-the-known-host-question-the-first-time-i-connect-to-a-machine-vi
   desc 'Full server deploy after provisioning'
   task :push do
@@ -61,6 +74,7 @@ namespace :deploy do
         nginx:app:enable
         db:pg:create_user
         db:pg:create_database
+        db:pg:create_server_database
         db:pg:set_superuser
         deploy
         whenever:create_cron_log

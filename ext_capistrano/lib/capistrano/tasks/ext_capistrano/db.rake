@@ -49,5 +49,12 @@ namespace :db do
         end
       end
     end
+
+    desc 'create server database'
+    task :create_server_database do
+      on release_roles fetch(:db_server_roles) do
+        invoke! 'db:pg:create_database', "server_#{SettingsYml[:db_database]}"
+      end
+    end
   end
 end
