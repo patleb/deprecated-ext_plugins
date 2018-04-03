@@ -1,4 +1,5 @@
 # TODO https://medium.com/@zek/automated-backups-with-the-ruby-backup-gem-and-amazon-s3-f0f2f986876e
+# TODO https://linuxconfig.org/how-to-execute-less-than-1-minute-intervals-jobs-using-cron-time-based-scheduler
 
 SettingsYml.clean(env: @environment)
 
