@@ -20,7 +20,7 @@ module RailsAdmin
 
       if RailsAdmin.config.with_admin_concerns
         (Rails::Engine.subclasses.map(&:root) << Rails.root).each do |root|
-          Dir[root.join('app', 'models', 'admin', '**', '*.rb')].each do |name|
+          Dir[root.join('app', 'models', 'admin', '**', '*.rb')].sort.reverse.each do |name|
             unless name.end_with?('_decorator.rb') || (!defined?(ExtMultiverse) && name.include?('app/models/admin/server/'))
               model = name.match(/app\/models\/admin\/(.+)\.rb/)[1].camelize.constantize
               model.include Admin
