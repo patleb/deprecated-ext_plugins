@@ -4,7 +4,7 @@ module ExtMultiverse
     require 'multiverse'
 
     config.before_initialize do
-      if defined?(PhusionPassenger)
+      if defined? PhusionPassenger
         PhusionPassenger.on_event(:starting_worker_process) do |forked|
           if forked
             # We're in smart spawning mode.
