@@ -8,7 +8,6 @@ module ExtMultiverse
         PhusionPassenger.on_event(:starting_worker_process) do |forked|
           if forked
             # We're in smart spawning mode.
-            Rails.logger.error '[spawning] PhusionPassenger' unless Rails.env.production?
             ServerRecord.establish_connection :"server_#{Rails.env}"
           else
             # We're in direct spawning mode. We don't need to do anything.
