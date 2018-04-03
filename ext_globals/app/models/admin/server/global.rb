@@ -9,4 +9,4 @@ module Admin::Server::Global
       weight 950
     end
   end
-end if defined? ExtMultiverse
+end
