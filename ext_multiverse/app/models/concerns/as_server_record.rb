@@ -4,13 +4,9 @@ module AsServerRecord
   included do
     class << self
       delegate_to ServerRecord,
-        :connection_pool,
-        :retrieve_connection,
-        :connected?,
-        :remove_connection,
-        :clear_active_connections!,
-        :clear_reloadable_connections!,
-        :clear_all_connections!
+        :connection_handler,
+        :connection_specification_name,
+        :remove_connection
     end
   end
 end
