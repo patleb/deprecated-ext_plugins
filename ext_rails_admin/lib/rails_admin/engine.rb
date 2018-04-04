@@ -20,12 +20,19 @@ module RailsAdmin
 
       if RailsAdmin.config.with_admin_concerns
         (Rails::Engine.subclasses.map(&:root) << Rails.root).each do |root|
-          Dir[root.join('app', 'models', 'admin', '**', '*.rb')].sort.reverse.each do |name|
-            unless name.end_with?('_decorator.rb') || (!defined?(ExtMultiverse) && name.include?('app/models/admin/server/'))
-              model = name.match(/app\/models\/admin\/(.+)\.rb/)[1].camelize.constantize
-              model.include Admin
-              model.include "Admin::#{model.name}".constantize
+          done = []
+          { 'server' => defined?(ExtMultiverse), '' => true }.each do |type, used|
+            type_path = ("app/models/admin/#{type}/" if type.present?)
+            if used
+              Dir[root.join('app', 'models', 'admin', type, '**', '*.rb')].each do |name|
+                unless name.end_with?('_decorator.rb') || done.any?{ |path| name.include? path }
+                  model = name.match(/app\/models\/admin\/(.+)\.rb/)[1].camelize.constantize
+                  model.include Admin
+                  model.include "Admin::#{model.name}".constantize
+                end
+              end
             end
+            done << type_path if type_path
           end
         end
         RailsAdmin.config.with_admin_concerns = false # do not reload in development --> restart the server
