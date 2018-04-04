@@ -6,6 +6,12 @@ module ExtRake
       include Psql
     end
 
+    class_methods do
+      def adapter
+        ActiveRecord::Base
+      end
+    end
+    
     protected
 
     def pgslice_cmd

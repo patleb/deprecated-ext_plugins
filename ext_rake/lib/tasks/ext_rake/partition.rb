@@ -62,7 +62,7 @@ module ExtRake
     end
     
     def drop_retired_table
-      ActiveRecord::Base.connection.execute("DROP TABLE #{options.table}_retired")
+      self.class.adapter.connection.execute("DROP TABLE #{options.table}_retired")
     end
   end
 end

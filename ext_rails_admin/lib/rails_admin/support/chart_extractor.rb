@@ -116,8 +116,8 @@ module RailsAdmin
       end
 
       if (work_mem = @chart_config.work_mem)
-        ActiveRecord::Base.transaction do
-          ActiveRecord::Base.connection.execute("SET LOCAL work_mem = '#{work_mem}MB'")
+        model.transaction do
+          model.connection.execute("SET LOCAL work_mem = '#{work_mem}MB'")
           query.send(@calculation, field_name)
         end
       else

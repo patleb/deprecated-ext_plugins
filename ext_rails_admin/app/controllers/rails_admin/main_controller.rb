@@ -91,7 +91,7 @@ module RailsAdmin
       field = model_config.list.fields.detect { |f| f.name.to_s == params[:sort] }
       column = begin
         if field.nil? || (sortable = field.sortable) == true # use params[:sort] on the base table
-          %("#{abstract_model.table_name}".#{ActiveRecord::Base.connection.quote_column_name(params[:sort])})
+          %("#{abstract_model.table_name}".#{abstract_model.model.connection.quote_column_name(params[:sort])})
         elsif sortable == false # use default sort, asked field is not sortable
           %("#{abstract_model.table_name}"."#{model_config.list.sort_by}")
         elsif (sortable.is_a?(String) || sortable.is_a?(Symbol)) && sortable.to_s.include?('.') # just provide sortable, don't do anything smart

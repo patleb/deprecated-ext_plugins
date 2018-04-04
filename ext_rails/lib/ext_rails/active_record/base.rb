@@ -32,6 +32,29 @@ ActiveRecord::Base.class_eval do
     names.map{ |name| quoted_column(name) }
   end
 
+  def self.total_size
+    result = connection.execute(<<~SQL)
+      SELECT pg_database.datname AS "name", pg_size_pretty(pg_database_size(pg_database.datname)) AS "size"
+      FROM pg_database;
+    SQL
+    result.find{ |entry| entry['name'] == connection_config[:database] }['size']
+  end
+
+  def self.size
+    sizes[table_name]
+  end
+
+  def self.sizes
+    result = connection.execute(<<~SQL)
+      SELECT relname AS "name", pg_size_pretty(pg_total_relation_size(relid)) AS "size" 
+      FROM pg_catalog.pg_statio_user_tables
+      ORDER BY pg_total_relation_size(relid) DESC;
+    SQL
+    result.each_with_object({}.with_indifferent_access) do |entry, memo|
+      memo[entry['name']] = entry['size']
+    end
+  end
+
   def locking_enabled?
     super && changed.any? { |attribute| ExtRails.config.skip_locking.exclude? attribute }
   end

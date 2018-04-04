@@ -91,7 +91,7 @@ module Global::Store
 
     def clear!
       with_table_lock do
-        ActiveRecord::Base.connection.execute("TRUNCATE TABLE #{quoted_table_name}")
+        connection.execute("TRUNCATE TABLE #{quoted_table_name}")
       end
     end
 
