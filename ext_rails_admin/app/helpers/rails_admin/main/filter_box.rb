@@ -40,7 +40,7 @@ module RailsAdmin
                     span '.input-group-btn' do[
                       button('.btn.btn-primary.btn-sm', type: 'submit', 'data-disable-with': true) do[
                         i('.icon-white.icon-refresh'),
-                        span(t('admin.misc.refresh'), class: ('hidden-xs' if query?))
+                        span(' ' + t('admin.misc.refresh'), class: ('hidden-xs' if query?))
                       ]end,
                       button('.js_filter_box_clear.btn.btn-info.btn-sm', title: "Reset filters") do
                         i '.icon-white.icon-remove'
