@@ -15,5 +15,15 @@ module ExtMultiverse
         end
       end
     end
+
+    ActiveSupport.on_load(:action_controller) do
+      ActionController::Base.class_eval do
+        include ExtMultiverse::WithQueryCache
+      end
+
+      ActionController::API.class_eval do
+        include ExtMultiverse::WithQueryCache
+      end
+    end
   end
 end
