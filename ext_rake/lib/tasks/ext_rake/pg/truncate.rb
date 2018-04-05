@@ -5,9 +5,9 @@ module ExtRake
     end
 
     def self.args
-      {
+      super.merge!(
         includes: ['--includes=INCLUDES', 'Included tables'],
-      }
+      )
     end
 
     def psql_truncate
@@ -21,7 +21,7 @@ module ExtRake
         SQL
       end.join(' ').gsub(/\n/, ' ')
       sh <<~CMD, verbose: false
-        psql --quiet -c "#{only}" "#{self.class.psql_url}"
+        psql --quiet -c "#{only}" "#{ExtRake.config.db_url}"
       CMD
     end
   end

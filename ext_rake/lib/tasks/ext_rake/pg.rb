@@ -1,7 +1,10 @@
 module ExtRake
   class Pg < ExtRake.config.parent_task.constantize
-    include Psql
     include Raise
+
+    def self.args
+      { db: ['--db=DB', 'DB type (ex.: --db=server would use ServerRecord connection'] }
+    end
 
     def self.pg_options
       ENV['PG_OPTIONS']
@@ -15,10 +18,11 @@ module ExtRake
     protected
 
     def with_config
-      yield SettingsYml[:db_host],
-        SettingsYml[:db_database],
-        SettingsYml[:db_username],
-        SettingsYml[:db_password]
+      db = ExtRake.config.db_config
+      yield db[:host],
+        db[:database],
+        db[:username],
+        db[:password]
     end
   end
 end

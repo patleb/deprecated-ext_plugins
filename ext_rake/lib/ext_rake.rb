@@ -20,7 +20,6 @@ module ExtRake
   autoload :Partition,  'tasks/ext_rake/partition'
   autoload :Pg,         'tasks/ext_rake/pg'
   autoload :Pgslice,    'tasks/ext_rake/pgslice'
-  autoload :Psql,       'tasks/ext_rake/psql'
   autoload :Restore,    'tasks/ext_rake/restore'
 
   autoload :BackupPartition,  'tasks/ext_rake/backup/partition'

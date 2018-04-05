@@ -29,7 +29,7 @@ module ExtRake
     end
 
     def remove_old_partition
-      self.class.adapter.connection.execute("DROP TABLE #{partition}")
+      ExtRake.config.db_adapter.connection.execute("DROP TABLE #{partition}")
     end
 
     def partition

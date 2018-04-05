@@ -23,7 +23,8 @@ module ExtRake
         column:     ['--column=COLUMN',   'Range column'],
         period_day: ['--[no-]period-day', 'Partition by day, otherwise by month'],
         past:       ['--past=PAST',       'Number of past partitions (0 by default)'],
-        future:     ['--future=FUTURE',   'Number of future partitions (0 by default)']
+        future:     ['--future=FUTURE',   'Number of future partitions (0 by default)'],
+        db:         ['--db=DB',           'DB type (ex.: --db=server would use ServerRecord connection'],
       }
     end
 
@@ -58,11 +59,11 @@ module ExtRake
     end
 
     def backup_retired_table
-      sh "pg_dump -c -Fc -t #{options.table}_retired #{self.class.psql_url} > db/#{options.table}_retired.dump", verbose: false
+      sh "pg_dump -c -Fc -t #{options.table}_retired #{ExtRake.config.db_url} > db/#{options.table}_retired.dump", verbose: false
     end
     
     def drop_retired_table
-      self.class.adapter.connection.execute("DROP TABLE #{options.table}_retired")
+      ExtRake.config.db_adapter.connection.execute("DROP TABLE #{options.table}_retired")
     end
   end
 end

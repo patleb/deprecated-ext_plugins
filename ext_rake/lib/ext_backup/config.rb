@@ -54,10 +54,11 @@ Notifier::Mail.defaults do |mail|
 end
 
 Database::PostgreSQL.defaults do |db|
-  db.name               = SettingsYml[:db_database]
-  db.username           = SettingsYml[:db_username]
-  db.password           = SettingsYml[:db_password]
-  db.host               = SettingsYml[:db_host]
+  db_config = ExtRake.config.db_config
+  db.name               = db_config[:database]
+  db.username           = db_config[:username]
+  db.password           = db_config[:password]
+  db.host               = db_config[:host]
   db.port               = 5432
   db.additional_options = %(--clean --no-owner --no-acl)
 end

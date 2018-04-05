@@ -1,13 +1,12 @@
 module ExtRake
   class RestorePostgres < Restore
-    include Psql
-
     def self.args
       {
         model:      ['--model=MODEL',     'Backup model'],
         version:    ['--version=VERSION', 'Backup version'],
         drop_all:   ['--[no-]drop-all',   'Drop all before restore'],
         pg_restore: ['--[no-]pg-restore', 'Use pg_restore'],
+        db:         ['--db=DB',           'DB type (ex.: --db=server would use ServerRecord connection'],
       }
     end
 
@@ -49,19 +48,19 @@ module ExtRake
         raise NoWindowsSupport if options.pg_restore
 
         backup = extract_path.join("PostgreSQL.sql")
-        %{#{drop_all} psql #{self.class.psql_options} "#{self.class.psql_url}" < "#{backup}"}
+        %{#{drop_all} psql #{self.class.psql_options} "#{ExtRake.config.db_url}" < "#{backup}"}
       else
         backup = extract_path.join("PostgreSQL.sql.gz")
         if options.pg_restore
-          %{#{drop_all} zcat "#{backup}" | pg_restore #{self.class.pg_restore_options} -d "#{self.class.psql_url}"}
+          %{#{drop_all} zcat "#{backup}" | pg_restore #{self.class.pg_restore_options} -d "#{ExtRake.config.db_url}"}
         else
-          %{#{drop_all} zcat "#{backup}" | psql #{self.class.psql_options} "#{self.class.psql_url}"}
+          %{#{drop_all} zcat "#{backup}" | psql #{self.class.psql_options} "#{ExtRake.config.db_url}"}
         end
       end
     end
 
     def drop_all_cmd
-      %{psql --quiet -c "DROP OWNED BY CURRENT_USER;" "#{self.class.psql_url}"}
+      %{psql --quiet -c "DROP OWNED BY CURRENT_USER;" "#{ExtRake.config.db_url}"}
     end
   end
 end

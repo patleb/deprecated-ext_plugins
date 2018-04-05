@@ -19,7 +19,7 @@ module ExtRake
 
   class Configuration
     attr_writer :parent_task, :env_vars
-    attr_writer :archive, :s3_versionned
+    attr_writer :archive, :s3_versionned, :db
 
     def parent_task
       @parent_task ||= '::ActiveTask::Base'
@@ -63,6 +63,43 @@ module ExtRake
 
     def s3_versionned?
       @s3_versionned || ENV['S3_VERSIONNED'].to_b
+    end
+
+    def db_adapter
+      case db
+      when 'server'
+        ServerRecord
+      else
+        ActiveRecord::Base
+      end
+    end
+
+    def db_url
+      db = db_config
+      "postgresql://#{db[:username]}:#{db[:password]}@#{db[:host]}:5432/#{db[:database]}"
+    end
+
+    def db_config
+      case db
+      when 'server'
+        {
+          host: '127.0.0.1',
+          databse: "server_#{SettingsYml[:db_database]}",
+          username: SettingsYml[:db_username],
+          password: SettingsYml[:db_password],
+        }
+      else
+        {
+          host: SettingsYml[:db_host],
+          databse: SettingsYml[:db_database],
+          username: SettingsYml[:db_username],
+          password: SettingsYml[:db_password],
+        }
+      end
+    end
+
+    def db
+      @db || ENV['DB']
     end
 
     def shared_dir

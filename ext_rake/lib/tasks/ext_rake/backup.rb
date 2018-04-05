@@ -19,6 +19,7 @@ module ExtRake
         sync:          ['--[no-]sync',          'Prevents running meta trigger'],
         s3_versionned: ['--[no-]s3-versionned', 'Same as sync option and specify if the s3 bucket is versionned'],
         sudo:          ['--[no-]sudo',          'Run as sudo'],
+        db:            ['--db=DB',              'DB type (ex.: --db=server would use ServerRecord connection'],
       }
     end
 
@@ -33,6 +34,7 @@ module ExtRake
     def before_run
       super
       ExtRake.config.s3_versionned = options.s3_versionned
+      ExtRake.config.db = options.db
     end
 
     def sudo
@@ -47,6 +49,7 @@ module ExtRake
         "RAILS_ROOT=#{ExtRake.config.rails_root}",
         "MODEL=#{options.model}",
         "S3_VERSIONNED=#{options.s3_versionned}",
+        "DB=#{options.db}",
       ]
     end
 

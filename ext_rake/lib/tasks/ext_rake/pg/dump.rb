@@ -5,11 +5,11 @@ module ExtRake
     end
 
     def self.args
-      {
+      super.merge!(
         name:     ['--name=NAME',         'Dump name (default to dump)'],
         includes: ['--includes=INCLUDES', 'Included tables'],
         excludes: ['--excludes=EXCLUDES', 'Excluded tables'],
-      }
+      )
     end
 
     def pg_dump

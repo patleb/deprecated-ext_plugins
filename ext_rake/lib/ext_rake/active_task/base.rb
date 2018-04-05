@@ -183,6 +183,7 @@ module ActiveTask
       @_environment[:time_zone] = Time.zone
       @_environment[:currency] = Money.default_currency if defined?(::MoneyRails)
       @_environment[:s3_versionned] = ExtRake.config.s3_versionned?
+      @_environment[:db] = ExtRake.config.db
       @_environment[:archive] = ExtRake.config.archive
     end
 
@@ -200,6 +201,7 @@ module ActiveTask
       Time.zone = @_environment[:time_zone]
       MoneyRails.configure{ |config| config.default_currency = @_environment[:currency] } if defined?(::MoneyRails)
       ExtRake.config.s3_versionned = @_environment[:s3_versionned]
+      ExtRake.config.db = @_environment[:db]
       ExtRake.config.archive = @_environment[:archive]
       @_environment.clear
     end

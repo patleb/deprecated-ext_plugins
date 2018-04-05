@@ -17,6 +17,7 @@ module ExtRake
     def before_run
       super
       ExtRake.config.s3_versionned = options.s3_versionned
+      ExtRake.config.db = options.db
       @restored = false
     end
 

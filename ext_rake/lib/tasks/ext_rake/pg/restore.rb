@@ -5,10 +5,10 @@ module ExtRake
     end
 
     def self.args
-      {
+      super.merge!(
         name:     ['--name=NAME',         'Dump name (default to dump)'],
         includes: ['--includes=INCLUDES', 'Included tables'],
-      }
+      )
     end
 
     def self.ignored_errors
