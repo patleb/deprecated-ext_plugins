@@ -1,6 +1,6 @@
 module ExtRake
   class Pg < ExtRake.config.parent_task.constantize
-    include Raise
+    include Notifier
 
     def self.args
       { db: ['--db=DB', 'DB type (ex.: --db=server would use ServerRecord connection'] }

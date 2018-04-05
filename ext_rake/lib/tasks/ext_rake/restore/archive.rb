@@ -9,10 +9,6 @@ module ExtRake
       }
     end
 
-    def self.ignored_errors
-      ["tar: Removing leading `/' from member names"]
-    end
-
     def self.backup_type
       'archives'
     end

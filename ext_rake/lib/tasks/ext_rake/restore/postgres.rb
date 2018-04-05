@@ -10,22 +10,6 @@ module ExtRake
       }
     end
 
-    def self.ignored_errors
-      [
-        /ERROR:.+does not exist/,
-        'ERROR:  unrecognized configuration parameter "idle_in_transaction_session_timeout"',
-        'ERROR:  must be owner of extension plpgsql',
-        'ERROR:  must be owner of schema public',
-        'ERROR:  schema "public" already exists',
-        'WARNING:  no privileges could be revoked for "public"',
-        'WARNING:  no privileges were granted for "public"',
-      ]
-    end
-
-    def self.sanitized_lines
-      { psql_url: /postgresql:.+:5432/ }
-    end
-
     def self.backup_type
       'databases'
     end

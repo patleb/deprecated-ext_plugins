@@ -15,7 +15,7 @@ end
 
 module ExtRake
   autoload :Backup,     'tasks/ext_rake/backup'
-  autoload :Raise,      'tasks/ext_rake/raise'
+  autoload :Notifier,   'tasks/ext_rake/notifier'
   autoload :Openvpn,    'tasks/ext_rake/openvpn'
   autoload :Partition,  'tasks/ext_rake/partition'
   autoload :Pg,         'tasks/ext_rake/pg'

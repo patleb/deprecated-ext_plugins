@@ -1,6 +1,6 @@
 module ExtRake
   class Restore < ExtRake.config.parent_task.constantize
-    include Raise
+    include Notifier
 
     class NoTarFile < ::StandardError; end
     class NoWindowsSupport < ::StandardError; end
@@ -54,14 +54,13 @@ module ExtRake
 
       if notify?(stderr)
         notify!(cmd, stderr)
-      elsif @debug
-        return
       end
 
       if Gem.win_platform?
         FileUtils.remove_dir(local_storage, true)
       else
-        sh "#{sudo} rm -rf #{local_storage}"
+        # TODO clean-up task
+        sh "#{sudo} rm -rf #{extract_path}"
       end
     end
 
@@ -70,7 +69,7 @@ module ExtRake
     end
 
     def fetch_s3
-      return if @debug && Dir[local_storage.join('*')].any?
+      return if Dir[local_storage.join('*.tar*')].any?
 
       bucket.objects.each do |s3_file|
         s3_key = s3_file.key
@@ -111,7 +110,11 @@ module ExtRake
                 f.write(entry.read)
               end
               File.chmod(entry.header.mode, entry.full_name)
-              File.chown(entry.header.uid, entry.header.gid, entry.full_name)
+              begin
+                File.chown(entry.header.uid, entry.header.gid, entry.full_name)
+              rescue Errno::EPERM
+                # ignore
+              end
 
               if Gem.win_platform?
                 sh %{7z e "#{entry.full_name}" "-o#{extract_path}"}

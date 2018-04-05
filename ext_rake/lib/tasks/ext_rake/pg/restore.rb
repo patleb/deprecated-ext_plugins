@@ -11,21 +11,6 @@ module ExtRake
       )
     end
 
-    def self.ignored_errors
-      [
-        /pg_restore: (connecting|creating|executing|processing)/,
-        /Error while PROCESSING TOC/,
-        /Error from TOC entry/,
-        /ERROR:  must be owner of extension plpgsql/,
-        /COMMENT ON EXTENSION plpgsql/,
-        /WARNING: errors ignored/,
-      ]
-    end
-
-    def self.sanitized_lines
-      { pg_password: /PGPASSWORD=\w+;/ }
-    end
-
     def pg_restore
       with_config do |host, db, user, pwd|
         if options.includes.present?
