@@ -84,14 +84,14 @@ module ExtRake
       when 'server'
         {
           host: '127.0.0.1',
-          databse: "server_#{SettingsYml[:db_database]}",
+          database: "server_#{SettingsYml[:db_database]}",
           username: SettingsYml[:db_username],
           password: SettingsYml[:db_password],
         }
       else
         {
           host: SettingsYml[:db_host],
-          databse: SettingsYml[:db_database],
+          database: SettingsYml[:db_database],
           username: SettingsYml[:db_username],
           password: SettingsYml[:db_password],
         }
