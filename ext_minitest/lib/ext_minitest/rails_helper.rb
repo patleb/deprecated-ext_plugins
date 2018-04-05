@@ -25,6 +25,7 @@ class ActiveRecord::Base
   end
 end
 
+# TODO ext_multiverse
 ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
 
 # hack a mutex in the query execution so that we don't
