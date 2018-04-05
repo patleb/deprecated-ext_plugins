@@ -8,6 +8,7 @@ module Async
       end
     rescue ActiveRecord::RecordInvalid
       if inline?
+        # TODO not rescued in RailsAdmin, so error 500 in rendered
         raise
       else
         Flash[:error] = I18n.t('ext_tasks.flash.error_html', name: name)
