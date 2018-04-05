@@ -83,6 +83,7 @@
       %button.btn.btn-primary{class: bs_form_row, type: "submit", name: 'csv'}
         %i.icon-white.icon-ok
         = t("admin.export.confirmation", name: 'csv')
+        / TODO button should be disabled?
       - @model_config.export.extra_formats.each do |format|
         %button.btn.btn-info{class: bs_form_row, type: "submit", name: format}
           = t("admin.export.confirmation", name: format)
