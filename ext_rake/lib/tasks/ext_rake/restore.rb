@@ -94,9 +94,9 @@ module ExtRake
             raise NoTarFile
           end
           if Gem.win_platform?
-            sh "copy /b #{tars.join(' + ')} #{tar}"
+            sh "copy /b #{tars.sort.join(' + ')} #{tar}"
           else
-            sh "cat #{tars.join(' ')} > #{tar}"
+            sh "cat #{tars.sort.join(' ')} > #{tar}"
           end
         end
 
