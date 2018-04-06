@@ -131,7 +131,7 @@ module ExtRake
     end
 
     def s3_storage
-      @_s3_storage ||= File.join(ExtRake.config.backup_s3_path, directory)
+      @_s3_storage ||= File.join(ExtRake.config.backup_s3_path, directory.tr('-', '.'))
     end
 
     def local_storage
