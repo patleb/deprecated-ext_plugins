@@ -1,8 +1,0 @@
-require 'aws-sdk-s3'
-require 'aws-sdk-iam'
-require 'aws-sdk-ec2'
-require 'aws-sdk-rds'
-require 'aws-sdk-ses'
-require 'aws-sdk-route53'
-require 'aws-sdk-cloudwatch'
-require 'aws-sdk-sns'
