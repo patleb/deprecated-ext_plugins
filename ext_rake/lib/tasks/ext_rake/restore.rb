@@ -59,7 +59,7 @@ module ExtRake
       if Gem.win_platform?
         FileUtils.remove_dir(local_storage, true)
       else
-        # TODO clean-up task
+        # TODO clean-up task once a month
         sh "#{sudo} rm -rf #{extract_path}"
       end
     end

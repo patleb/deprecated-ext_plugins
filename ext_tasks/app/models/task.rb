@@ -113,6 +113,7 @@ class Task < ExtTasks.config.parent_model.constantize
   def acquire_lock
     record = ::Global.fetch_record(global_key){ '' }
     record.with_lock do
+      # TODO doesn't work when inline
       if record.data&.include? RUNNING
         false
       else
