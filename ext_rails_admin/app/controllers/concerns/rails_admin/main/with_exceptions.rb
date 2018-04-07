@@ -35,8 +35,13 @@ module RailsAdmin
         end
 
         rescue_from RailsAdmin::TooManyRows do |exception|
-          response.headers['X-Status-Reason'] = exception.message
-          head 413
+          if action_name == 'export'
+            flash[:error] = exception.message
+            redirect_to :index
+          else
+            response.headers['X-Status-Reason'] = exception.message
+            head 413
+          end
         end
       end
     end

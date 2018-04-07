@@ -132,6 +132,7 @@ module RailsAdmin
       attr_accessor :with_admin_concerns
 
       attr_accessor :chart_max_rows
+      attr_accessor :export_max_rows
 
       # Setup auditing/history/versioning provider that observe objects lifecycle
       def audit_with(*args, &block)
@@ -297,7 +298,8 @@ module RailsAdmin
         @parent_controller = '::ActionController::Base'
         @root_model_name = nil
         @with_admin_concerns = true
-        @chart_max_rows = 750000
+        @chart_max_rows = 750_000
+        @export_max_rows = 750_000
         RailsAdmin::Config::Actions.reset
       end
 

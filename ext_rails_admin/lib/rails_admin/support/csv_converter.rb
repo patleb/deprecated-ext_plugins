@@ -34,6 +34,10 @@ module RailsAdmin
 
     # https://medium.com/table-xi/stream-csv-files-in-rails-because-you-can-46c212159ab7
     def to_csv(options = {})
+      if (estimate = @objects.count_estimate) > RailsAdmin.config.export_max_rows
+        raise RailsAdmin::TooManyRows.new("Too many rows: #{estimate} (max: #{RailsAdmin.config.export_max_rows})")
+      end
+
       options = HashWithIndifferentAccess.new(options)
       encoding_to = Encoding.find(options[:encoding_to]) if options[:encoding_to].present?
 
