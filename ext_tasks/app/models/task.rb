@@ -49,6 +49,7 @@ class Task < ExtTasks.config.parent_model.constantize
 
   def self.all
     # TODO doesn't work when only 1 entry
+    # TODO might make sense to have a dedicated table instead of using Global
     outputs = ::Global.fetch_multi(*ExtTasks.config.tasks_visible.keys.map{ |id| global_key(id) }){ '' }
     list = ExtTasks.config.tasks_visible.map do |name, task|
       new(
