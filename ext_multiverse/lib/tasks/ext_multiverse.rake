@@ -4,7 +4,13 @@ namespace :multiverse do
 
     task :load_config do
       if Multiverse.db
-        ActiveRecord::Tasks::DatabaseTasks.migrations_paths.map!{ |path| path.sub 'db/migrate', Multiverse.migrate_path }
+        paths = ([Rails.application.config] + Rails::Engine.subclasses.map(&:config)).map do |engine|
+          db_migrate_path = engine.paths['db/migrate'].to_ary.first
+          [engine.root.join(db_migrate_path).to_s, db_migrate_path]
+        end.to_h
+        ActiveRecord::Tasks::DatabaseTasks.migrations_paths.map! do |path|
+          path.sub paths[path], Multiverse.migrate_path
+        end
         ActiveRecord::Tasks::DatabaseTasks.db_dir = [Multiverse.db_dir]
         Rails.application.paths["db/seeds.rb"] = ["#{Multiverse.db_dir}/seeds.rb"]
 
