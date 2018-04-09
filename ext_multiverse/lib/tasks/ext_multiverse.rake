@@ -3,6 +3,7 @@ namespace :multiverse do
     Rake::Task["multiverse:load_config"].clear
 
     task :load_config do
+      # TODO compare with https://github.com/rails/rails/pull/32274/files
       if Multiverse.db
         paths = ([Rails.application.config] + Rails::Engine.subclasses.map(&:config)).map do |engine|
           db_migrate_path = engine.paths['db/migrate'].to_ary.first

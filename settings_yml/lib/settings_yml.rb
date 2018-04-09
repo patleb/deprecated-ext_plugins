@@ -5,6 +5,7 @@ require 'inifile'
 require 'settings_yml/version'
 require 'settings_yml/type'
 require 'settings_yml/railtie' if defined?(Rails)
+# TODO Rails 5.2 https://github.com/rails/rails/pull/30067, https://github.com/freeletics/creds
 
 class SettingsYml
   include Type
