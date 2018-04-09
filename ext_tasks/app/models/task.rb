@@ -100,6 +100,7 @@ class Task < ExtTasks.config.parent_model.constantize
     String.try :disable_colorization=, true
     args = arguments.to_s.split(',').map(&:strip)
     ARGV.clear
+    # TODO output somewhere/somehow the resources used during the task (cpu, mem, swap, disk)
     result = Rake::Task[id].invoke(*args)
   ensure
     if result.include? ExtRake::TASK_FAILED

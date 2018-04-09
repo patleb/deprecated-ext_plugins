@@ -510,6 +510,7 @@ class Js.Pjax
     if scroll_to?.is_a(Number)
       $(window).scrollTop(scroll_to)
       if @options.scroll_wrapper != false
+        # TODO scroll wrapper isn't focused after container swap
         wrapper = $(@options.scroll_wrapper)
         scroll_to += wrapper.scrollTop() if target
         wrapper.scrollTop(scroll_to)
