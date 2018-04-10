@@ -5,12 +5,16 @@ namespace :multiverse do
     task :load_config do
       # TODO compare with https://github.com/rails/rails/pull/32274/files
       if Multiverse.db
-        paths = ([Rails.application.config] + Rails::Engine.subclasses.map(&:config)).map do |engine|
-          db_migrate_path = engine.paths['db/migrate'].to_ary.first
-          [engine.root.join(db_migrate_path).to_s, db_migrate_path]
-        end.to_h
+        paths = ([Rails.application] + Rails::Engine.subclasses).each_with_object({}) do |engine, memo|
+          db_migrate_path = engine.config.paths['db/migrate'].to_ary.first
+          memo[engine.root.join(db_migrate_path).to_s] = db_migrate_path
+        end
         ActiveRecord::Tasks::DatabaseTasks.migrations_paths.map! do |path|
-          path.sub paths[path], Multiverse.migrate_path
+          db_migrate_path = paths[path]
+          if db_migrate_path
+            path = path.sub db_migrate_path, Multiverse.migrate_path
+          end
+          path
         end
         ActiveRecord::Tasks::DatabaseTasks.db_dir = [Multiverse.db_dir]
         Rails.application.paths["db/seeds.rb"] = ["#{Multiverse.db_dir}/seeds.rb"]
