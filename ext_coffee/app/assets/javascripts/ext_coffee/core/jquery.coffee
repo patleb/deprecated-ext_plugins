@@ -1,3 +1,4 @@
+# TODO https://github.com/text-mask/text-mask
 jQueryTags = jQuery.fn.init
 jQuery.fn.init = (selector, context, root) ->
   if selector?.html_safe?()
