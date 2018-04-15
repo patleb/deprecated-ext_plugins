@@ -5,10 +5,6 @@
 class PagesController < ExtPages.config.parent_controller.constantize
   after_action :update_cache
 
-  def presenter_lists
-    @contents
-  end
-
   def show
     load_page
     if @page.html_cache_expired?

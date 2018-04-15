@@ -4,11 +4,6 @@ module ActiveHelper
   autoload :Base, "ext_rails/active_helper/base"
 end
 
-module ActivePresenter
-  autoload :Base, "ext_rails/active_presenter/base"
-  autoload :BaseList, "ext_rails/active_presenter/base_list"
-end
-
 module ExtRails
   class Engine < Rails::Engine
     # TODO https://github.com/schneems/active-storage-attachment-example
@@ -244,11 +239,9 @@ module ExtRails
 
     ActiveSupport.on_load(:action_view) do
       require 'ext_rails/action_view/with_active_helper'
-      require 'ext_rails/action_view/with_active_presenter'
 
       ActionView::TemplateRenderer.class_eval do
         prepend ActionView::WithActiveHelper
-        prepend ActionView::WithActivePresenter
       end
     end
 
