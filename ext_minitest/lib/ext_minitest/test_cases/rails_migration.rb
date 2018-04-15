@@ -8,7 +8,7 @@ module RailsMigration
     self.migrations_root = Rails.root.join('db/migrate')
     self.migrations = []
     self.adapter = ActiveRecord::Base
-    self.sql_root = 'test/migrations/sql'
+    self.sql_root = 'test/migrate'
 
     delegate :connection, to: :adapter
 
