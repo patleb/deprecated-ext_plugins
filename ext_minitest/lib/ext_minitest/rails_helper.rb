@@ -46,7 +46,7 @@ ActiveSupport::TestCase.class_eval do
 
   # Add more helper methods to be used by all tests here...
   def file_config(path)
-    Rails.root.join('test/configs', path)
+    Rails.root.join('test/config', path)
   end
 
   def base_name
