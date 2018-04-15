@@ -4,10 +4,10 @@ String.class_eval do
   end
 
   def slugify
-    parameterize.downcase
+    parameterize.dasherize.downcase
   end
 
   def titlefy
-    squish.dasherize.gsub(/([[:word:]]+)/u){ |word| word.downcase.capitalize }
+    parameterize.humanize.squish.gsub(/([[:word:]]+)/u){ |word| word.downcase.capitalize }
   end
 end
