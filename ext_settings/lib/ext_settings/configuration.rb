@@ -19,7 +19,7 @@ module ExtSettings
     attr_accessor :skip_migrations
     attr_accessor :settings_included
     attr_writer   :settings_excluded
-    attr_accessor :history_show_limite
+    attr_writer   :history_show_limit
     attr_writer   :parent_model
 
     def settings_excluded
