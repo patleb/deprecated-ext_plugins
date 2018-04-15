@@ -10,11 +10,13 @@
 ### Database
 
 * Ruby
+* SQL
 * PL/pgSQL
 
 ### Backend
 
 * Ruby
+* Bash
 * C++
 
 ### Frontend
