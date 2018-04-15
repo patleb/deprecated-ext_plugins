@@ -1,6 +1,7 @@
 !!! 5
 %html.no-js{lang: I18n.locale}
   %head
+    = javascript_include_tag current_layout.sub('application', 'vendor'), defer: true
     = javascript_include_tag current_layout, defer: true
     = stylesheet_link_tag current_layout, media: :all
     = area :head

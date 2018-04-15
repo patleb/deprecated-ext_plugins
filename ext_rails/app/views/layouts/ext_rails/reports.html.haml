@@ -1,6 +1,7 @@
 !!! 5
 %html.no-js{lang: I18n.locale}
   %head
+    = wicked_pdf_javascript_include_tag current_layout.sub('application', 'vendor')
     = wicked_pdf_javascript_include_tag current_layout
     = wicked_pdf_stylesheet_link_tag current_layout
     = area :head
