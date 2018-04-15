@@ -11,6 +11,7 @@ end
 
 module ExtRails
   class Engine < Rails::Engine
+    # TODO https://github.com/schneems/active-storage-attachment-example
     # TODO slow require --> try faster_path
     require 'active_hash'
     if Rails::VERSION::STRING < '5.2'
@@ -21,6 +22,7 @@ module ExtRails
     # --> http://lucumr.pocoo.org/2014/2/16/a-case-for-upserts/
     # --> https://github.com/seamusabshere/upsert
     # --> https://github.com/rails/rails/pull/31989
+    # TODO https://github.com/alecdotninja/active_record_distinct_on
     require 'active_record_upsert'
     require 'active_type'
     require 'activerecord-rescue_from_duplicate'
@@ -87,6 +89,7 @@ module ExtRails
       end
 
       Rails.application.send :define_singleton_method, :worker do
+        # TODO https://github.com/schneems/get_process_mem/blob/master/lib/get_process_mem.rb
         pid, rss = `ps ax -o pid,rss | grep -E "^[[:space:]]*#{$$}"`.strip.split.map(&:to_i)
         { pid: pid, rss: rss }
       end
@@ -189,6 +192,10 @@ module ExtRails
       end
     end
 
+    initializer 'ext_rails.assets.precompile' do |app|
+      app.config.assets.precompile += %w(**/vendor.js vendor.js)
+    end
+
     initializer 'ext_rails.append_migrations' do |app|
       unless ExtRails.config.skip_migrations
         unless app.root.to_s.match root.to_s
@@ -285,6 +292,7 @@ module ExtRails
       end
 
       app.routes.append do
+        # TODO 404 in log from rails api --> ActionController::RoutingError (No route matches [GET] "/"):
         match '/' => 'application#healthcheck', via: :head
 
         match '*not_found', via: %w(get post put patch delete head options any), to: 'application#render_404'

@@ -74,6 +74,7 @@ class ExtRake::Railtie < Rails::Railtie
                   gzip_ratio:             '-',
                 }
 
+                # TODO use custom Logger instead, so the file opened once and no subprocess opened
                 `echo '#{log_line.values.join ' '}' >> #{self.class.log_file}`
               end
             end

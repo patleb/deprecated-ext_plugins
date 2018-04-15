@@ -33,6 +33,8 @@ module ExtAsync
           gzip_ratio:             '-',
         }
 
+        # TODO use custom Logger instead, so the file opened once and no subprocess opened
+        # use CSV format https://stackoverflow.com/questions/17866291/what-is-the-second-parameter-argument-to-csv-open-in-ruby
         `echo '#{log_line.values.join ' '}' >> #{self.class.log_file}`
       end
     end
