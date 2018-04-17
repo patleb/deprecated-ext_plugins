@@ -1,5 +1,3 @@
-# TODO logidze
-
 class AsyncController < ExtAsync.config.parent_controller.constantize
   include ExtAsync::AsLocalRequest
 
