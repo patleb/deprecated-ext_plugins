@@ -1,33 +1,9 @@
 class Task < ExtTasks.config.parent_model.constantize
   RUNNING = '[RUNNING]'
 
+  include VirtualType
   include ActionView::Helpers::DateHelper
 
-  class List < Array
-    def page(*_);       self end
-    def per(*_);        self end
-    def reorder(*_);    self end
-    def references(*_); self end
-    def merge(*_);      self end
-
-    def where(query, *params)
-      if query.is_a? Hash
-        name = query['id'] || query[:id]
-        return self.class.new([find{ |task| task.id == name }])
-      end
-      if params.empty?
-        return self
-      end
-
-      text = params.last.gsub(/(^%|%$)/, '').downcase
-
-      attributes = query.split('OR').map{ |attr| attr.gsub(/(^ ?\(objects\.| ILIKE \?\) ?$)/, '') }
-
-      self.class.new(select{ |task| attributes.any?{ |attr| task.send(attr).to_s.downcase.include?(text) } })
-    end
-  end
-
-  attribute :id
   attribute :parameters
   attribute :description
   attribute :output
@@ -38,14 +14,6 @@ class Task < ExtTasks.config.parent_model.constantize
   attribute :_skip_lock, :boolean
 
   validate :save_later
-
-  def self.find(id)
-    unless (object = all.where(id: id).first)
-      raise ::ActiveRecord::RecordNotFound
-    end
-
-    object
-  end
 
   def self.all
     # TODO doesn't work when only 1 entry
@@ -66,8 +34,6 @@ class Task < ExtTasks.config.parent_model.constantize
   def self.global_key(id)
     "ext_tasks:#{id}"
   end
-
-  def persisted?; true end
 
   def completed
     if output.present? && output.exclude?(RUNNING)
