@@ -1,3 +1,47 @@
+--- Commands --
+tar -xvf backups/development/model_name/2016.09.03.23.01.58/model_name.tar
+gunzip -k model_name/databases/PostgreSQL.sql.gz
+vacuumdb -v -h 127.0.0.1 -p 5432 -U postgres -W db_name_development
+---
+--- Stats ---
+- Parse nginx log, keep in local postgres, push to main postgres every day
+- Parse auth log [sshd], idem
+- Generate goaccess reports every day of non-gzipped logs and serve at nginx location with basic auth
+- Keep once a day ls -lh /var/log/{fail2ban,monit,nginx/*}.log, shared/{log/,tmp/backups/.data/**/*.yml}
+- keep every hour passenger-status, free -m and df -h
+- AWS: EC2[cpu credit usage, status checks], DB[cpu credit usage, free storage space, freeable memory]
+- health check for sendgrid mailer
+- https://github.com/sportngin/rds-pgbadger
+- http://www.pateldenish.com/2015/10/pgbadger-log-analysis-for-postgres-rds-instances.html
+---
+--- Mobile ---
+- make page title clickable to go back to list view
+  and ExtApplication part to home page
+- autocomplete in select does not fire search when adding letters
+- find in page as a select input for show view/action
+- chart error does jump line and goes under buttons
+- min width for inline edit
+- has many in list view should be narrower (too much items?)
+- should be able to remove menu add filter / selected items
+  and make default filters not deletable
+---
+--- Nice to have ---
+- allow to define CSV filename prefix/suffix
+- render_collection @set, cache: true
+---
+--- Materialized Views ---
+- 5 minutes interval aggregations with materialized views and dynamic table names
+- table_name = table_name_<date> (ex.: table_name_20180201)
+         columns = column_name_<operation> (ex.: voltage_average, temperature_average, etc.)
+         operations = [count, average, minimum, maximum, sum]
+- https://stackoverflow.com/questions/25500919/set-table-name-dynamically-a-bug
+- https://stackoverflow.com/questions/7347570/rails-3-activerecord-how-to-switch-change-table-name-during-request-dynamically
+- https://www.postgresql.org/message-id/CAMAYy4LD9TDO6ohfZwZ7OWOfu3oUZKQxi1Y%3Dqt%3D36C65DL4jOw%40mail.gmail.com
+- http://www.norydev.com/writing/pg-mat-views-for-better-performance-in-rails
+---
+- clear error logs after first deploy `sudo truncate -s0 app_admin_vagrant.error.log`
+- bug: chart does not force page refresh when code changes
+- nginx log like rake.log for emails (mail.log)
 - honeypot https://solidfoundationwebdev.com/blog/posts/how-to-check-if-javascript-event-was-triggered-by-human
 - check presence of data with Exists? on big tables, before fetching
 - https://github.com/prograils/wisepdf

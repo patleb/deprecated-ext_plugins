@@ -17,6 +17,7 @@ module RailsAdmin
     before_save :save_now
 
     def self.global_key(section, model, prefix, label)
+      # TODO tr('_', '-') or dasherize
       ['rails_admin:choose', section, model, prefix, label.parameterize].compact.join(':')
     end
 
