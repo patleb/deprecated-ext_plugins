@@ -1,0 +1,9 @@
+[Unit]
+Description=Force reload of postgresql.conf on system start
+After=postgresql.service # TODO after network-online.target
+
+[Service]
+ExecStart=/bin/systemctl restart postgresql
+
+[Install]
+WantedBy=multi-user.target

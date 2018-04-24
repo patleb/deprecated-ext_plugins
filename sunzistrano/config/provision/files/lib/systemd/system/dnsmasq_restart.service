@@ -1,0 +1,11 @@
+[Unit]
+Description=Force restart of dnsmasq on system start
+Wants=network-online.target
+After=network-online.target # TODO
+
+[Service]
+ExecStartPre=/bin/sleep 30
+ExecStart=/bin/systemctl restart dnsmasq
+
+[Install]
+WantedBy=multi-user.target
