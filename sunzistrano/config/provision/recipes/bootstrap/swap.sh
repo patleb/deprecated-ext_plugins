@@ -1,3 +1,4 @@
+# https://www.digitalocean.com/community/questions/how-to-change-swap-size-on-ubuntu-14-04
 # https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-14-04
 # dd if=/dev/zero of=/swap bs=1M count=1024
 
