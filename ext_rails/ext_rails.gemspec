@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "README.md"]
 
   # https://github.com/maximeg/activecleaner
-  s.add_dependency 'active_hash'
   # gem 'active_record-mti'
   # https://github.com/k0kubun/activerecord-precounter
   # https://github.com/oelmekki/activerecord_any_of
@@ -64,7 +63,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rack_lineprof', '~> 0.1'
   s.add_dependency 'rails', "~> #{ExtPlugins::VERSION::RAILS_MAJOR}.#{ExtPlugins::VERSION::RAILS_MINOR}"
   s.add_dependency 'rails-i18n', '~> 5.0'
-  s.add_dependency 'rails_select_on_includes', '~> 0.5'
+  s.add_dependency 'rails_select_on_includes'
   # https://github.com/nullobject/rein
   s.add_dependency 'route_translator'
   # https://github.com/wvanbergen/scoped_search

@@ -1,6 +1,6 @@
 require 'minitest/spec'
 require 'minitest/hooks'
-require 'mocha/mini_test'
+require 'mocha/minitest'
 require "maxitest/vendor/around"
 require "maxitest/trap"
 require "maxitest/let_bang"

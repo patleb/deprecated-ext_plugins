@@ -8,7 +8,6 @@ module ExtRails
   class Engine < Rails::Engine
     # TODO https://github.com/schneems/active-storage-attachment-example
     # TODO slow require --> try faster_path
-    require 'active_hash'
     if Rails::VERSION::STRING < '5.2'
       require 'active_record_query_trace' if Rails.env.development?
       require 'ext_rails/active_support/current_attributes_rails_5_1'
@@ -48,7 +47,6 @@ module ExtRails
     require 'polymorphic_constraints'
     require 'query_diet' if Rails.env.development?
     require 'rails-i18n'
-    require 'rails_select_on_includes'
     require 'route_translator'
     require 'settings_yml'
     require 'store_base_sti_class'
@@ -246,6 +244,7 @@ module ExtRails
     end
 
     ActiveSupport.on_load(:active_record) do
+      require 'rails_select_on_includes'
       require "ext_rails/active_record/connection_adapters/postgresql_adapter"
       require "ext_rails/active_type"
       require "ext_rails/active_support/json/encoding/oj"
