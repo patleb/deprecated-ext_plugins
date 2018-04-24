@@ -94,6 +94,8 @@ TODO: app_logs/sys_logs backup for sub application (ex.: production:app_api)
 * terminate old instances
 * reassign alarms
 
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recognize-expanded-volume-linux.html
+
 Credits
 -------
 

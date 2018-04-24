@@ -28,6 +28,7 @@ vacuumdb -v -h 127.0.0.1 -p 5432 -U postgres -W db_name_development
 --- Nice to have ---
 - allow to define CSV filename prefix/suffix
 - render_collection @set, cache: true
+- https://github.com/wacaw/helpdesk/blob/master/app/models/helpdesk/ticket.rb
 ---
 --- Materialized Views ---
 - 5 minutes interval aggregations with materialized views and dynamic table names
