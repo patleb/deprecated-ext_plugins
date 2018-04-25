@@ -186,7 +186,9 @@ module ExtRails
     end
 
     initializer 'ext_rails.assets.precompile' do |app|
-      app.config.assets.precompile += %w(**/vendor.js vendor.js)
+      if app.config.respond_to? :assets
+        app.config.assets.precompile += %w(**/vendor.js vendor.js)
+      end
     end
 
     initializer 'ext_rails.append_migrations' do |app|
